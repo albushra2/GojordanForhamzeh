@@ -34,6 +34,7 @@
         color: white;
         padding: 20px; /* Added padding for better spacing */
     }
+  
 
     .dashboard-title {
         font-size: 3rem; /* Increased size for impact */

@@ -35,6 +35,11 @@
         padding: 20px; /* Added padding for better spacing */
     }
 
+    .dashboard-subtitle {
+        font-size: 1.75rem; /* Slightly larger for better visibility */
+        color: #f0f0f0;
+    }
+
     .dashboard-title {
         font-size: 3rem; /* Increased size for impact */
         margin-top: 0.25rem;
@@ -48,11 +53,14 @@
         margin-right: auto;
     }
 
+    
+
     @media (max-width: 768px) {
         .dashboard-subtitle, .dashboard-title, .dashboard-description {
             font-size: 90%; /* Smaller text on smaller devices */
         }
     }
+
 </style>
 
 <div class="dashboard-container">
@@ -61,13 +69,47 @@
         <div class="bg__overlay">
             <div class="dashboard-content container">
                 <div class="dashboard-data">
-                    <h1 class="dashboard-title">Admin Panel</h1>
+                    <h2 class="dashboard-subtitle">Admin Panel</h2>
+                    <h1 class="dashboard-title">Overview</h1>
                     <p class="dashboard-description">
                         Manage your site’s content, users, and settings effectively.
                     </p>
+                    <!-- Navigation Buttons -->
+                    <div class="dashboard-buttons">
+                        <a href="/manage-users" class="btn btn-primary">Manage Users</a>
+                        <a href="/settings" class="btn btn-secondary">Settings</a>
+                        <a href="/reports" class="btn btn-success">View Reports</a>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Quick Stats Panel -->
+    <div class="quick-stats">
+        <div class="stat-item">
+            <h4>Total Users</h4>
+            <p>1,234</p>
+        </div>
+        <div class="stat-item">
+            <h4>Active Bookings</h4>
+            <p>567</p>
+        </div>
+        <div class="stat-item">
+            <h4>Total Revenue</h4>
+            <p>$89,000</p>
+        </div>
+    </div>
+
+    <!-- Recent Activity Log -->
+    <div class="recent-activity">
+        <h3>Recent Activity</h3>
+        <ul>
+            <li>User JohnDoe updated profile.</li>
+            <li>New booking by Alice123.</li>
+            <li>Payment received from BobSmith.</li>
+            <li>Travel package 'Summer Adventure' added.</li>
+        </ul>
     </div>
 </div>
 @endsection

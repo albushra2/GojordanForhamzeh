@@ -35,6 +35,11 @@
         padding: 20px; /* Added padding for better spacing */
     }
 
+    .dashboard-subtitle {
+        font-size: 1.75rem; /* Slightly larger for better visibility */
+        color: #f0f0f0;
+    }
+
     .dashboard-title {
         font-size: 3rem; /* Increased size for impact */
         margin-top: 0.25rem;

@@ -61,7 +61,7 @@
                 <!-- theme -->
                 <i class="bx bx-moon change-theme" id="theme-button"></i>
 
-                <a target="_blank" href="https://api.whatsapp.com/send?phone=01727892717&text=I want to booking" class="button nav__button">Booking Now</a>
+                <a target="_blank" href="https://api.whatsapp.com/send?phone=01727892&text=I want to booking" class="button nav__button">Booking Now</a>
             </nav>
         </header>
 

@@ -35,6 +35,11 @@
         padding: 20px; /* Added padding for better spacing */
     }
 
+    .dashboard-subtitle {
+        font-size: 1.75rem; /* Slightly larger for better visibility */
+        color: #f0f0f0;
+    }
+
     .dashboard-title {
         font-size: 3rem; /* Increased size for impact */
         margin-top: 0.25rem;
@@ -61,6 +66,7 @@
         <div class="bg__overlay">
             <div class="dashboard-content container">
                 <div class="dashboard-data">
+                    <h2 class="dashboard-subtitle">Overview</h2>
                     <h1 class="dashboard-title">Admin Panel</h1>
                     <p class="dashboard-description">
                         Manage your site’s content, users, and settings effectively.
