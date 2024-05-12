@@ -55,6 +55,8 @@
                                 <span>Contact</span>
                             </a>
                         </li>
+                        @auth
+
                         
                     </ul>
                 </div>

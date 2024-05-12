@@ -55,7 +55,14 @@
                                 <span>Contact</span>
                             </a>
                         </li>
-                        
+                        @auth
+                        <li class="nav__item">
+                            <a href="{{ route('contact') }}" class="nav__link {{ request()->is('contact') ? ' active-link' : '' }}">
+                                <i class="bx bx-phone"></i>
+                                <span>Contact</span>
+                            </a>
+                        </li>
+                        @endauth
                     </ul>
                 </div>
 
