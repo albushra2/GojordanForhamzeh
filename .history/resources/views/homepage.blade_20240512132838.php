@@ -50,7 +50,7 @@
             <img src="{{ asset('frontend/assets/img/fly emirates.png') }}" alt="" />
         </div>
         <div class="logos__img">
-            <img src="{{ asset('frontend/assets/img/Booking.png') }}" alt="" />
+            <img src="{{ asset('frontend/assets/img/ooking.png') }}" alt="" />
         </div>
         <div class="logos__img">
             <img src="{{ asset('frontend/assets/img/airasia.png') }}" alt="" />

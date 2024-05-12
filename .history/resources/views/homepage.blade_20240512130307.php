@@ -47,10 +47,10 @@
             <img src="{{ asset('frontend/assets/img/Biman Bangladesh Airlines.png') }}" alt="" />
         </div>
         <div class="logos__img">
-            <img src="{{ asset('frontend/assets/img/fly emirates.png') }}" alt="" />
+            <img src="{{ asset('frontend/assets/img/airbnb.png') }}" alt="" />
         </div>
         <div class="logos__img">
-            <img src="{{ asset('frontend/assets/img/Booking.png') }}" alt="" />
+            <img src="{{ asset('frontend/assets/img/booking.png') }}" alt="" />
         </div>
         <div class="logos__img">
             <img src="{{ asset('frontend/assets/img/airasia.png') }}" alt="" />

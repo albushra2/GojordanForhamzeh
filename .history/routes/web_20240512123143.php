@@ -48,4 +48,4 @@ Route::get('contact', function() {
 // booking
 Route::post('booking', [App\Http\Controllers\BookingController::class, 'store'])->name('booking.store');
 route::post('\password\search',[App\Http\Controllers\ForgotPasswordController::class, 'sendEmail'])->name('password.email');
-route::post('\password\email\send',[App\Http\Controllers\ForgotPasswordController::class, 'reset'])->name('password.reset');
+route::post('\password\email\send',[App\Http\Controllers\ForgotPasswordController::class, 'sendEmail'])->name('password.email');
