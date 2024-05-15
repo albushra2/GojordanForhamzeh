@@ -7,7 +7,7 @@
 ### Download Project
 
 ```bash
-  git clone https://github.com/Arefin-Nahid/GoTravel.git project-name
+  git clone https://github.com/Arefin-Nahid/GoTravel.git GoTravel
 ```
 
 Go to the project directory
@@ -36,5 +36,5 @@ Go to the project directory
 
 #### Login
 
--   email = admin@admin.com
--   password = 123
+-   email = nahid7ar@gmail.com
+-   password = 1234
