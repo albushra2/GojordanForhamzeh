@@ -46,9 +46,15 @@
                 <form action="{{ route('booking.store') }}" method="post">
                   @csrf 
                   <input type="hidden" name="travel_package_id" value="{{ $travel_package->id }}">
-                  <input type="text" name="name" placeholder="Your Name" />
-                  <input type="email" name="email" placeholder="Your Email" />
-                  <input type="number" name="number_phone" placeholder="Your Number" />
+                  @if(Auth::guard('travel_user')->check())
+                    <input type="text" name="name" placeholder="Your Name" value="{{ Auth::guard('travel_user')->user()->name }}" />
+                    <input type="email" name="email" placeholder="Your Email" value="{{ Auth::guard('travel_user')->user()->email }}" />
+                    <input type="number" name="number_phone" placeholder="Your Number" value="{{ Auth::guard('travel_user')->user()->phone }}" />
+                  @else
+                    <input type="text" name="name" placeholder="Your Name" />
+                    <input type="email" name="email" placeholder="Your Email" />
+                    <input type="number" name="number_phone" placeholder="Your Number" />
+                  @endif
                   <input
                     placeholder="Pick Your Date"
                     class="textbox-n"
@@ -59,11 +65,9 @@
                   />
 
                   @if(Auth::guard('travel_user')->check())
-                  <form action="{{ route('booking.store') }}" method="POST">
-                      @csrf
-                      <!-- Form fields here -->
+                  <div class="button-container">
                       <button type="submit" class="btn btn-primary">Send</button>
-                  </form>
+                  </div>
                   @else
                       <p>Please <a href="#" data-toggle="modal" data-target="#loginModal"> Login</a> first to add the package.</p>
                   @endif
@@ -77,12 +81,8 @@
 
       <section class="section" id="popular">
         <div class="container">
-          <span class="section__subtitle" style="text-align: center"
-            >Package Travel</span
-          >
-          <h2 class="section__title" style="text-align: center">
-            The Best Tour For You
-          </h2>
+          <span class="section__subtitle" style="text-align: center">Package Travel</span>
+          <h2 class="section__title" style="text-align: center">The Best Tour For You</h2>
 
           <div class="popular__all">
             @foreach($travel_packages as $travel_package)
@@ -151,6 +151,26 @@
   .blog__detail ul li {
     list-style: initial;
   }
+  .btn {
+  display: inline-block;
+  width: 100%;
+  background: linear-gradient(101deg, #38c9d6, #29c4c7);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 0.5rem;
+  font-size: 0.938rem;
+  font-weight: 500;
+  -webkit-box-shadow: 0 4px 8px rgba(39, 69, 190, 0.25);
+          box-shadow: 0 4px 8px rgba(39, 69, 190, 0.25);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.btn:hover {
+  -webkit-box-shadow: 0 4px 12px rgba(39, 69, 190, 0.25);
+          box-shadow: 0 4px 12px rgba(39, 69, 190, 0.25);
+}
 </style>
 @endpush
 
