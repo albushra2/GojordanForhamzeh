@@ -1,5 +1,5 @@
 @extends('layouts.frontend')
-
+@section('title', 'Blogs')
 @section('content')
 <!--==================== HOME ====================-->
 <section>

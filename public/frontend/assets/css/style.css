@@ -193,6 +193,18 @@ body.dark-theme {
           align-items: center;
 }
 
+.nav__list {
+  text-align: center;
+  font-size: 1.1rem; /* Adjust the size as needed */
+  padding-top: 1rem;
+}
+
+.nav__list .nav__item {
+  display: inline-block;
+  margin: 0 5px; /* Adjust the spacing as needed */
+}
+
+
 .nav__logo {
   color: #fff;
   display: -webkit-inline-box;

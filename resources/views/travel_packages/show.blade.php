@@ -1,5 +1,5 @@
 @extends('layouts.frontend')
-
+@section('title', 'Travel Package')
 @section('content')
  <!--==================== HOME ====================-->
  <section>
@@ -43,7 +43,7 @@
             <div class="package-travel">
               <h3>Booking Now</h3>
               <div class="card">
-                <form action="{{ route('booking.store') }}" method="post">
+                <form id="bookingForm" action="{{ route('booking.store') }}" method="post" onsubmit="return validateForm()">
                   @csrf 
                   <input type="hidden" name="travel_package_id" value="{{ $travel_package->id }}">
                   @if(Auth::guard('travel_user')->check())
@@ -197,5 +197,36 @@
           alert.style.display = 'none';
         })
       }
-    </script>
+
+      function validateForm() {
+          const form = document.getElementById('bookingForm');
+          const inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="number"], input[type="date"]');
+          let valid = true;
+          
+          inputs.forEach(input => {
+              if (input.value.trim() === '') {
+                  valid = false;
+                  input.style.borderColor = 'red';
+              } else {
+                  input.style.borderColor = '';
+              }
+          });
+          
+          if (!valid) {
+              showAlert('Please fill out all fields.');
+          }
+          
+          return valid;
+      }
+
+      function showAlert(message) {
+          const alertDiv = document.createElement('div');
+          alertDiv.classList.add('alert');
+          alertDiv.innerHTML = `${message} <i class='bx bx-x alert-close' onclick="this.parentElement.style.display='none';"></i>`;
+          document.body.appendChild(alertDiv);
+          setTimeout(() => {
+              alertDiv.style.display = 'none';
+          }, 3000);
+      }
+</script>
 @endpush

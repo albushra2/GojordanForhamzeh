@@ -47,6 +47,7 @@ Route::get('contact', function() {
 })->name('contact');
 // booking
 Route::post('booking', [App\Http\Controllers\BookingController::class, 'store'])->name('booking.store');
+Route::delete('/booking/{id}', [App\Http\Controllers\BookingController::class, 'destroy'])->name('booking.destroy');
 //password_reset
 route::post('\password\search',[App\Http\Controllers\ForgotPasswordController::class, 'sendEmail'])->name('password.email');
 route::get('\password\email\send\{token}',[App\Http\Controllers\ForgotPasswordController::class, 'reset'])->name('password.reset');

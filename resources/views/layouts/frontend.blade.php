@@ -6,10 +6,12 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <!-- jQuery and Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
 
     <!--=============== BOXICONS ===============-->
     <link
@@ -225,7 +227,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" name="name" class="form-control" id="name" placeholder="John Doe" required>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Tourist name" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email address</label>
@@ -233,7 +235,7 @@
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone</label>
-                        <input type="text" name="phone" class="form-control" id="phone" placeholder="123-456-7890" required>
+                        <input type="text" name="phone" class="form-control" id="phone" placeholder="+880-1000-000000" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
