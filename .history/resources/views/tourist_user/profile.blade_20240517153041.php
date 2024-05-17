@@ -6,7 +6,6 @@
 <style>
     body {
         background: url('frontend/assets/img/bali.jpg') no-repeat center center fixed;
-        background-size: cover;
     }
     .padding {
         padding: 6rem !important;

@@ -5,7 +5,7 @@
 @section('content')
 <style>
     body {
-        background: url('frontend/assets/img/bali.jpg') no-repeat center center fixed;
+        background: url('frontend/assets/img/bali.jpg');
         background-size: cover;
     }
     .padding {

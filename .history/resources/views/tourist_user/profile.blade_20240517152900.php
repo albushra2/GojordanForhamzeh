@@ -113,7 +113,7 @@
                                     <h6 class="text-muted f-w-400">{{ Auth::user()->phone }}</h6>
                                 </div>
                             </div>
-                            <h5 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Bookings</h5>
+                            <h5 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Bookings</h6>
                             <div class="row">
                                 <div class="col-12 scrollable-list">
                                     <ul class="list-group">

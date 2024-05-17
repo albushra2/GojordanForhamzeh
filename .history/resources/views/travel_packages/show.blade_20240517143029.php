@@ -138,16 +138,11 @@
     right: .5rem;
     cursor: pointer;
   }
-
-  .button-container {
-    text-align: center;
-  }
-
+  
   blockquote {
     border-left: 8px solid #b4b4b4;
     padding-left: 1rem;
   }
-
   .blog__detail ul li {
     list-style: initial;
   }

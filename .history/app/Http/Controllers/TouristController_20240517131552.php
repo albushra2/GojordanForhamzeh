@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\TravelUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-
 use Illuminate\Support\Facades\Hash;
 
 class TouristController extends Controller
@@ -20,20 +18,20 @@ class TouristController extends Controller
     }
 
     public function registerPost(Request $request)
-    {
-        $user = new TravelUser();
+{
+    $user = new TravelUser();
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->password = Hash::make($request->password);
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->phone = $request->phone;
+    $user->password = Hash::make($request->password);
 
-        $user->save();
+    $user->save();
 
-        Auth::guard('travel_user')->login($user);
+    Auth::guard('travel_user')->login($user);
 
-        return redirect()->route('touristprofile')->with('success', 'Register successfully');
-    }
+    return redirect()->route('touristprofile')->with('success', 'Register successfully');
+}
 
 
     public function login()
@@ -63,16 +61,9 @@ class TouristController extends Controller
     }
 
     public function profile()
-{
-    $user = Auth::guard('travel_user')->user();
-    $bookings = DB::table('bookings')
-        ->join('travel_packages', 'bookings.travel_package_id', '=', 'travel_packages.id')
-        ->select('bookings.*', 'travel_packages.location')
-        ->where('bookings.email', $user->email)
-        ->get();
-
-    return view('tourist_user.profile', compact('user', 'bookings'));
-}
-
+    {
+        $bookings = DB::table('bookings')->where('email', Auth::guard('travel_user')->user()->email)->get();
+        return view('tourist_user.profile', compact('bookings'));
+    }
 
 }

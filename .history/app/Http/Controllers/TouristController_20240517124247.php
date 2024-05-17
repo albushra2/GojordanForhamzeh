@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\TravelUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-
 use Illuminate\Support\Facades\Hash;
 
 class TouristController extends Controller
@@ -25,7 +23,6 @@ class TouristController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->phone = $request->phone;
         $user->password = Hash::make($request->password);
 
         $user->save();
@@ -34,7 +31,6 @@ class TouristController extends Controller
 
         return redirect()->route('touristprofile')->with('success', 'Register successfully');
     }
-
 
     public function login()
     {
@@ -45,15 +41,15 @@ class TouristController extends Controller
     }
 
     public function loginPost(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
+{
+    $credentials = $request->only('email', 'password');
 
-        if (Auth::guard('travel_user')->attempt($credentials)) {
-            return response()->json(['success' => true, 'redirect' => route('touristprofile')]);
-        }
-
-        return response()->json(['success' => false, 'message' => 'Incorrect email or password']);
+    if (Auth::guard('travel_user')->attempt($credentials)) {
+        return response()->json(['success' => true, 'redirect' => route('touristprofile')]);
     }
+
+    return response()->json(['success' => false, 'message' => 'Incorrect email or password']);
+}
 
 
     public function logout()
@@ -63,16 +59,7 @@ class TouristController extends Controller
     }
 
     public function profile()
-{
-    $user = Auth::guard('travel_user')->user();
-    $bookings = DB::table('bookings')
-        ->join('travel_packages', 'bookings.travel_package_id', '=', 'travel_packages.id')
-        ->select('bookings.*', 'travel_packages.location')
-        ->where('bookings.email', $user->email)
-        ->get();
-
-    return view('tourist_user.profile', compact('user', 'bookings'));
-}
-
-
+    {
+        return view('tourist_user.profile');
+    }
 }

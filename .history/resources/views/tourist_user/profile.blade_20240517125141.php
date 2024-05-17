@@ -5,17 +5,16 @@
 @section('content')
 <style>
     body {
-        background: url('frontend/assets/img/bali.jpg') no-repeat center center fixed;
-        background-size: cover;
+        background-color: #3DCFD3;
     }
     .padding {
-        padding: 6rem !important;
+        padding: 5rem !important;
     }
     .user-card-full {
         overflow: hidden;
         display: flex;
         flex-direction: row;
-        height: 450px;
+        height: 500px;
         background-color: #ffffff;
     }
     .card {
@@ -55,27 +54,22 @@
         max-width: 50%;
     }
     /* CSS for Sign Out button */
-    .btn {
-        font-size: 14px;
-        font-weight: 600;
-        padding: 10px 20px;
-        border-radius: 5px;
-        background-color: #dc3545; /* Red color for Sign Out button */
-        border: none;
-        color: #fff;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+.btn {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #dc3545; /* Red color for Sign Out button */
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-    .btn:hover {
-        background-color: #c82333; /* Darker red color on hover */
-    }
+.btn:hover {
+    background-color: #c82333; /* Darker red color on hover */
+}
 
-    /* Scrollable booking list */
-    .scrollable-list {
-        max-height: 200px; /* Adjust height as needed */
-        overflow-y: auto;
-    }
 </style>
 
 <div class="page-content page-container" id="page-content">
@@ -102,7 +96,7 @@
                     </div>
                     <div class="col-half">
                         <div class="card-block">
-                            <h5 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h5>
+                            <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <p class="m-b-10 f-w-600">Email</p>
@@ -110,24 +104,20 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="m-b-10 f-w-600">Phone</p>
-                                    <h6 class="text-muted f-w-400">{{ Auth::user()->phone }}</h6>
+                                    <h6 class="text-muted f-w-400">Not Available</h6>
                                 </div>
                             </div>
-                            <h5 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Bookings</h5>
+                            <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Projects</h6>
                             <div class="row">
-                                <div class="col-12 scrollable-list">
-                                    <ul class="list-group">
-                                        @foreach($bookings as $booking)
-                                        <li class="list-group-item">
-                                                <strong>Booking ID:</strong> {{ $booking->id }}<br>
-                                                <strong>Location:</strong> {{ $booking->location }}<br>
-                                                <strong>Date:</strong> {{ $booking->date }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                <div class="col-sm-6">
+                                    <p class="m-b-10 f-w-600">Recent</p>
+                                    <h6 class="text-muted f-w-400">Not Available</h6>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="m-b-10 f-w-600">Most Viewed</p>
+                                    <h6 class="text-muted f-w-400">Not Available</h6>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                 </div>

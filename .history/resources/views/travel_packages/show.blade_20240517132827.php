@@ -59,14 +59,14 @@
                   />
 
                   @if(Auth::guard('travel_user')->check())
-                  <form action="{{ route('booking.store') }}" method="POST">
-                      @csrf
-                      <!-- Form fields here -->
-                      <button type="submit" class="btn btn-primary">Send</button>
-                  </form>
-                  @else
-                      <p>Please <a href="#" data-toggle="modal" data-target="#loginModal"> Login</a> first to add the package.</p>
-                  @endif
+                <form action="{{ route('booking.store') }}" method="POST">
+                    @csrf
+                    <!-- Form fields here -->
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+            @else
+                <p>Please <a href="#" data-toggle="modal" data-target="#loginModal">login</a> first to add the package.</p>
+            @endif
 
                 </form>
               </div>
@@ -138,16 +138,10 @@
     right: .5rem;
     cursor: pointer;
   }
-
-  .button-container {
-    text-align: center;
-  }
-
   blockquote {
     border-left: 8px solid #b4b4b4;
     padding-left: 1rem;
   }
-
   .blog__detail ul li {
     list-style: initial;
   }

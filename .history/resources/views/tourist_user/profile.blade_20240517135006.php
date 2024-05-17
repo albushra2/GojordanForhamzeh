@@ -5,8 +5,7 @@
 @section('content')
 <style>
     body {
-        background: url('frontend/assets/img/bali.jpg') no-repeat center center fixed;
-        background-size: cover;
+        background-color: #3DCFD3;
     }
     .padding {
         padding: 6rem !important;
@@ -51,31 +50,26 @@
         margin-top: auto;
     }
     .col-half {
-        flex: 0 0 50%;
+        flex: 0 0 30%;
         max-width: 50%;
     }
     /* CSS for Sign Out button */
-    .btn {
-        font-size: 14px;
-        font-weight: 600;
-        padding: 10px 20px;
-        border-radius: 5px;
-        background-color: #dc3545; /* Red color for Sign Out button */
-        border: none;
-        color: #fff;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+.btn {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #dc3545; /* Red color for Sign Out button */
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-    .btn:hover {
-        background-color: #c82333; /* Darker red color on hover */
-    }
+.btn:hover {
+    background-color: #c82333; /* Darker red color on hover */
+}
 
-    /* Scrollable booking list */
-    .scrollable-list {
-        max-height: 200px; /* Adjust height as needed */
-        overflow-y: auto;
-    }
 </style>
 
 <div class="page-content page-container" id="page-content">
@@ -89,7 +83,8 @@
                                 <div class="m-b-25">
                                     <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image">
                                 </div>
-                                <h4 class="f-w-600">{{ Auth::user()->name }}</h4>
+                                <h6 class="f-w-600">{{ Auth::user()->name }}</h6>
+                                <p>Web Designer</p>
                                 <i class="mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                             </div>
                             <div class="btn-container">
@@ -102,7 +97,7 @@
                     </div>
                     <div class="col-half">
                         <div class="card-block">
-                            <h5 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h5>
+                            <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <p class="m-b-10 f-w-600">Email</p>
@@ -113,14 +108,13 @@
                                     <h6 class="text-muted f-w-400">{{ Auth::user()->phone }}</h6>
                                 </div>
                             </div>
-                            <h5 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Bookings</h5>
+                            <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Bookings</h6>
                             <div class="row">
-                                <div class="col-12 scrollable-list">
+                                <div class="col-12">
                                     <ul class="list-group">
-                                        @foreach($bookings as $booking)
-                                        <li class="list-group-item">
+                                    @foreach($bookings as $booking)
+                                            <li class="list-group-item">
                                                 <strong>Booking ID:</strong> {{ $booking->id }}<br>
-                                                <strong>Location:</strong> {{ $booking->location }}<br>
                                                 <strong>Date:</strong> {{ $booking->date }}
                                             </li>
                                         @endforeach

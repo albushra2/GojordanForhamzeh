@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\TravelUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-
 use Illuminate\Support\Facades\Hash;
 
 class TouristController extends Controller
@@ -63,16 +61,9 @@ class TouristController extends Controller
     }
 
     public function profile()
-{
-    $user = Auth::guard('travel_user')->user();
-    $bookings = DB::table('bookings')
-        ->join('travel_packages', 'bookings.travel_package_id', '=', 'travel_packages.id')
-        ->select('bookings.*', 'travel_packages.location')
-        ->where('bookings.email', $user->email)
-        ->get();
-
-    return view('tourist_user.profile', compact('user', 'bookings'));
-}
-
+    {
+        $bookings = DB::table('bookings')->where('email', Auth::guard('travel_user')->user()->email)->get();
+        return view('tourist_user.profile', compact('bookings'));
+    }
 
 }
