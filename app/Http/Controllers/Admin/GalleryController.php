@@ -11,9 +11,7 @@ use App\Http\Requests\Admin\GalleryRequest;
 
 class GalleryController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(GalleryRequest $request, TravelPackage $travel_package)
     {
         if($request->validated()){
@@ -29,17 +27,13 @@ class GalleryController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
     public function edit(TravelPackage $travel_package,Gallery $gallery)
     {
         return view('admin.galleries.edit', compact('travel_package','gallery'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+   
     public function update(GalleryRequest $request,TravelPackage $travel_package, Gallery $gallery)
     {
         if($request->validated()) {
@@ -60,9 +54,7 @@ class GalleryController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(TravelPackage $travel_package,Gallery $gallery)
     {
         File::delete('storage/'. $gallery->images);

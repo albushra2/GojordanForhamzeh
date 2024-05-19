@@ -5,7 +5,7 @@
 @section('content')
 <style>
     .page-content {
-        background: url('frontend/assets/img/hero.jpg') no-repeat center center;
+        background: url('frontend/assets/img/profile.jpg') no-repeat center center;
         background-size: cover;
         padding: 7.5rem 1rem; /* Adjusted padding for better responsiveness */
     }

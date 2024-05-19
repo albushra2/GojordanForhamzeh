@@ -11,9 +11,7 @@ use App\Http\Requests\Admin\TravelPackageRequest;
 
 class TravelPackageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         $travel_packages = TravelPackage::paginate(10);
@@ -21,17 +19,13 @@ class TravelPackageController extends Controller
         return view('admin.travel_packages.index', compact('travel_packages'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+   
     public function create()
     {
         return view('admin.travel_packages.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(TravelPackageRequest $request)
     {
         if($request->validated()) {
@@ -45,9 +39,7 @@ class TravelPackageController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
     public function edit(TravelPackage $travel_package)
     {
         $galleries = Gallery::paginate(10);
@@ -55,9 +47,7 @@ class TravelPackageController extends Controller
         return view('admin.travel_packages.edit', compact('travel_package','galleries'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    
     public function update(TravelPackageRequest $request, TravelPackage $travel_package)
     {
         if($request->validated()) {
@@ -71,9 +61,7 @@ class TravelPackageController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(TravelPackage $travel_package)
     {
         $travel_package->delete();

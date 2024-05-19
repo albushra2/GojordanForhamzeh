@@ -12,9 +12,7 @@ use App\Http\Requests\Admin\BlogRequest;
 
 class BlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         $blogs = Blog::with('category')->paginate(5);
@@ -22,9 +20,7 @@ class BlogController extends Controller
         return view('admin.blogs.index', compact('blogs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
         $categories = Category::get(['name', 'id']);
@@ -32,9 +28,7 @@ class BlogController extends Controller
         return view('admin.blogs.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(BlogRequest $request)
     {
         if($request->validated()) {
@@ -52,17 +46,12 @@ class BlogController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
+   
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Blog $blog)
     {
         $categories = Category::get(['name','id']);
@@ -70,9 +59,7 @@ class BlogController extends Controller
         return view('admin.blogs.edit', compact('blog','categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+   
     public function update(BlogRequest $request, Blog $blog)
     {
         if($request->validated()) {
@@ -94,9 +81,7 @@ class BlogController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(Blog $blog)
     {
         File::delete('storage/'. $blog->image);

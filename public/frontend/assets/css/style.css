@@ -294,7 +294,7 @@ body.dark-theme {
 /*=============== BUTTON ===============*/
 .button {
   display: inline-block;
-  background: linear-gradient(101deg, #38c9d6, #29c4c7);
+  background: linear-gradient(101deg, #029e9d, #29c4c7);
   color: #fff;
   padding: 14px 28px;
   border-radius: 0.5rem;
