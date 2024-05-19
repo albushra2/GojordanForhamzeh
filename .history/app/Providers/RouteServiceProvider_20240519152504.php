@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\Route;
 class RouteServiceProvider extends ServiceProvider
 {
     public const HOME = '/admin/dashboard';
-    
+
+    /**
+     * Define your route model bindings, pattern filters, and other route configuration.
+     */
     public function boot(): void
     {
         $this->configureRateLimiting();
@@ -25,7 +28,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
     }
-   
+
+    /**
+     * Configure the rate limiters for the application.
+     */
     protected function configureRateLimiting(): void
     {
         RateLimiter::for('api', function (Request $request) {
