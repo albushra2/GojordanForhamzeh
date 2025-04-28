@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookingController;
+
+
 
 
 Auth::routes(['register' => false]);
@@ -10,6 +13,22 @@ Route::group(['middleware' => ['is_admin','auth'], 'prefix' => 'admin', 'as' => 
 
     // booking
     Route::resource('bookings', \App\Http\Controllers\Admin\BookingController::class)->only(['index', 'destroy']);
+    // في routes/web.php
+   // للمستخدمين العاديين
+Route::get('/booking/{destination}', [BookingController::class, 'showForm'])
+->name('booking.form');
+
+// للمسؤولين (إذا كنت بحاجة لمسار منفصل)
+Route::prefix('admin')->group(function () {
+Route::get('/bookings/form/{destination}', [BookingController::class, 'showForm'])
+    ->name('admin.bookings.form');
+});
+Route::post('/booking', [BookingController::class, 'store'])
+    ->name('booking.store');
+
+
+Route::get('/booking/{destination}', [BookingController::class, 'showBookingForm'])->name('booking.form');
+
     // travel packages
     Route::resource('travel_packages', \App\Http\Controllers\Admin\TravelPackageController::class)->except('show');
     Route::resource('travel_packages.galleries', \App\Http\Controllers\Admin\GalleryController::class)->except(['create', 'index','show']);

@@ -7,7 +7,6 @@
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
     <!-- jQuery and Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -34,7 +33,7 @@
     <!--==================== HEADER ====================-->
     <header class="header" id="header">
         <nav class="nav container">
-            <a href="{{ route('homepage') }}" class="nav__logo">G<i class="bx bxs-map"></i> TRAVEL</a>
+            <a href="{{ route('homepage') }}" class="nav__logo">G<i class="bx bxs-map"></i> JORDAN</a>
 
             <div class="nav__menu">
                 <ul class="nav__list">
@@ -83,64 +82,61 @@
 
 
     <!--==================== FOOTER ====================-->
-    <footer class="footer section">
-        <div class="footer__container container grid">
+<footer class="footer section">
+    <div class="footer__container container grid">
+        <div>
+            <a href="{{ route('homepage') }}" class="footer__logo">G<i class="bx bxs-map"></i>JORDAN</a>
+            <p class="footer__description">
+                Our vision is to help people discover <br />
+                the most beautiful destinations in Jordan <br />
+                with safety and ease.
+            </p>
+        </div>
+
+        <div class="footer__content">
             <div>
-                <a href="{{ route('homepage') }}" class="footer__logo">G<i class="bx bxs-map"></i> TRAVEL</a>
-                <p class="footer__description">
-                    Our vision is to help people find the <br />
-                    best places to travel with high security
-                </p>
+                <h3 class="footer__title">About</h3>
+                <ul class="footer__links">
+                    <li><a href="#" class="footer__link">About Us</a></li>
+                    <li><a href="#" class="footer__link">Features</a></li>
+                    <li><a href="#" class="footer__link">News & Blog</a></li>
+                </ul>
             </div>
-
-            <div class="footer__content">
-                <div>
-                    <h3 class="footer__title">About</h3>
-
-                    <ul class="footer__links">
-                        <li><a href="#" class="footer__link">About Us</a></li>
-                        <li><a href="#" class="footer__link">Features</a></li>
-                        <li><a href="#" class="footer__link">News & Blog</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="footer__title">Company</h3>
-
-                    <ul class="footer__links">
-                        <li><a href="#" class="footer__link">How We Work?</a></li>
-                        <li><a href="#" class="footer__link">Capital</a></li>
-                        <li><a href="#" class="footer__link">Security</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="footer__title">Support</h3>
-
-                    <ul class="footer__links">
-                        <li><a href="#" class="footer__link">FAQs</a></li>
-                        <li><a href="#" class="footer__link">Support center</a></li>
-                        <li><a href="#" class="footer__link">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="footer__title">Follow us</h3>
-
-                    <ul class="footer__social">
-                        <a href="#" class="footer__social-link"><i class="bx bxl-facebook-circle"></i></a>
-                        <a href="#" class="footer__social-link"><i class="bx bxl-instagram-alt"></i></a>
-                        <a href="#" class="footer__social-link"><i class="bx bxl-pinterest"></i></a>
-                    </ul>
-                </div>
+            <div>
+                <h3 class="footer__title">Company</h3>
+                <ul class="footer__links">
+                    <li><a href="#" class="footer__link">How We Work</a></li>
+                    <li><a href="#" class="footer__link">Partnerships</a></li>
+                    <li><a href="#" class="footer__link">Travel Safety</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="footer__title">Support</h3>
+                <ul class="footer__links">
+                    <li><a href="#" class="footer__link">FAQs</a></li>
+                    <li><a href="#" class="footer__link">Support Center</a></li>
+                    <li><a href="#" class="footer__link">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="footer__title">Follow Us</h3>
+                <ul class="footer__social">
+                    <a href="#" class="footer__social-link"><i class="bx bxl-facebook-circle"></i></a>
+                    <a href="#" class="footer__social-link"><i class="bx bxl-instagram-alt"></i></a>
+                    <a href="#" class="footer__social-link"><i class="bx bxl-pinterest"></i></a>
+                </ul>
             </div>
         </div>
+    </div>
 
-        <div class="footer__info container">
-            <span class="footer__copy">&#169; GoTravel. All rights reserved</span>
-            <div class="footer__privacy">
-                <a href="#">Terms & Agreements</a>
-                <a href="#">Privacy Policy</a>
-            </div>
+    <div class="footer__info container">
+        <span class="footer__copy">&#169; GoTravel Jordan. All rights reserved.</span>
+        <div class="footer__privacy">
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Privacy Policy</a>
         </div>
-    </footer>
+    </div>
+</footer>
 
     <!--========== SCROLL UP ==========-->
     <a href="#" class="scrollup" id="scroll-up">

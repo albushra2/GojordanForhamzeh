@@ -418,7 +418,7 @@ body.dark-theme {
 /*=============== LOGOS ===============*/
 .logos__container {
   padding-top: 2rem;
-  -ms-grid-columns: (1fr)[2];
+  -ms-grid-columns: 1fr 1fr;
       grid-template-columns: repeat(2, 1fr);
   gap: 3rem 2rem;
   justify-items: center;
@@ -426,13 +426,14 @@ body.dark-theme {
 
 .logos__img img {
   height: 60px;
-  opacity: 0.2;
   -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
 .logos__img img:hover {
-  opacity: 0.6;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  opacity: 0.8;
 }
 
 /*=============== POPULAR ===============*/
@@ -462,7 +463,7 @@ body.dark-theme {
 
 @media screen and (min-width: 768px) {
   .popular__all {
-    -ms-grid-columns: (1fr)[3];
+    -ms-grid-columns: 1fr 1fr 1fr;
         grid-template-columns: repeat(3, 1fr);
   }
 }
@@ -699,8 +700,8 @@ body.dark-theme {
 .contact__card {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[2];
-      grid-template-columns: repeat(2, 1fr);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem 0.75rem;
 }
 
@@ -799,8 +800,8 @@ body.dark-theme {
 }
 
 .footer__content {
-  -ms-grid-columns: (max-content)[2];
-      grid-template-columns: repeat(2, -webkit-max-content);
+  -ms-grid-columns: max-content max-content;
+      grid-template-columns: repeat(2, max-content);
       grid-template-columns: repeat(2, max-content);
   gap: 2.5rem 4rem;
 }
@@ -934,8 +935,8 @@ body.dark-theme {
     padding: 3.5rem 0 1rem;
   }
   .contact__card {
-    -ms-grid-columns: (180px)[1];
-        grid-template-columns: repeat(1, 180px);
+    -ms-grid-columns: 180px;
+    grid-template-columns: repeat(1, 180px);
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
@@ -974,14 +975,14 @@ body.dark-theme {
     width: 342px;
   }
   .contact__card {
-    -ms-grid-columns: (192px)[2];
-        grid-template-columns: repeat(2, 192px);
+    -ms-grid-columns: 192px 192px;
+    grid-template-columns: repeat(2, 192px);
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
   }
   .footer__content {
-    -ms-grid-columns: (max-content)[3];
+    -ms-grid-columns: max-content max-content max-content;
         grid-template-columns: repeat(3, -webkit-max-content);
         grid-template-columns: repeat(3, max-content);
   }
@@ -989,7 +990,7 @@ body.dark-theme {
 
 @media screen and (min-width: 767px) {
   .logos__container {
-    -ms-grid-columns: (max-content)[4];
+    -ms-grid-columns: max-content max-content max-content max-content;
         grid-template-columns: repeat(4, -webkit-max-content);
         grid-template-columns: repeat(4, max-content);
     -webkit-box-pack: center;
@@ -998,12 +999,13 @@ body.dark-theme {
   }
   .value__container,
   .contact__container {
-    -ms-grid-columns: (1fr)[2];
-        grid-template-columns: repeat(2, 1fr);
+    -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
     -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-  }
+        align-items: center;
+        align-items: center;
+        justify-content: center;
+        }
   .contact__images {
     -webkit-box-ordinal-group: 2;
         -ms-flex-order: 1;
@@ -1015,9 +1017,8 @@ body.dark-theme {
             justify-content: initial;
   }
   .footer__container {
-    -ms-grid-columns: (max-content)[2];
-        grid-template-columns: repeat(2, -webkit-max-content);
-        grid-template-columns: repeat(2, max-content);
+    -ms-grid-columns: max-content max-content;
+      grid-template-columns: repeat(2, max-content);
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
@@ -1130,15 +1131,21 @@ body.dark-theme {
     font-size: 0.813rem;
   }
   .contact__card {
-    -ms-grid-columns: (200px)[2];
+    -ms-grid-columns: 200px 200px;
         grid-template-columns: repeat(2, 200px);
   }
   .contact__card-box {
     padding: 28px 1.5rem 1.5rem;
   }
+  .footer {
+    background: linear-gradient(to right, #000000, #555555); /* أسود إلى رمادي غامق */
+    color: #ffffff; /* لجعل النص أبيض وواضح */
+    padding: 2rem 0;
+}
+
   .footer__content {
-    -ms-grid-columns: (max-content)[4];
-        grid-template-columns: repeat(4, -webkit-max-content);
+    -ms-grid-columns: max-content max-content max-content max-content;
+        grid-template-columns: repeat(4, max-content);
         grid-template-columns: repeat(4, max-content);
   }
   .footer__title {
@@ -1280,8 +1287,8 @@ body.dark-theme {
     padding-bottom: 5rem;
   }
   .blog__content {
-    -ms-grid-columns: (300px)[3];
-        grid-template-columns: repeat(3, 300px);
+    -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
     -webkit-column-gap: 3rem;
             column-gap: 3rem;
     padding-top: 2rem;
@@ -1401,6 +1408,13 @@ body.dark-theme {
   border-radius: 0.25rem;
   padding: 2.5rem 1.25rem 1.75rem;
 }
+
+
+
+
+
+
+
 
 .card input {
   border: 1px solid var(--text-color-light);

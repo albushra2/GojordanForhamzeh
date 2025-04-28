@@ -56,10 +56,10 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="/" class="brand-link">
-            <img src="{{ asset('images/logo.jpg') }}" alt="GoTravel Logo"
+            <img src="{{ asset('frontend/assets/img/logo2.jpeg') }}" alt="Gojordan Logo"
                  class="brand-image img-circle elevation-3"
                  style="opacity: .8">
-            <span class="brand-text font-weight-light">GoTravel</span>
+            <span class="brand-text font-weight-light">GoJordan</span>
         </a>
 
         @include('layouts.navigation')
@@ -116,7 +116,7 @@
             Anything you want
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2024 <a href="#">GoTravel</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2024 <a href="#">GoJordan</a>.</strong> All rights reserved.
     </footer>
 </div>
 <!-- ./wrapper -->

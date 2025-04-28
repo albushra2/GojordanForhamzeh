@@ -57,14 +57,15 @@
 
 <div class="dashboard-container">
     <div class="dashboard-bg">
-        <img src="{{ asset('frontend/assets/img/hero.jpg') }}" alt="Dashboard Background" class="dashboard-bg__img">
-        <div class="bg__overlay">
+        <div class="dashboard-bg">
+            <img src="{{ asset('frontend/assets/img/dashbord7.jpeg') }}" alt="Dashboard Background" class="dashboard-bg__img">
+        </div>
+                <div class="bg__overlay">
             <div class="dashboard-content container">
                 <div class="dashboard-data">
-                    <h1 class="dashboard-title">Admin Panel</h1>
+                    <h1 class="dashboard-title"class="nav__logo">GO JORDAN Admin Panel</h1>
                     <p class="dashboard-description">
-                        Manage your site’s content, users, and settings effectively.
-                    </p>
+                        Manage your website’s content, users, and settings efficiently to provide a unique tourism experience in Jordan.                    </p>
                 </div>
             </div>
         </div>

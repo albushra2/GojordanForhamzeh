@@ -7,22 +7,51 @@ use App\Models\Booking;
 
 class BookingController extends Controller
 {
+    public function showBookingForm($destination)
+    {
+        // جيب الأيام اللي فيها 20 شخص أو أكثر
+        $fullDates = Booking::select('date')
+                    ->where('destination', $destination)
+                    ->groupBy('date')
+                    ->havingRaw('SUM(visitors) >= 20')
+                    ->pluck('date')
+                    ->map(function($date) {
+                        return $date->format('Y-m-d'); // تأكد من تنسيق التاريخ
+                    });
+    
+        // نرسل الوجهة والأيام المغلقة للفورم
+        return view('booking.form', compact('destination', 'fullDates'));
+    }
+    
+
     public function store(Request $request)
     {
-        $request->validate([
-            'travel_package_id' => 'required|exists:travel_packages,id',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'number_phone' => 'required|numeric',
-            'date' => 'required|date',
+        $validated = $request->validate([
+            'destination' => 'required|string',
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'date' => 'required|date|after:today',
+            'visitors' => 'required|integer|min:1'
         ]);
 
+        // حساب السعر بناءً على الوجهة
+        $prices = [
+            'petra' => 50,
+            'dead-sea' => 30,
+            'wadi-rum' => 40,
+            'jerash' => 25
+        ];
+
+        $price = $prices[strtolower($validated['destination'])] ?? 0;
+        $total = $price * $validated['visitors'];
+
         Booking::create([
-            'travel_package_id' => $request->travel_package_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'number_phone' => $request->number_phone,
-            'date' => $request->date,
+            'destination' => $validated['destination'],
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'visitors' => $validated['visitors'],
+            'total_price' => $total,
+            'date' => $validated['date'],
         ]);
 
         return redirect()->back()->with('message', 'Booking successful!');

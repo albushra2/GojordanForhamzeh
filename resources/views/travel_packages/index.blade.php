@@ -6,7 +6,7 @@
         <div class="swiper-container gallery-top">
           <div class="swiper-wrapper">
             <section class="islands swiper-slide">
-              <img src="{{ asset('frontend/assets/img/blogs2.jpg') }}" alt="" class="islands__bg" />
+              <img src="{{ asset('frontend/assets/img/Jordancollage.jpeg') }}" alt="" class="islands__bg" />
 
               <div class="islands__container container">
                 <div class="islands__data">
@@ -31,13 +31,14 @@
             @foreach($travel_packages as $travel_package)
                 <article class="popular__card">
                 <a href="{{ route('travel_package.show', $travel_package->slug) }}">
-                    <img
-                    src="{{ Storage::url($travel_package->galleries->first()->images) }}"
-                    alt=""
-                    class="popular__img"
-                    />
+                  <img 
+                  src="{{ optional($travel_package->galleries->first())->images ? Storage::url($travel_package->galleries->first()->images) : asset('images/default.jpg') }}" 
+                  alt="" 
+                  class="popular__img" 
+              />
+              
                     <div class="popular__data">
-                    <h2 class="popular__price"><span>BDT</span>{{ number_format($travel_package->price,2) }}</h2>
+                    <h2 class="popular__price"><span>JD</span>{{ number_format($travel_package->price,2) }}</h2>
                     <h3 class="popular__title">{{ $travel_package->location }}</h3>
                     <p class="popular__description">{{ $travel_package->type }}</p>
                     </div>

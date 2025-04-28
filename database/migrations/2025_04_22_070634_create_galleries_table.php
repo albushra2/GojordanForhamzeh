@@ -13,7 +13,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('images');
-            $table->foreignId('travel_package_id')->constrained()->cascadeOnDelete();
+            
+            // Explicit foreign key definition
+            $table->unsignedBigInteger('travel_package_id');
+            $table->foreign('travel_package_id')
+                  ->references('id')
+                  ->on('travel_packages')
+                  ->onDelete('cascade');
+            
             $table->timestamps();
         });
     }
