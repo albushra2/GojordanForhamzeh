@@ -25,4 +25,13 @@ class ProfileController extends Controller
 
         return redirect()->route('admin.dashboard')->with('success', 'Profile updated.');
     }
+    public function bookings()
+{
+    $bookings = auth()->user()->bookings()
+                    ->with('travelPackage')
+                    ->orderBy('date', 'desc')
+                    ->get();
+
+    return view('profile.bookings', compact('bookings'));
+}
 }

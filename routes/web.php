@@ -46,6 +46,8 @@ Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('h
 // travel packages
 Route::get('travel-packages',[\App\Http\Controllers\TravelPackageController::class, 'index'])->name('travel_package.index');
 Route::get('travel-packages/{travel_package:slug}',[\App\Http\Controllers\TravelPackageController::class, 'show'])->name('travel_package.show');
+// Route::get('travel-packages/{id}',[\App\Http\Controllers\TravelPackageController::class, 'show'])->name('travel_package.show');
+
 // blogs
 Route::get('blogs', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
 Route::get('blogs/{blog:slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
@@ -57,6 +59,8 @@ Route::get('contact', function() {
 // booking
 Route::post('booking', [App\Http\Controllers\BookingController::class, 'store'])->name('booking.store');
 Route::delete('/booking/{id}', [App\Http\Controllers\BookingController::class, 'destroy'])->name('booking.destroy');
+    Route::get('/bookings/{booking}', [BookingController::class, 'show'])
+    ->name('bookings.show');
 //password_reset
 route::post('\password\search',[App\Http\Controllers\ForgotPasswordController::class, 'sendEmail'])->name('password.email');
 route::get('\password\email\send\{token}',[App\Http\Controllers\ForgotPasswordController::class, 'reset'])->name('password.reset');

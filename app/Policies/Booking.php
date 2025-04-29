@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Booking extends Model
+{
+    use SoftDeletes;
+
+    protected $fillable = [
+        'name', 'email', 'number_phone', 'date',
+        'guest_count', 'guest_ages', 'group_type',
+        'travel_package_id', 'user_id'
+    ];
+}

@@ -38,7 +38,7 @@
               />
               
                     <div class="popular__data">
-                    <h2 class="popular__price"><span>JD</span>{{ number_format($travel_package->price,2) }}</h2>
+                    <h2 class="popular__price">{{ number_format($travel_package->price,2) }}<span>JD</span></h2>
                     <h3 class="popular__title">{{ $travel_package->location }}</h3>
                     <p class="popular__description">{{ $travel_package->type }}</p>
                     </div>

@@ -83,7 +83,7 @@
           @endif
     
           <div class="popular__data">
-            <h2 class="popular__price"><span>BDT</span>{{ number_format($other_package->price,2) }}</h2>
+            <h2 class="popular__price">{{ number_format($other_package->price,2) }}<span>JD</span></h2>
             <h3 class="popular__title">{{ $other_package->location }}</h3>
             <p class="popular__description">{{ $other_package->type }}</p>
           </div>
