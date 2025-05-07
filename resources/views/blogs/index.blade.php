@@ -1,66 +1,61 @@
 @extends('layouts.frontend')
-@section('title', 'Blogs')
+
+@section('title', 'Travel Blog - Discover Jordan')
+
 @section('content')
-<!--==================== HOME ====================-->
-<section>
-        <div class="swiper-container gallery-top">
-          <div class="swiper-wrapper">
-            <section class="islands swiper-slide">
-              <img
-                src="{{ asset('frontend/assets/img/omqase.jpeg') }}"
-                alt=""
-                class="islands__bg"
-              />
 
-              <div class="islands__container container">
-                <div class="islands__data">
-                  <h2 class="islands__subtitle">Our</h2>
-                  <h1 class="islands__title">Blog</h1>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-      </section>
+    <div class="container">
+        <h1>Latest Blog Posts</h1>
 
-      <!-- blog -->
-      <section class="blog section" id="blog">
-        <div class="blog__container container">
-            <span class="section__subtitle" style="text-align: center">
-                Jordan Tourism Blog
-            </span>
-            <h2 class="section__title" style="text-align: center">
-                Discover the Most Beautiful Stories and Experiences from Jordan
-            </h2>
-    
-            <div class="blog__content grid">
-                @foreach($blogs as $blog)
-                    <article class="blog__card">
-                        <div class="blog__image">
-                            <img src="{{ Storage::url($blog->image) }}" alt="" class="blog__img" />
-                            <a href="{{ route('blog.show',$blog->slug) }}" class="blog__button">
-                                <i class="bx bx-right-arrow-alt"></i>
-                            </a>
-                        </div>
-    
-                        <div class="blog__data">
-                            <h2 class="blog__title">{{ $blog->title }}</h2>
-                            <p class="blog__description">
-                                {{ $blog->excerpt }}
-                            </p>
-    
-                            <div class="blog__footer">
-                                <div class="blog__reaction">{{ date('d M Y', strtotime($blog->created_at)) }}</div>
-                                <div class="blog__reaction">
-                                    <i class="bx bx-show"></i>
-                                    <span>{{ $blog->reads }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
+        {{-- Optional: Display categories for filtering --}}
+        <div class="mb-4">
+            <h3>Categories</h3>
+            <ul>
+                @foreach($categories as $category)
+                    <li>
+                        {{ $category->name }} ({{ $category->blogs_count }})
+                        {{-- Add a link to filter by category if you have implemented filtering --}}
+                        {{-- <a href="{{ route('blogs.index', ['category' => $category->slug]) }}">{{ $category->name }}</a> ({{ $category->blogs_count }}) --}}
+                    </li>
                 @endforeach
-            </div>
+            </ul>
         </div>
-    </section>
-    
+
+        <div class="row">
+            @forelse ($blogs as $blog)
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        {{-- Assuming your Blog model has an image or thumbnail attribute --}}
+                        {{-- @if ($blog->image)
+                            <img src="{{ asset('storage/' . $blog->image) }}" class="card-img-top" alt="{{ $blog->title }}">
+                        @endif --}}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $blog->title }}</h5>
+                            {{-- Display category and author --}}
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    Category: {{ $blog->category->name ?? 'Uncategorized' }} |
+                                    By: {{ $blog->user->name ?? 'Unknown Author' }} |
+                                    Published on: {{ $blog->created_at->format('M d, Y') }}
+                                </small>
+                            </p>
+                            {{-- Display a short excerpt --}}
+                            <p class="card-text">{{ Str::limit($blog->body, 150) }}</p>
+                            {{-- Link to the full blog post --}}
+                            <a href="{{ route('blogs.show', $blog) }}" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-12">
+                    <p>No blog posts found.</p>
+                </div>
+            @endforelse
+        </div>
+
+        {{-- Pagination Links --}}
+        <div class="d-flex justify-content-center">
+            {{ $blogs->links() }}
+        </div>
+    </div>
 @endsection

@@ -2,67 +2,90 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Gallery;
-use Illuminate\Http\Request;
-use App\Models\TravelPackage;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
-use App\Http\Requests\Admin\GalleryRequest;
+use App\Models\Gallery;
+use App\Models\TravelPackage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class GalleryController extends Controller
 {
-    
-    public function store(GalleryRequest $request, TravelPackage $travel_package)
+    public function index()
     {
-        if($request->validated()){
-            $images = $request->file('images')->store(
-                'travel_package/gallery', 'public'
-            );
-            Gallery::create($request->except('images') + ['images' => $images,'travel_package_id' => $travel_package->id]);
-        }
+        $travelPackages = TravelPackage::withCount('galleries')->get();
+        // $galleryCount = Gallery::count();
+        return view('admin.galleries.index', compact('travelPackages' ));
+    }
 
-        return redirect()->route('admin.travel_packages.edit', [$travel_package])->with([
-            'message' => 'Success Created !',
-            'alert-type' => 'success'
+    public function create(TravelPackage $travelPackage)
+    {
+        return view('admin.galleries.create', [
+            'travelPackage' => $travelPackage,
+            'galleries' => $travelPackage->galleries
         ]);
     }
 
-    
-    public function edit(TravelPackage $travel_package,Gallery $gallery)
+    public function store(Request $request, TravelPackage $travelPackage)
     {
-        return view('admin.galleries.edit', compact('travel_package','gallery'));
-    }
+        $request->validate([
+            'images' => 'required|array|min:1',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
 
-   
-    public function update(GalleryRequest $request,TravelPackage $travel_package, Gallery $gallery)
-    {
-        if($request->validated()) {
-            if($request->images) {
-                File::delete('storage/'. $gallery->images);
-                $images = $request->file('images')->store(
-                    'travel_package/gallery', 'public'
-                );
-                $gallery->update($request->except('images') + ['images' => $images, 'travel_package_id' => $travel_package->id]);
-            }else {
-                $gallery->update($request->validated());
-            }
+        $uploadedImages = [];
+        
+        foreach ($request->file('images') as $image) {
+            $path = $image->store('galleries', 'public');
+            $name = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            
+            $gallery = Gallery::create([
+                'travel_package_id' => $travelPackage->id,
+                'image' => $path,
+                'name' => Str::limit($name, 100)
+            ]);
+            
+            $uploadedImages[] = $gallery;
         }
 
-        return redirect()->route('admin.travel_packages.edit', [$travel_package])->with([
-            'message' => 'Success Updated !',
-            'alert-type' => 'info'
-        ]);
+        return redirect()
+            ->route('admin.travel_packages.edit', $travelPackage->id)
+            ->with('success', count($uploadedImages) . ' images uploaded successfully!');
     }
 
-    
-    public function destroy(TravelPackage $travel_package,Gallery $gallery)
+    public function edit(TravelPackage $travelPackage, Gallery $gallery)
     {
-        File::delete('storage/'. $gallery->images);
+        return view('admin.galleries.edit', compact('travelPackage', 'gallery'));
+    }
+
+    public function update(Request $request, TravelPackage $travelPackage, Gallery $gallery)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            Storage::disk('public')->delete($gallery->image);
+            $gallery->image = $request->file('image')->store('galleries', 'public');
+        }
+
+        $gallery->name = $request->name;
+        $gallery->save();
+
+        return redirect()
+            ->route('admin.travel_packages.edit', $travelPackage->id)
+            ->with('success', 'Image updated successfully!');
+    }
+
+    public function destroy(TravelPackage $travelPackage, Gallery $gallery)
+    {
+        Storage::disk('public')->delete($gallery->image);
         $gallery->delete();
 
-        return redirect()->back()->with([
-            'message' => 'Success Deleted !',
-            'alert-type' => 'danger'
-        ]);
+        return back()
+            ->with('success', 'Image deleted successfully!')
+            ->with('deleted_id', $gallery->id); // For undo functionality
     }
+
 }

@@ -1,88 +1,253 @@
 @extends('layouts.app')
-@section('title', 'Blog')
+@section('title', isset($blog) ? 'Edit Blog' : 'Create Blog')
 @section('content')
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12 d-flex justify-content-between">
-                    <h1 class="m-0">{{ __('Form Create') }}</h1>
-                    <a href="{{ route('admin.blogs.index') }}" class="btn btn-primary"> <i class="fa fa-arrow-left"></i> </a>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                    <h1 class="m-0 text-dark">
+                        {{ isset($blog) ? 'Edit Blog Post' : 'Create New Blog Post' }}
+                    </h1>
+                    <a href="{{ route('admin.blogs.index') }}" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
 
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card p-3">
-                        <form method="post" action="{{ route('admin.blogs.store') }}" enctype="multipart/form-data">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Blog Information</h3>
+                        </div>
+                        <form method="post" 
+                              action="{{ isset($blog) ? route('admin.blogs.update', [$blog]) : route('admin.blogs.store') }}" 
+                              enctype="multipart/form-data">
                             @csrf 
-                            <div class="form-group row border-bottom pb-4">
-                                <label for="title" class="col-sm-2 col-form-label">Title</label>
-                                <div class="col-sm-10">
-                                <input type="text" class="form-control" name="title" value="{{ old('title') }}" id="title" placeholder="example: 5 tips travel">
+                            @if(isset($blog)) @method('put') @endif
+                            
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control @error('title') is-invalid @enderror" 
+                                           name="title" id="title" 
+                                           value="{{ old('title', $blog->title ?? '') }}" 
+                                           placeholder="Enter blog title">
+                                    @error('title')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                            </div>
-                            <div class="form-group row border-bottom pb-4">
-                                <label for="category_id" class="col-sm-2 col-form-label">Category</label>
-                                <div class="col-sm-10">
-                                    <select class="form-control" name="category_id" id="category_id">
+                                
+                                <div class="form-group">
+                                    <label for="category_id">Category</label>
+                                    <select class="form-control @error('category_id') is-invalid @enderror" 
+                                            name="category_id" id="category_id">
                                         @foreach($categories as $category)
-                                            <option {{ (old('category_id') == $category->id) ? 'selected' : '' }} value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}"
+                                                {{ (old('category_id', $blog->category_id ?? '') == $category->id) ? 'selected' : '' }}>
+                                                {{ $category->name }}
+                                            </option>
                                         @endforeach
                                     </select>
+                                    @error('category_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="image">Featured Image</label>
+                                    <div class="custom-file">
+                                        <input type="file" 
+                                               class="custom-file-input @error('image') is-invalid @enderror" 
+                                               name="image" id="image"
+                                               {{ !isset($blog) ? 'required' : '' }}>
+                                        <label class="custom-file-label" for="image">
+                                            Choose file (JPEG, PNG, JPG, GIF, WEBP)
+                                        </label>
+                                        @error('image')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    @if(isset($blog) && $blog->image)
+                                        <div class="mt-2">
+                                            <img src="{{ Storage::url($blog->image) }}" 
+                                                 class="img-thumbnail" width="150" alt="Current image">
+                                            <small class="form-text text-muted">
+                                                Current image. Upload a new one to replace it.
+                                            </small>
+                                        </div>
+                                    @endif
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="excerpt">Excerpt</label>
+                                    <textarea class="form-control @error('excerpt') is-invalid @enderror" 
+                                              name="excerpt" id="excerpt" 
+                                              rows="3" placeholder="Short description">{{ old('excerpt', $blog->excerpt ?? '') }}</textarea>
+                                    <small class="form-text text-muted">
+                                        A short summary of your blog post (max 500 characters).
+                                    </small>
+                                    @error('excerpt')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="description">Content</label>
+                                    <textarea class="form-control @error('description') is-invalid @enderror" 
+                                              name="description" id="description" 
+                                              rows="10">{{ old('description', $blog->description ?? '') }}</textarea>
+                                    @error('description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
-                            <div class="form-group row border-bottom pb-4">
-                                <label for="image" class="col-sm-2 col-form-label">Image</label>
-                                <div class="col-sm-10">
-                                    <input type="file" name="image" class="form-control" id="image">
-                                </div>
+                            
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                                <button type="reset" class="btn btn-secondary">
+                                    <i class="fas fa-undo"></i> Reset
+                                </button>
                             </div>
-                            <div class="form-group row border-bottom pb-4">
-                                <label for="excerpt" class="col-sm-2 col-form-label">Excerpt</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" name="excerpt" id="excerpt" cols="30" rows="5">{{ old('excerpt') }}</textarea>
-                                </div>
-                            </div>
-                            <div class="form-group row border-bottom pb-4">
-                                <label for="description" class="col-sm-2 col-form-label">Description</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" name="description" id="description" cols="30" rows="7">{{ old('description') }}</textarea>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-success">Save</button>
                         </form>
                     </div>
                 </div>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div>
     </div>
-    <!-- /.content -->
 @endsection
 
-
 @section('styles')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <style>
-.ck-editor__editable_inline {
-    min-height: 200px;
-}
+    .card-primary {
+        border-top: 3px solid #6610f2;
+    }
+    .ck-editor__editable_inline {
+        min-height: 300px;
+        color: #495057;
+    }
+    .custom-file-label::after {
+        content: "Browse";
+    }
+    .img-thumbnail {
+        transition: all 0.3s ease;
+    }
+    .img-thumbnail:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
 </style>
 @endsection
 
 @section('scripts')
 <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    ClassicEditor
-        .create( document.querySelector( '#description' ) )
-        .catch( error => {
-            console.error( error );
-        } );
+    $(document).ready(function() {
+        // Initialize CKEditor
+        ClassicEditor
+            .create(document.querySelector('#description'), {
+                toolbar: {
+                    items: [
+                        'heading', '|',
+                        'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|',
+                        'blockQuote', 'insertTable', 'undo', 'redo', '|',
+                        'codeBlock', 'imageUpload'
+                    ]
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+            
+        // Initialize Select2 for category select
+        $('#category_id').select2({
+            placeholder: "Select a category",
+            allowClear: true
+        });
+        
+        // Show filename when file is selected
+        $('.custom-file-input').on('change', function() {
+            let fileName = $(this).val().split('\\').pop();
+            $(this).next('.custom-file-label').addClass("selected").html(fileName);
+        });
+    });
+    $(document).ready(function() {
+    // Save button confirmation
+    $('#save-btn').click(function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Save Changes?',
+            text: "Are you sure you want to save these changes?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, save it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form
+                $(this).closest('form').submit();
+            }
+        });
+    });
+
+    // Reset button confirmation
+    $('#reset-btn').click(function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Reset Form?',
+            text: "This will clear all form data. Are you sure?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, reset it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Reset the form
+                $(this).closest('form').trigger('reset');
+                // Optional: Show success message
+                Swal.fire(
+                    'Reset!',
+                    'The form has been reset.',
+                    'success'
+                );
+            }
+        });
+    });
+
+    // Show success message on save if it exists in session
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Saved!',
+            text: '{{ session('success') }}',
+            timer: 3000,
+            showConfirmButton: false
+        });
+    @endif
+});
 </script>
 @endsection

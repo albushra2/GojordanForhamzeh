@@ -1,65 +1,256 @@
 @extends('layouts.app')
-@section('title', 'Category Blog')
+@section('title', 'Category Management')
 @section('content')
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12 justify-content-between d-flex">
-                    <h1 class="m-0">{{ __('Category Blog') }}</h1>
-                    <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-sm"> <i class="fa fa-plus"></i> </a>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                    <h1 class="m-0 text-gradient">
+                        <i class="fas fa-tags mr-2"></i> {{ __('Category Management') }}
+                    </h1>
+                    <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-pill">
+                        <i class="fas fa-plus"></i> New Category
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
 
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-
-                    <div class="card">
-                        <div class="card-body p-0">
-
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Name</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($categories as $category)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $category->name }}</td>
-                                        <td>
-                                            <a href="{{ route('admin.categories.edit', [$category]) }}" class="btn btn-sm btn-info"> <i class="fa fa-edit"></i> </a>              
-                                            <form onclick="return confirm('are you sure ?');" class="d-inline-block" action="{{ route('admin.categories.destroy', [$category]) }}" method="post">
-                                                @csrf 
-                                                @method('delete')
-                                                <button class="btn btn-sm btn-danger"> <i class="fa fa-trash"></i> </button>
-                                            </form>                              
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                    <div class="card card-glass">
+                        <div class="card-header">
+                            <h3 class="card-title">All Categories</h3>
+                            <div class="card-tools">
+                                <form action="{{ route('admin.categories.index') }}" method="GET">
+                                    <div class="input-group input-group-sm" style="width: 250px;">
+                                        <input type="text" name="search" class="form-control" 
+                                               placeholder="Search..." value="{{ request('search') }}">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <!-- /.card-body -->
-
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead class="bg-gradient-primary text-white">
+                                        <tr>
+                                            <th style="width: 5%">#</th>
+                                            <th style="width: 25%">Category</th>
+                                            <th style="width: 30%">Description</th>
+                                            <th style="width: 20%">Image</th>
+                                            <th style="width: 20%">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @forelse($categories as $category)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="symbol symbol-40 symbol-light mr-3">
+                                                        @if($category->image)
+                                                            <img src="{{ Storage::url($category->image) }}" class="h-40" alt="{{ $category->name }}">
+                                                        @else
+                                                            <span class="symbol-label bg-primary text-white font-weight-bold">
+                                                                {{ substr($category->name, 0, 1) }}
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-weight-bold">{{ $category->name }}</div>
+                                                        <div class="text-muted">{{ $category->slug }}</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {{ $category->description ? Str::limit($category->description, 50) : 'No description' }}
+                                            </td>
+                                            <td>
+                                                @if($category->image)
+                                                    <a href="{{ Storage::url($category->image) }}" data-toggle="lightbox">
+                                                        <img src="{{ Storage::url($category->image) }}" class="img-thumbnail" width="80" alt="{{ $category->name }}">
+                                                    </a>
+                                                @else
+                                                    <span class="text-muted">No image</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{ route('admin.categories.edit', $category) }}" 
+                                                       class="btn btn-sm btn-info btn-rounded" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <button class="btn btn-sm btn-danger btn-rounded delete-btn" 
+                                                            title="Delete" data-id="{{ $category->id }}">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                    <form id="delete-form-{{ $category->id }}" 
+                                                          action="{{ route('admin.categories.destroy', $category) }}" 
+                                                          method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center py-4">
+                                                <div class="empty-state">
+                                                    <i class="fas fa-tags fa-3x text-primary mb-3"></i>
+                                                    <h3>No Categories Found</h3>
+                                                    <p>Create your first category to get started</p>
+                                                    <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mt-3">
+                                                        <i class="fas fa-plus"></i> Add Category
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <div class="card-footer clearfix">
                             {{ $categories->links() }}
                         </div>
                     </div>
-
                 </div>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div>
     </div>
-    <!-- /.content -->
+@endsection
+
+@section('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+<style>
+    .text-gradient {
+        background: linear-gradient(to right, #4e54c8, #8f94fb);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
+    
+    .card-glass {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .bg-gradient-primary {
+        background: linear-gradient(to right, #4e54c8, #8f94fb);
+    }
+    
+    .btn-pill {
+        border-radius: 50px;
+        padding: 0.5rem 1.5rem;
+    }
+    
+    .btn-rounded {
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .symbol {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.42rem;
+    }
+    
+    .symbol-40 {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .symbol-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        width: 100%;
+        height: 100%;
+        border-radius: 0.42rem;
+    }
+    
+    .empty-state {
+        padding: 2rem;
+        text-align: center;
+        color: #677788;
+    }
+    
+    .img-thumbnail {
+        transition: all 0.3s ease;
+        border-radius: 0.42rem;
+    }
+    
+    .img-thumbnail:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+</style>
+@endsection
+
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+<script>
+    $(function () {
+        // Enable tooltips
+        $('[data-toggle="tooltip"]').tooltip();
+        
+        // Lightbox for images
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox({
+                alwaysShowClose: true
+            });
+        });
+        
+        // Delete confirmation
+        $('.delete-btn').click(function() {
+            var categoryId = $(this).data('id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#4e54c8',
+                cancelButtonColor: '#dc3545',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#delete-form-' + categoryId).submit();
+                }
+            });
+        });
+        
+        // Show success message if exists
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                timer: 3000,
+                showConfirmButton: false,
+                background: 'rgba(255, 255, 255, 0.9)',
+                backdrop: 'rgba(78, 84, 200, 0.2)'
+            });
+        @endif
+    });
+</script>
 @endsection

@@ -2,94 +2,102 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Category;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
-use App\Http\Requests\Admin\BlogRequest;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
-    
     public function index()
     {
-        $blogs = Blog::with('category')->paginate(5);
-
+        $blogs = Blog::with(['category', 'user'])
+                    ->latest()
+                    ->paginate(10);
+                    
         return view('admin.blogs.index', compact('blogs'));
     }
 
-    
     public function create()
     {
-        $categories = Category::get(['name', 'id']);
-
+        $categories = Category::all();
         return view('admin.blogs.create', compact('categories'));
     }
 
-    
-    public function store(BlogRequest $request)
+    public function store(Request $request)
     {
-        if($request->validated()) {
-            $image = $request->file('image')->store(
-                'blog/images', 'public'
-            );
-            $slug = Str::slug($request->title, '-');
-
-            Blog::create($request->except('image') + ['slug' => $slug, 'image' => $image]);
-        }
-
-        return redirect()->route('admin.blogs.index')->with([
-            'message' => 'Success Created !',
-            'alert-type' => 'success'
+        $validated = $request->validate([
+            'title' => 'required|string|max:255|unique:blogs,title',
+            'category_id' => 'required|exists:categories,id',
+            'excerpt' => 'required|string|max:500',
+            'description' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
-    }
 
-   
-    public function show(string $id)
-    {
-        //
+        // Simple image upload
+        $imagePath = $request->file('image')->store('blogs', 'public');
+
+        Blog::create([
+            'title' => $validated['title'],
+            'slug' => Str::slug($validated['title']),
+            'category_id' => $validated['category_id'],
+            'excerpt' => $validated['excerpt'],
+            'description' => $validated['description'],
+            'image' => $imagePath,
+            'user_id' => auth()->id(),
+        ]);
+
+        return redirect()->route('admin.blogs.index')
+               ->with('success', 'Blog created successfully!');
     }
 
     public function edit(Blog $blog)
     {
-        $categories = Category::get(['name','id']);
-
-        return view('admin.blogs.edit', compact('blog','categories'));
+        $categories = Category::all();
+        return view('admin.blogs.edit', compact('blog', 'categories'));
     }
 
-   
-    public function update(BlogRequest $request, Blog $blog)
+    public function update(Request $request, Blog $blog)
     {
-        if($request->validated()) {
-            $slug = Str::slug($request->title, '-');
-            if($request->image) {
-                File::delete('storage/'. $blog->image);
-                $image = $request->file('image')->store(
-                    'blog/images', 'public'
-                );
-                $blog->update($request->except('image') + ['slug' => $slug, 'image' => $image]);
-            }else {
-                $blog->update($request->validated() + ['slug' => $slug]);
-            }
+        $validated = $request->validate([
+            'title' => 'required|string|max:255|unique:blogs,title,'.$blog->id,
+            'category_id' => 'required|exists:categories,id',
+            'excerpt' => 'required|string|max:500',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            // Delete old image
+            Storage::disk('public')->delete($blog->image);
+            // Upload new image
+            $imagePath = $request->file('image')->store('blogs', 'public');
+            $blog->image = $imagePath;
         }
 
-        return redirect()->route('admin.blogs.index')->with([
-            'message' => 'Success Updated !',
-            'alert-type' => 'info'
+        $blog->update([
+            'title' => $validated['title'],
+            'slug' => Str::slug($validated['title']),
+            'category_id' => $validated['category_id'],
+            'excerpt' => $validated['excerpt'],
+            'description' => $validated['description'],
         ]);
+
+        return redirect()->route('admin.blogs.index')
+               ->with('success', 'Blog updated successfully!');
     }
 
-    
     public function destroy(Blog $blog)
     {
-        File::delete('storage/'. $blog->image);
-        $blog->delete();
-
-        return redirect()->back()->with([
-            'message' => 'Success Deleted !',
-            'alert-type' => 'danger'
-        ]);
+          // Delete associated image
+    Storage::disk('public')->delete($blog->image);
+    // Delete blog post
+    $blog->delete();
+    
+    return redirect()->route('admin.blogs.index')
+           ->with('success', 'Blog deleted successfully!');
     }
+    
 }

@@ -2,87 +2,132 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Gallery;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Models\TravelPackage;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\TravelPackageRequest;
+use App\Models\TravelPackage;
+use App\Models\Category;
+use App\Models\TourGuide;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class TravelPackageController extends Controller
 {
     public function index()
     {
-        $travel_packages = TravelPackage::latest()->paginate(10);
-        return view('admin.travel_packages.index', compact('travel_packages'));
+        $packages = TravelPackage::with(['category', 'tourGuide'])
+                        ->latest()
+                        ->paginate(10);
+        
+        return view('admin.travel_packages.index', compact('packages'));
     }
 
     public function create()
     {
-        return view('admin.travel_packages.create');
+        $categories = Category::all();
+        $guides = TourGuide::all();
+        return view('admin.travel_packages.create', compact('categories', 'guides'));
     }
 
-    public function store(TravelPackageRequest $request)
+    public function store(Request $request)
     {
-        if($request->validated()) {
-            $data = $this->preparePackageData($request);
-            $travel_package = TravelPackage::create($data);
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'tour_guide_id' => 'nullable|exists:tour_guides,id',
+            'type' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'duration_days' => 'required|integer|min:1',
+            'description' => 'required|string',
+            'itinerary' => 'nullable|string',
+            'included' => 'nullable|string',
+            'excluded' => 'nullable|string',
+            'featured_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $imagePath = $request->file('featured_image')->store('travel-packages', 'public');
+
+        TravelPackage::create([
+            'title' => $validated['title'],
+            'slug' => Str::slug($validated['title']),
+            'category_id' => $validated['category_id'],
+            'tour_guide_id' => $validated['tour_guide_id'],
+            'type' => $validated['type'],
+            'location' => $validated['location'],
+            'price' => $validated['price'],
+            'duration_days' => $validated['duration_days'],
+            'description' => $validated['description'],
+            'itinerary' => $validated['itinerary'],
+            'included' => $validated['included'],
+            'excluded' => $validated['excluded'],
+            'featured_image' => $imagePath,
+        ]);
+
+        return redirect()->route('admin.travel_packages.index')->with('success', 'Travel package created successfully!');
+    }
+
+    public function edit(TravelPackage $travelPackage)
+    {
+        $categories = Category::all();
+        $guides = TourGuide::all();
+        $travelPackage = TravelPackage::with(['category', 'tourGuide'])->findOrFail($travelPackage->id);
+        if (!$travelPackage) {
+            return redirect()->route('admin.travel_packages.index')->with('error', 'Travel package not found!');
+        }
+        return view('admin.travel_packages.edit', compact('travelPackage', 'categories', 'guides'));
+    }
+
+    public function update(Request $request, TravelPackage $travelPackage)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'tour_guide_id' => 'nullable|exists:tour_guides,id',
+            'type' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'duration_days' => 'required|integer|min:1',
+            'description' => 'required|string',
+            'itinerary' => 'nullable|string',
+            'included' => 'nullable|string',
+            'excluded' => 'nullable|string',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('featured_image')) {
+            Storage::disk('public')->delete($travelPackage->featured_image);
+            $travelPackage->featured_image = $request->file('featured_image')->store('travel-packages', 'public');
         }
 
-        return redirect()->route('admin.travel_packages.edit', $travel_package)
-            ->with([
-                'message' => 'تم إنشاء الباقة بنجاح',
-                'alert-type' => 'success'
-            ]);
+        $travelPackage->update([
+            'title' => $validated['title'],
+            'slug' => Str::slug($validated['title']),
+            'category_id' => $validated['category_id'],
+            'tour_guide_id' => $validated['tour_guide_id'],
+            'type' => $validated['type'],
+            'location' => $validated['location'],
+            'price' => $validated['price'],
+            'duration_days' => $validated['duration_days'],
+            'description' => $validated['description'],
+            'itinerary' => $validated['itinerary'],
+            'included' => $validated['included'],
+            'excluded' => $validated['excluded'],
+        ]);
+
+        return redirect()->route('admin.travel_packages.index')->with('success', 'Travel package updated successfully!');
     }
 
-    public function edit(TravelPackage $travel_package)
+    public function destroy(TravelPackage $travelPackage)
     {
-        $galleries = Gallery::where('travel_package_id', $travel_package->id)
-                          ->latest()
-                          ->paginate(10);
-        
-        return view('admin.travel_packages.edit', compact('travel_package', 'galleries'));
+        Storage::disk('public')->delete($travelPackage->featured_image);
+        $travelPackage->delete();
+        return redirect()->route('admin.travel_packages.index')->with('success', 'Travel package deleted successfully!');
     }
-
-    public function update(TravelPackageRequest $request, TravelPackage $travel_package)
-    {
-        if($request->validated()) {
-            $data = $this->preparePackageData($request);
-            $travel_package->update($data);
-        }
-
-        return redirect()->route('admin.travel_packages.index')
-            ->with([
-                'message' => 'تم تحديث الباقة بنجاح',
-                'alert-type' => 'info'
-            ]);
-    }
-
-    public function destroy(TravelPackage $travel_package)
-    {
-        $travel_package->delete();
-
-        return redirect()->back()
-            ->with([
-                'message' => 'تم حذف الباقة بنجاح',
-                'alert-type' => 'danger'
-            ]);
-    }
-
-    /**
-     * Prepare package data before saving
-     */
-    protected function preparePackageData($request)
-    {
-        $data = $request->validated();
-        
-        // Extract numeric value from price
-        $data['price'] = (float) filter_var($data['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        
-        // Generate slug
-        $data['slug'] = Str::slug($data['location'], '-');
-        
-        return $data;
-    }
+    public function restore($id)
+{
+    $package = TravelPackage::withTrashed()->findOrFail($id);
+    $package->restore();
+    
+    return back()->with('success', 'Package restored successfully!');
+}
 }

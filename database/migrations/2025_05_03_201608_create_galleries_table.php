@@ -6,26 +6,28 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('galleries', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('images');
-            
-            // Explicit foreign key definition
+            $table->text('image');
             $table->unsignedBigInteger('travel_package_id');
             $table->foreign('travel_package_id')
                   ->references('id')
                   ->on('travel_packages')
                   ->onDelete('cascade');
-            
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
-    
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('galleries');

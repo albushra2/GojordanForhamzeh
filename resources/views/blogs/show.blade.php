@@ -1,117 +1,84 @@
 @extends('layouts.frontend')
-@section('title', 'Blogs')
+
+@section('title', $blog->title)
+
 @section('content')
- <!--==================== HOME ====================-->
- <section>
-        <div class="swiper-container gallery-top">
-          <div class="swiper-wrapper">
-            <section class="islands swiper-slide">
-              <img src="{{ Storage::url($blog->image) }}" alt="" class="islands__bg" />
 
-              <div class="islands__container container">
-                <div class="islands__data">
-                  <h2 class="islands__subtitle">{{ $blog->title }}</h2>
-                  <h1 class="islands__title">{{ date('d M Y',strtotime($blog->created_at)) }}</h1>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-      </section>
+    <div class="container">
+        <article>
+            <h1>{{ $blog->title }}</h1>
 
-      <!-- blog -->
-      <section class="blog section" id="blog">
-        <div class="blog__container container">
-          <div class="content__container">
-            <div class="blog__detail">
-              {!! $blog->description !!}
-              <div class="blog__footer" style="margin-top: 2rem;">
-                <div class="blog__reaction">{{ date('d M Y', strtotime($blog->created_at)) }}</div>
-                <div class="blog__reaction">
-                  <i class="bx bx-show"></i>
-                  <span>{{ $blog->reads }}</span>
-                </div>
-              </div>
+            {{-- Display category, author, and date --}}
+            <p class="text-muted">
+                Category: {{ $blog->category->name ?? 'Uncategorized' }} |
+                By: {{ $blog->user->name ?? 'Unknown Author' }} |
+                Published on: {{ $blog->created_at->format('M d, Y') }}
+            </p>
+
+            {{-- Assuming your Blog model has an image --}}
+            {{-- @if ($blog->image)
+                <img src="{{ asset('storage/' . $blog->image) }}" class="img-fluid mb-4" alt="{{ $blog->title }}">
+            @endif --}}
+
+            {{-- Display the full blog body --}}
+            <div class="blog-body">
+                {!! $blog->body !!} {{-- Use {!! !!} if body contains HTML --}}
             </div>
-            <div class="package-travel">
-              <h3>Favorite Places</h3>
-              <ul>
-                @foreach($categories as $category)
-                    <li>
-                        <a href="{{ route('blog.category', $category->slug) }}">{{ $category->name }}</a>
-                    </li>
-                @endforeach
-              </ul>
-              <h3 style="margin-bottom: 1rem">Popular Trip</h3>
-              @foreach($travel_packages as $travel_package)
-                <article class="popular__card" style="margin-bottom: 1rem">
-                  <a href="{{ route('travel_package.show', $travel_package->slug) }}">
-                    <img
-                      src="{{ Storage::url($travel_package->galleries->first()->images) }}"
-                      alt=""
-                      class="popular__img"
-                    />
-                    <div class="popular__data">
-                      <h2 class="popular__price"><span>JD</span>{{ number_format($travel_package->price,2) }}</h2>
-                      <h3 class="popular__title">{{ $travel_package->location }}</h3>
-                      <p class="popular__description">{{ $travel_package->type }}</p>
+        </article>
+
+        <hr>
+
+        {{-- Comments Section (assuming you have a 'comments' relationship on the Blog model) --}}
+        <div class="comments-section mt-5">
+            <h3>Comments ({{ $blog->comments->count() }})</h3>
+
+            {{-- Display existing comments --}}
+            @forelse ($blog->comments as $comment)
+                <div class="media mb-3">
+                    {{-- Display commenter's avatar or initial --}}
+                    {{-- <img src="..." class="mr-3 rounded-circle" alt="Commenter Avatar" width="50"> --}}
+                    <div class="media-body">
+                        <h6 class="mt-0">{{ $comment->user->name ?? 'Anonymous' }} <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small></h6>
+                        <p>{{ $comment->body }}</p>
                     </div>
-                  </a>
-                </article>
-              @endforeach
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="blog" id="blog">
-        <div class="blog__container container">
-          <span class="section__subtitle" style="text-align: center"
-            >Related Blog</span
-          >
-          <h2 class="section__title" style="text-align: center">
-            Find The Best Places
-          </h2>
-
-          <div class="blog__content grid">
-            @foreach($relatedBlogs as $relatedBlog)
-            <article class="blog__card">
-              <div class="blog__image">
-                <img src="{{ Storage::url($relatedBlog->image) }}" alt="" class="blog__img" />
-                <a href="{{ route('blog.show', $relatedBlog->slug) }}" class="blog__button">
-                  <i class="bx bx-right-arrow-alt"></i>
-                </a>
-              </div>
-
-              <div class="blog__data">
-                <h2 class="blog__title">{{ $relatedBlog->title }}</h2>
-                <p class="blog__description">
-                  {{ $relatedBlog->excerpt }}
-                </p>
-
-                <div class="blog__footer">
-                  <div class="blog__reaction">{{ date('d M Y', strtotime($relatedBlog->created_at)) }}</div>
-                  <div class="blog__reaction">
-                    <i class="bx bx-show"></i>
-                    <span>{{ $relatedBlog->reads }}</span>
-                  </div>
                 </div>
-              </div>
-            </article>
-            @endforeach
-          </div>
-        </div>
-      </section>
-@endsection
+            @empty
+                <p>No comments yet. Be the first to comment!</p>
+            @endforelse
 
-@push('style-alt')
-<style>
-  blockquote {
-    border-left: 8px solid #b4b4b4;
-    padding-left: 1rem;
-  }
-  .blog__detail ul li {
-    list-style: initial;
-  }
-</style>
-@endpush
+            {{-- Add a form for new comments if users can comment --}}
+            {{-- @auth
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Leave a Comment</h5>
+                        <form action="{{ route('comments.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="blog_id" value="{{ $blog->id }}">
+                            <div class="form-group">
+                                <textarea name="body" class="form-control" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Post Comment</button>
+                        </form>
+                    </div>
+                </div>
+            @else
+                <p class="mt-4">Please <a href="{{ route('login') }}">login</a> to leave a comment.</p>
+            @endauth --}}
+
+        </div>
+
+        <hr>
+
+        {{-- Related Blog Posts Section --}}
+        @if ($related->count() > 0)
+            <div class="related-posts mt-5">
+                <h3>Related Posts</h3>
+                <ul>
+                    @foreach ($related as $relatedBlog)
+                        <li><a href="{{ route('blogs.show', $relatedBlog) }}">{{ $relatedBlog->title }}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
+@endsection

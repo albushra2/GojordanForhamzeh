@@ -38,7 +38,7 @@
             <article class="blog__card">
               <div class="blog__image">
                 <img src="{{ Storage::url($blog->image) }}" alt="" class="blog__img" />
-                <a href="{{ route('blog.show', $blog->slug) }}" class="blog__button">
+                <a href="{{ route('blogs.show', $blog->slug) }}" class="blog__button">
                   <i class="bx bx-right-arrow-alt"></i>
                 </a>
               </div>

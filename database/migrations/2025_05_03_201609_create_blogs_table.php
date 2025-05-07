@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('blogs', function (Blueprint $table) {
@@ -16,11 +18,17 @@ return new class extends Migration
             $table->text('excerpt');
             $table->text('image');
             $table->text('description');
+            $table->bigInteger('reads')->unsigned()->default(0)->index();
             $table->foreignId('category_id')->constrained();
+            $table->foreignId('user_id')->constrained(); // كاتب المدونة
             $table->timestamps();
+            $table->softDeletes();
         });
     }
-    
+
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('blogs');

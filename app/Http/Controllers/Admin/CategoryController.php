@@ -2,74 +2,82 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CategoryRequest;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
-    
     public function index()
     {
-        $categories = category::paginate(10);
-
+        $categories = Category::latest()->paginate(10);
         return view('admin.categories.index', compact('categories'));
     }
-    
+
     public function create()
     {
         return view('admin.categories.create');
     }
 
-    
-    public function store(CategoryRequest $request)
+    public function store(Request $request)
     {
-        if($request->validated()) {
-            $slug = Str::slug($request->name, '-');
-            category::create($request->validated() + ['slug' => $slug]);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:categories',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        $imagePath = $request->file('image')->store('categories', 'public');
+        $category = new Category();
+        $category->name = $validated['name'];
+        $category->slug = Str::slug($validated['name']);
+        $category->description = $validated['description'];
+
+        if ($request->hasFile('image')) {
+            $category->image = $imagePath;
         }
 
-        return redirect()->route('admin.categories.index')->with([
-            'message' => 'Success Created !',
-            'alert-type' => 'success'
-        ]);
+        $category->save();
+
+        return redirect()->route('admin.categories.index')->with('success', 'Category created successfully!');
     }
 
-    
-    public function show(string $id)
-    {
-        //
-    }
-
-    
     public function edit(Category $category)
     {
         return view('admin.categories.edit', compact('category'));
     }
 
-    
-    public function update(CategoryRequest $request, Category $category)
+    public function update(Request $request, Category $category)
     {
-        if($request->validated()) {
-            $slug = Str::slug($request->name, '-');
-            $category->update($request->validated() + ['slug' => $slug]);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,'.$category->id,
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $category->name = $validated['name'];
+        $category->slug = Str::slug($validated['name']);
+        $category->description = $validated['description'];
+
+        if ($request->hasFile('image')) {
+            if ($category->image) {
+                Storage::disk('public')->delete($category->image);
+            }
+            $category->image = $request->file('image')->store('categories', 'public');
         }
 
-        return redirect()->route('admin.categories.index')->with([
-            'message' => 'Success Updated !',
-            'alert-type' => 'info'
-        ]);
+        $category->save();
+
+        return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully!');
     }
-    
+
     public function destroy(Category $category)
     {
+        if ($category->image) {
+            Storage::disk('public')->delete($category->image);
+        }
         $category->delete();
-
-        return redirect()->back()->with([
-            'message' => 'Success Deleted !',
-            'alert-type' => 'danger'
-        ]);
+        return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully!');
     }
 }

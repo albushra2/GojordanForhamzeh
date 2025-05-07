@@ -301,7 +301,7 @@
                             alt="Image - {{ $blog->title }}"
                             class="blog__img"
                         />
-                        <a href="{{ route('blog.show', $blog->slug) }}" class="blog__button">
+                        <a href="{{ route('blogs.show', $blog->slug) }}" class="blog__button">
                             <i class="bx bx-right-arrow-alt"></i>
                         </a>
                     </div>

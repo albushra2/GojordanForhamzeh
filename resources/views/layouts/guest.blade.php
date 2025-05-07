@@ -30,6 +30,11 @@
 @vite('resources/js/app.js')
 <!-- Bootstrap 4 -->
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        bsCustomFileInput.init();
+    });
+</script>
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.min.js') }}" defer></script>
 </body>

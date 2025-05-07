@@ -1,51 +1,78 @@
 @extends('layouts.frontend')
-@section('title', 'Travel Package')
+
+@section('title', 'Travel Packages')
+
 @section('content')
- <!--==================== HOME ====================-->
- <section>
-        <div class="swiper-container gallery-top">
-          <div class="swiper-wrapper">
-            <section class="islands swiper-slide">
-              <img src="{{ asset('frontend/assets/img/Jordancollage.jpeg') }}" alt="" class="islands__bg" />
+<section class="package-hero bg-gradient-to-r from-blue-800 to-purple-900 text-white py-20">
+    <div class="container mx-auto text-center px-4">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">Discover Jordan's Wonders</h1>
+        <p class="text-xl mb-8">Choose from our carefully curated travel experiences</p>
+        @include('partials.search-form')
+    </div>
+</section>
 
-              <div class="islands__container container">
-                <div class="islands__data">
-                  <h2 class="islands__subtitle">Explore</h2>
-                  <h1 class="islands__title">Package Travel</h1>
-                </div>
-              </div>
-            </section>
-          </div>
+<section class="package-filters bg-gray-100 py-8">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row gap-6 items-center justify-between">
+            <div class="w-full md:w-auto">
+                <filter-dropdown title="Category" :items="{{ $categories }}" param="category"/>
+            </div>
+            <div class="w-full md:w-auto">
+                <price-filter :min="{{ $priceRange->min }}" :max="{{ $priceRange->max }}"/>
+            </div>
+            <div class="w-full md:w-auto">
+                <sort-selector/>
+            </div>
         </div>
-      </section>
+    </div>
+</section>
 
-      <!--==================== POPULAR ====================-->
-      <section class="section" id="popular">
-        <div class="container">
-          <span class="section__subtitle" style="text-align: center">All</span>
-          <h2 class="section__title" style="text-align: center">
-            Package Travel
-          </h2>
-
-          <div class="popular__all">
-            @foreach($travel_packages as $travel_package)
-                <article class="popular__card">
-                <a href="{{ route('travel_package.show', $travel_package->slug) }}">
-                  <img 
-                  src="{{ optional($travel_package->galleries->first())->images ? Storage::url($travel_package->galleries->first()->images) : asset('images/default.jpg') }}" 
-                  alt="" 
-                  class="popular__img" 
-              />
-              
-                    <div class="popular__data">
-                    <h2 class="popular__price">{{ number_format($travel_package->price,2) }}<span>JD</span></h2>
-                    <h3 class="popular__title">{{ $travel_package->location }}</h3>
-                    <p class="popular__description">{{ $travel_package->type }}</p>
+<section class="package-grid py-16">
+    <div class="container mx-auto px-4">
+        @if($travel_packages->count())
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach($travel_packages as $package)
+                    <div class="package-card bg-white rounded-xl shadow-lg overflow-hidden transform transition hover:-translate-y-2">
+                        <a href="{{ route('travel_package.show', $package->slug) }}">
+                            <div class="relative h-48">
+                                <img class="w-full h-full object-cover" 
+                                     src="{{ $package->galleries->first()->image_url }}" 
+                                     alt="{{ $package->title }}">
+                                <div class="package-badge absolute top-4 left-4 bg-white text-purple-800 px-4 py-2 rounded-full text-sm font-semibold">
+                                    {{ $package->type }}
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2">{{ $package->title }}</h3>
+                                <div class="flex items-center mb-4">
+                                    <x-star-rating :rating="$package->average_rating"/>
+                                    <span class="text-sm text-gray-600 ml-2">
+                                        ({{ $package->reviews_count }} reviews)
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="text-2xl font-bold text-purple-800">${{ $package->price }}</span>
+                                        <span class="text-gray-600">/ person</span>
+                                    </div>
+                                    <span class="text-gray-600">
+                                        <i class="fas fa-clock"></i> {{ $package->duration_days }} days
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </a>
-                </article>
-            @endforeach
-          </div>
-        </div>
-      </section>
+                @endforeach
+            </div>
+            
+            <div class="mt-8">
+                {{ $travel_packages->links() }}
+            </div>
+        @else
+            <div class="text-center py-12">
+                <h2 class="text-2xl text-gray-600">No packages found matching your criteria</h2>
+            </div>
+        @endif
+    </div>
+</section>
 @endsection

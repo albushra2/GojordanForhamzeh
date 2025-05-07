@@ -1,217 +1,132 @@
 @extends('layouts.frontend')
-@section('title', 'Travel Package')
+
+@section('title', $travel_package->title)
+
 @section('content')
-<!--==================== HOME ====================-->
-<section>
-  <div class="swiper-container gallery-top">
-    <div class="swiper-wrapper">
-      @foreach($travel_package->galleries as $gallery)
-      <section class="islands swiper-slide">
-        <img src="{{ Storage::url($gallery->images) }}" alt="" class="islands__bg" />
+<section class="package-header bg-gray-100 py-12">
+    <div class="container mx-auto px-4">
+        <nav class="flex mb-4" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-2 text-gray-600">
+                <li><a href="{{ route('homepage') }}" class="hover:text-purple-800">Home</a></li>
+                <li><span class="mx-2">/</span></li>
+                <li><a href="{{ route('travel_package.index') }}" class="hover:text-purple-800">Packages</a></li>
+                <li><span class="mx-2">/</span></li>
+                <li class="font-semibold">{{ $travel_package->title }}</li>
+            </ol>
+        </nav>
 
-        <div class="islands__container container">
-          <div class="islands__data">
-            <h2 class="islands__subtitle">Explore</h2>
-            <h1 class="islands__title">{{ $gallery->name }}</h1>
-          </div>
-        </div>
-      </section>
-      @endforeach
-    </div>
-  </div>
-
-  <!--========== CONTROLS ==========-->
-  <div class="controls gallery-thumbs">
-    <div class="controls__container swiper-wrapper">
-      @foreach($travel_package->galleries as $gallery)
-      <img src="{{ Storage::url($gallery->images) }}" alt="" class="controls__img swiper-slide" />
-      @endforeach
-    </div>
-  </div>
-</section>
-
-<section class="blog section" id="blog">
-  <div class="blog__container container">
-    <div class="content__container">
-      <div class="blog__detail">
-        {!! $travel_package->description !!}
-      </div>
-      <div class="package-travel">
-        <h3>Booking Now</h3>
-        <div class="card">
-          <form id="bookingForm" action="{{ route('booking.store') }}" method="post" onsubmit="return validateForm()">
-            @csrf
-            <input type="hidden" name="travel_package_id" value="{{ $travel_package->id }}">
-            @auth('travel_user')
-            <input type="text" name="name" placeholder="Your Name" value="{{ Auth::guard('travel_user')->user()->name }}" />
-            <input type="email" name="email" placeholder="Your Email" value="{{ Auth::guard('travel_user')->user()->email }}" />
-            <input type="number" name="number_phone" placeholder="Your Number" value="{{ Auth::guard('travel_user')->user()->phone }}" />
-            @else
-            <input type="text" name="name" placeholder="Your Name" />
-            <input type="email" name="email" placeholder="Your Email" />
-            <input type="number" name="number_phone" placeholder="Your Number" />
-            @endauth
-            <input placeholder="Pick Your Date" class="textbox-n" type="text" name="date" onfocus="(this.type='date')" id="date" />
-
-            @auth('travel_user')
-            <div class="button-container">
-              <button type="submit" class="btn btn-primary">Send</button>
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="relative">
+                <div class="package-gallery swiper-container h-96">
+                    <div class="swiper-wrapper">
+                        @foreach($travel_package->galleries as $gallery)
+                            <div class="swiper-slide">
+                                <img src="{{ $gallery->image_url }}" 
+                                     alt="Gallery image {{ $loop->iteration }}" 
+                                     class="w-full h-full object-cover">
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+                
+                <div class="absolute bottom-4 right-4 bg-white px-4 py-2 rounded-full shadow-md">
+                    <i class="fas fa-camera mr-2 text-purple-800"></i>
+                    <span>{{ $travel_package->galleries->count() }} Photos</span>
+                </div>
             </div>
-            @else
-            <p>Please <a href="#" data-toggle="modal" data-target="#loginModal">Login</a> first to add the package.</p>
-            @endauth
-          </form>
+
+            <div class="p-8">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                    <h1 class="text-3xl font-bold mb-4 md:mb-0">{{ $travel_package->title }}</h1>
+                    <div class="flex items-center">
+                        <x-star-rating :rating="$travel_package->average_rating" size="lg"/>
+                        <span class="ml-2 text-gray-600">({{ $travel_package->reviews_count }} reviews)</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                    <div class="bg-purple-50 p-6 rounded-xl">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-purple-800 mb-2">${{ $travel_package->price }}</div>
+                            <div class="text-gray-600">per person</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-6 rounded-xl">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-800 mb-2">{{ $travel_package->duration_days }}</div>
+                            <div class="text-gray-600">days tour</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-green-50 p-6 rounded-xl">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-800 mb-2">{{ $travel_package->type }}</div>
+                            <div class="text-gray-600">tour type</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold mb-4">Tour Highlights</h2>
+                    <div class="prose max-w-none">
+                        {!! Str::markdown($travel_package->description) !!}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="itinerary">
+                        <h2 class="text-2xl font-bold mb-4">Detailed Itinerary</h2>
+                        <div class="space-y-4">
+                            @foreach(json_decode($travel_package->itinerary) as $day)
+                                <div class="bg-white border-l-4 border-purple-800 shadow-sm p-4">
+                                    <h3 class="font-semibold mb-2">Day {{ $loop->iteration }}: {{ $day->title }}</h3>
+                                    <p class="text-gray-600">{{ $day->description }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="booking-form bg-gray-50 p-6 rounded-xl">
+                        <h2 class="text-2xl font-bold mb-6">Book This Tour</h2>
+                        @include('partials.booking-form')
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>
 
-<section class="section" id="popular">
-  <div class="container">
-    <span class="section__subtitle" style="text-align: center">Package Travel</span>
-    <h2 class="section__title" style="text-align: center">The Best Tour For You</h2>
-
-    <div class="popular__all">
-      @foreach($travel_packages as $other_package)
-      <article class="popular__card">
-        <a href="{{ route('travel_package.show', $other_package->slug) }}">
-          @if($other_package->galleries->first())
-            <img src="{{ Storage::url($other_package->galleries->first()->images) }}" alt="" class="popular__img" />
-          @else
-            <img src="{{ asset('images/default-package.jpg') }}" alt="No Image" class="popular__img" />
-          @endif
-    
-          <div class="popular__data">
-            <h2 class="popular__price">{{ number_format($other_package->price,2) }}<span>JD</span></h2>
-            <h3 class="popular__title">{{ $other_package->location }}</h3>
-            <p class="popular__description">{{ $other_package->type }}</p>
-          </div>
-        </a>
-      </article>
-    @endforeach
-    
+@if($relatedPackages->count())
+<section class="related-packages py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8">Related Packages</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @foreach($relatedPackages as $package)
+                @include('partials.package-card', ['package' => $package])
+            @endforeach
+        </div>
+    </div>
 </section>
-
-@if(session()->has('message'))
-<div id="alert" class="alert">
-  {{ session()->get('message') }}
-  <i class='bx bx-x alert-close' id="close"></i>
-</div>
 @endif
+
 @endsection
 
-@push('style-alt')
-<style>
-  .alert {
-    position: absolute;
-    top: 120px;
-    left: 0;
-    right: 0;
-    background-color: var(--second-color);
-    color: white;
-    padding: 1rem;
-    width: 70%;
-    z-index: 99;
-    margin: auto;
-    border-radius: .25rem;
-    text-align: center;
-  }
-
-  .alert-close {
-    font-size: 1.5rem;
-    color: #090909;
-    position: absolute;
-    top: .25rem;
-    right: .5rem;
-    cursor: pointer;
-  }
-
-  .button-container {
-    text-align: center;
-  }
-
-  blockquote {
-    border-left: 8px solid #b4b4b4;
-    padding-left: 1rem;
-  }
-
-  .blog__detail ul li {
-    list-style: initial;
-  }
-
-  .btn {
-    display: inline-block;
-    width: 100%;
-    background: linear-gradient(101deg, #38c9d6, #29c4c7);
-    color: #fff;
-    padding: 14px 28px;
-    border-radius: 0.5rem;
-    font-size: 0.938rem;
-    font-weight: 500;
-    box-shadow: 0 4px 8px rgba(39, 69, 190, 0.25);
-    transition: 0.3s;
-    cursor: pointer;
-  }
-
-  .btn:hover {
-    box-shadow: 0 4px 12px rgba(39, 69, 190, 0.25);
-  }
-</style>
-@endpush
-
-@push('script-alt')
+@push('scripts')
 <script>
-  let galleryThumbs = new Swiper('.gallery-thumbs', {
-    spaceBetween: 0,
-    slidesPerView: 0,
-  });
-
-  let galleryTop = new Swiper('.gallery-top', {
-    effect: 'fade',
-    loop: true,
-    thumbs: {
-      swiper: galleryThumbs,
-    },
-  });
-
-  const close = document.getElementById('close');
-  const alert = document.getElementById('alert');
-  if (close) {
-    close.addEventListener('click', function () {
-      alert.style.display = 'none';
+    const swiper = new Swiper('.package-gallery', {
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
     });
-  }
-
-  function validateForm() {
-    const form = document.getElementById('bookingForm');
-    const inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="number"], input[name="date"]');
-    let valid = true;
-
-    inputs.forEach(input => {
-      if (input.value.trim() === '') {
-        valid = false;
-        input.style.borderColor = 'red';
-      } else {
-        input.style.borderColor = '';
-      }
-    });
-
-    if (!valid) {
-      showAlert('Please fill out all fields.');
-    }
-
-    return valid;
-  }
-
-  function showAlert(message) {
-    const alertDiv = document.createElement('div');
-    alertDiv.classList.add('alert');
-    alertDiv.innerHTML = `${message} <i class='bx bx-x alert-close' onclick="this.parentElement.style.display='none';"></i>`;
-    document.body.appendChild(alertDiv);
-    setTimeout(() => {
-      alertDiv.style.display = 'none';
-    }, 3000);
-  }
 </script>
 @endpush
