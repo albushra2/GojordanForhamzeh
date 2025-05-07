@@ -1,132 +1,112 @@
 @extends('layouts.frontend')
 
-@section('title', $travel_package->title)
-
+@section('title', $package->title)
 @section('content')
-<section class="package-header bg-gray-100 py-12">
-    <div class="container mx-auto px-4">
-        <nav class="flex mb-4" aria-label="Breadcrumb">
-            <ol class="flex items-center space-x-2 text-gray-600">
-                <li><a href="{{ route('homepage') }}" class="hover:text-purple-800">Home</a></li>
-                <li><span class="mx-2">/</span></li>
-                <li><a href="{{ route('travel_package.index') }}" class="hover:text-purple-800">Packages</a></li>
-                <li><span class="mx-2">/</span></li>
-                <li class="font-semibold">{{ $travel_package->title }}</li>
-            </ol>
-        </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>{{ $package->title }}</h1>
 
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div class="relative">
-                <div class="package-gallery swiper-container h-96">
-                    <div class="swiper-wrapper">
-                        @foreach($travel_package->galleries as $gallery)
-                            <div class="swiper-slide">
-                                <img src="{{ $gallery->image_url }}" 
-                                     alt="Gallery image {{ $loop->iteration }}" 
-                                     class="w-full h-full object-cover">
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="swiper-pagination"></div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-                
-                <div class="absolute bottom-4 right-4 bg-white px-4 py-2 rounded-full shadow-md">
-                    <i class="fas fa-camera mr-2 text-purple-800"></i>
-                    <span>{{ $travel_package->galleries->count() }} Photos</span>
-                </div>
-            </div>
+                {{-- Package Details --}}
+                <p class="text-muted">
+                    Location: {{ $package->location }} | Type: {{ $package->type }} | Duration: {{ $package->duration_days }} days
+                </p>
+                <p class="lead">Price: ${{ number_format($package->price) }}</p>
 
-            <div class="p-8">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                    <h1 class="text-3xl font-bold mb-4 md:mb-0">{{ $travel_package->title }}</h1>
-                    <div class="flex items-center">
-                        <x-star-rating :rating="$travel_package->average_rating" size="lg"/>
-                        <span class="ml-2 text-gray-600">({{ $travel_package->reviews_count }} reviews)</span>
-                    </div>
+                <div class="mb-4">
+                    <h3>Description</h3>
+                    <p>{{ $package->description }}</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                    <div class="bg-purple-50 p-6 rounded-xl">
-                        <div class="text-center">
-                            <div class="text-2xl font-bold text-purple-800 mb-2">${{ $travel_package->price }}</div>
-                            <div class="text-gray-600">per person</div>
-                        </div>
+                {{-- Itinerary, Included, Excluded --}}
+                 @if($package->itinerary)
+                    <div class="mb-4">
+                        <h3>Itinerary</h3>
+                        <div>{!! nl2br(e($package->itinerary)) !!}</div> {{-- Display multiline text --}}
                     </div>
-                    
-                    <div class="bg-blue-50 p-6 rounded-xl">
-                        <div class="text-center">
-                            <div class="text-2xl font-bold text-blue-800 mb-2">{{ $travel_package->duration_days }}</div>
-                            <div class="text-gray-600">days tour</div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-green-50 p-6 rounded-xl">
-                        <div class="text-center">
-                            <div class="text-2xl font-bold text-green-800 mb-2">{{ $travel_package->type }}</div>
-                            <div class="text-gray-600">tour type</div>
-                        </div>
-                    </div>
-                </div>
+                @endif
 
-                <div class="mb-8">
-                    <h2 class="text-2xl font-bold mb-4">Tour Highlights</h2>
-                    <div class="prose max-w-none">
-                        {!! Str::markdown($travel_package->description) !!}
+                 @if($package->included)
+                    <div class="mb-4">
+                        <h3>What's Included</h3>
+                        <div>{!! nl2br(e($package->included)) !!}</div> {{-- Display multiline text --}}
                     </div>
-                </div>
+                @endif
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="itinerary">
-                        <h2 class="text-2xl font-bold mb-4">Detailed Itinerary</h2>
-                        <div class="space-y-4">
-                            @foreach(json_decode($travel_package->itinerary) as $day)
-                                <div class="bg-white border-l-4 border-purple-800 shadow-sm p-4">
-                                    <h3 class="font-semibold mb-2">Day {{ $loop->iteration }}: {{ $day->title }}</h3>
-                                    <p class="text-gray-600">{{ $day->description }}</p>
+                @if($package->excluded)
+                    <div class="mb-4">
+                        <h3>What's Excluded</h3>
+                        <div>{!! nl2br(e($package->excluded)) !!}</div> {{-- Display multiline text --}}
+                    </div>
+                @endif
+
+                {{-- Gallery Section --}}
+                @if ($package->galleries->count() > 0)
+                    <div class="mb-4">
+                        <h3>Gallery</h3>
+                        <div class="row">
+                            @foreach ($package->galleries as $gallery)
+                                <div class="col-md-3 col-sm-4 col-6 mb-4">
+                                    <a href="{{ Storage::url($gallery->image) }}" data-toggle="lightbox" data-gallery="package-gallery">
+                                         <img src="{{ Storage::url($gallery->image) }}" class="img-fluid rounded" alt="Gallery Image" style="height: 100px; object-fit: cover;">
+                                    </a>
                                 </div>
                             @endforeach
                         </div>
                     </div>
+                     {{-- You'll need to include Ekko Lightbox or similar library for the data-toggle="lightbox" to work --}}
+                @endif
 
-                    <div class="booking-form bg-gray-50 p-6 rounded-xl">
-                        <h2 class="text-2xl font-bold mb-6">Book This Tour</h2>
-                        @include('partials.booking-form')
+                {{-- Tour Guide Information --}}
+                 @if ($package->tourGuide)
+                    <div class="mb-4">
+                        <h3>Tour Guide</h3>
+                        <p>Guide Name: {{ $package->tourGuide->name }}</p>
+                         {{-- Display other guide info if available --}}
+                    </div>
+                @endif
+
+                {{-- Reviews Section --}}
+                <div class="reviews-section mb-4">
+                    <h3>Reviews ({{ $package->reviews->count() }})</h3>
+                    @forelse ($package->reviews as $review)
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    {{ $review->user->name ?? 'Anonymous User' }} | Rating: {{ $review->rating }}/5
+                                </h6>
+                                <p class="card-text">{{ $review->comment }}</p>
+                            </div>
+                        </div>
+                    @empty
+                        <p>No reviews yet. Be the first to leave a review!</p>
+                    @endforelse
+                    {{-- Add a form to leave a review if users can submit reviews --}}
+                </div>
+
+            </div>
+
+            {{-- Sidebar for Related Packages --}}
+            @if ($related->count() > 0)
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Related Packages</h5>
+                            <ul>
+                                @foreach ($related as $relatedPackage)
+                                    <li>
+                                        <a href="{{ route('travel_packages.show', $relatedPackage) }}">
+                                            {{ $relatedPackage->title }}
+                                        </a>
+                                         ({{ $relatedPackage->location }})
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
+
         </div>
     </div>
-</section>
-
-@if($relatedPackages->count())
-<section class="related-packages py-16 bg-gray-50">
-    <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold mb-8">Related Packages</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            @foreach($relatedPackages as $package)
-                @include('partials.package-card', ['package' => $package])
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
-
 @endsection
-
-@push('scripts')
-<script>
-    const swiper = new Swiper('.package-gallery', {
-        loop: true,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
-</script>
-@endpush

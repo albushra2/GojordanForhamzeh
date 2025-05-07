@@ -41,7 +41,7 @@ class TravelPackageController extends Controller
             ->take(4)
             ->get();
 
-        return view('travel_packageS.show', [
+        return view('travel_packages.show', [
             'package' => $travelPackage->load(['galleries', 'tourGuide', 'reviews.user']),
             'related' => $related
         ]);
