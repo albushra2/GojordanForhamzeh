@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 @section('title', 'Edit Gallery Image')
 @section('content')
     <!-- Content Header (Page header) -->
@@ -9,7 +9,7 @@
                     <h1 class="m-0 text-gradient">
                         <i class="fas fa-edit mr-2"></i> Edit Image
                     </h1>
-                    <a href="{{ route('admin.travel_packages.edit', $travelPackage->id) }}" class="btn btn-primary btn-pill">
+                    <a href="{{ route('admin.travel_packages.galleries.create', $travelPackage->id)  }}" class="btn btn-primary btn-pill">
                         <i class="fas fa-arrow-left"></i> Back
                     </a>
                 </div>
@@ -26,8 +26,7 @@
                         <div class="card-header">
                             <h3 class="card-title">Image Details</h3>
                         </div>
-                        <form method="post" action="{{ route('admin.galleries.update', [$travelPackage, $gallery]) }}" enctype="multipart/form-data">
-                            @csrf
+                        <form method="post" action="{{ route('admin.travel_packages.galleries.update', [$travelPackage->id, $gallery->id]) }}" enctype="multipart/form-data">                            @csrf
                             @method('PUT')
                             <div class="card-body">
                                 <div class="form-group">
@@ -159,4 +158,4 @@
         });
     });
 </script>
-@endsection
+@endsection --}}

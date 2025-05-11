@@ -12,33 +12,35 @@ class ReviewsTableSeeder extends Seeder
     {
         $reviews = [
             [
-                'content' => 'كانت تجربة رائعة! المرشد السياحي كان محترفاً جداً وأعطانا معلومات قيمة حول المعالم السياحية.',
+                'content' => 'It was a wonderful experience! The tour guide was very professional and gave us valuable information about the tourist attractions.',
                 'rating' => 5,
-                'user_id' => 1, // تأكدي من أن ID=1 في جدول المستخدمين
-                'booking_id' => 1, // تأكدي من أن ID=1 في جدول الحجز
-                'reviewable_type' => 'App\Models\TourGuide', // مراجعة للمرشد السياحي
-                'reviewable_id' => 1, // تأكدي من أن ID=1 في جدول المرشدين
+                'user_id' => 1, // Make sure ID=1 exists in the users table
+                'booking_id' => 1, // Make sure ID=1 exists in the bookings table
+                'reviewable_type' => 'App\Models\TourGuide', // Review for a tour guide
+                'reviewable_id' => 1, // Make sure ID=1 exists in the tour_guides table
             ],
             [
-                'content' => 'الرحلة كانت جيدة، لكن كان من الأفضل لو تم تخصيص وقت أكثر لبعض الأنشطة.',
+                'content' => 'The trip was good, but it would have been better if more time was allocated to some activities.',
                 'rating' => 4,
-                'user_id' => 2, // تأكدي من أن ID=2 في جدول المستخدمين
-                'booking_id' => 2, // تأكدي من أن ID=2 في جدول الحجز
-                'reviewable_type' => 'App\Models\TravelPackage', // مراجعة للباكيج السياحي
-                'reviewable_id' => 2, // تأكدي من أن ID=2 في جدول الباكيجات السياحية
+                'user_id' => 2, // Make sure ID=2 exists in the users table
+                'booking_id' => 2, // Make sure ID=2 exists in the bookings table
+                'reviewable_type' => 'App\Models\TravelPackage', // Review for a travel package
+                'reviewable_id' => 2, // Make sure ID=2 exists in the travel_packages table
             ],
             [
-                'content' => 'كانت الرحلة في وادي رم مذهلة! المناظر الطبيعية كانت خلابة ولكنني كنت أتمنى أن تكون الرحلة أطول.',
+                'content' => 'The Wadi Rum trip was amazing! The scenery was breathtaking, but I wish the trip was longer.',
                 'rating' => 4,
-                'user_id' => 3, // تأكدي من أن ID=3 في جدول المستخدمين
-                'booking_id' => 3, // تأكدي من أن ID=3 في جدول الحجز
-                'reviewable_type' => 'App\Models\TourGuide', // مراجعة للمرشد السياحي
-                'reviewable_id' => 2, // تأكدي من أن ID=2 في جدول المرشدين
+                'user_id' => 3, // Make sure ID=3 exists in the users table
+                'booking_id' => 3, // Make sure ID=3 exists in the bookings table
+                'reviewable_type' => 'App\Models\TourGuide', // Review for a tour guide
+                'reviewable_id' => 2, // Make sure ID=2 exists in the tour_guides table
             ],
         ];
-
+    
         foreach ($reviews as $review) {
-            Review::create($review);
+            \App\Models\Review::create($review);
         }
     }
+    
+    
 }

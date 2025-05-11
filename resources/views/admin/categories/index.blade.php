@@ -54,37 +54,47 @@
                                     <tbody>
                                     @forelse($categories as $category)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>
+                                            <td class="align-middle">{{ $loop->iteration }}</td>
+                                            <td class="align-middle">
                                                 <div class="d-flex align-items-center">
-                                                    <div class="symbol symbol-40 symbol-light mr-3">
+                                                    <div class="symbol symbol-40 symbol-light mr-3 flex-shrink-0">
                                                         @if($category->image)
-                                                            <img src="{{ Storage::url($category->image) }}" class="h-40" alt="{{ $category->name }}">
+                                                            <img src="{{ Storage::url($category->image) }}" 
+                                                                 class="h-40 rounded" 
+                                                                 style="width: 40px; height: 40px; object-fit: cover;"
+                                                                 alt="{{ $category->name }}">
                                                         @else
                                                             <span class="symbol-label bg-primary text-white font-weight-bold">
                                                                 {{ substr($category->name, 0, 1) }}
                                                             </span>
                                                         @endif
                                                     </div>
-                                                    <div>
-                                                        <div class="font-weight-bold">{{ $category->name }}</div>
-                                                        <div class="text-muted">{{ $category->slug }}</div>
+                                                    <div class="text-truncate">
+                                                        <div class="font-weight-bold text-truncate">{{ $category->name }}</div>
+                                                        <div class="text-muted text-truncate">{{ $category->slug }}</div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
-                                                {{ $category->description ? Str::limit($category->description, 50) : 'No description' }}
+                                            <td class="align-middle">
+                                                <div class="text-wrap description-cell">
+                                                    {{ $category->description ? Str::limit($category->description, 50) : 'No description' }}
+                                                </div>
                                             </td>
-                                            <td>
+                                            <td class="align-middle text-center">
                                                 @if($category->image)
-                                                    <a href="{{ Storage::url($category->image) }}" data-toggle="lightbox">
-                                                        <img src="{{ Storage::url($category->image) }}" class="img-thumbnail" width="80" alt="{{ $category->name }}">
-                                                    </a>
+                                                    <div class="d-inline-block" style="width: 80px;">
+                                                        <a href="{{ Storage::url($category->image) }}" data-toggle="lightbox">
+                                                            <img src="{{ Storage::url($category->image) }}" 
+                                                                 class="img-fluid rounded" 
+                                                                 style="max-width: 100%; height: auto; max-height: 60px;"
+                                                                 alt="{{ $category->name }}">
+                                                        </a>
+                                                    </div>
                                                 @else
                                                     <span class="text-muted">No image</span>
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td class="align-middle">
                                                 <div class="btn-group">
                                                     <a href="{{ route('admin.categories.edit', $category) }}" 
                                                        class="btn btn-sm btn-info btn-rounded" title="Edit">
@@ -202,6 +212,35 @@
     .img-thumbnail:hover {
         transform: scale(1.05);
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+    
+    /* New Styles */
+    .table td {
+        vertical-align: middle !important;
+    }
+    
+    .text-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 200px;
+    }
+    
+    .description-cell {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    
+    .flex-shrink-0 {
+        flex-shrink: 0;
+    }
+    
+    .h-40 {
+        height: 40px;
     }
 </style>
 @endsection

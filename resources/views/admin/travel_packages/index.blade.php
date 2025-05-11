@@ -83,10 +83,10 @@
                                                     </button>
                                                 </form>
                                             @endif
-                                           
+{{--                                            
                                             <a href="{{ route('admin.galleries.index', ['travel_package' => $package]) }}" 
                                                class="btn btn-sm btn-info"
-                                               title="Manage Gallery">
+                                               title="Manage Gallery"> --}}
                                                 <i class="fas fa-images"></i>
                                             </a>
                                         </div>

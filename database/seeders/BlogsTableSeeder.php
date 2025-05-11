@@ -11,36 +11,37 @@ class BlogsTableSeeder extends Seeder
     {
         $blogs = [
             [
-                'title' => 'أفضل الأماكن السياحية في الأردن',
-                'slug' => Str::slug('أفضل الأماكن السياحية في الأردن'),
-                'excerpt' => 'اكتشف أفضل المواقع السياحية في الأردن من البحر الميت إلى البتراء.',
-                'image' => 'blogs/jordan-tourist-places.jpg',
-                'description' => 'تعتبر الأردن من الوجهات السياحية الفريدة التي تجمع بين التاريخ والثقافة والمغامرة.',
+                'title' => 'Top Tourist Destinations in Jordan',
+                'slug' => Str::slug('Top Tourist Destinations in Jordan'),
+                'excerpt' => 'Discover the top tourist attractions in Jordan from the Dead Sea to Petra.',
+                'image' => 'app/public/images/ajlon.jpeg',
+                'description' => 'Jordan is a unique tourist destination that combines history, culture, and adventure.',
                 'reads' => 120,
-                'category_id' => 1, // تأكدي من أن ID=1 في جدول الفئات (مثلاً سياحة ثقافية)
-                'user_id' => 1, // تأكدي من أن ID=1 في جدول المستخدمين (مثلاً الكاتب الأول)
+                'category_id' => 1, // Make sure ID=1 exists in the categories table (e.g., Cultural Tourism)
+                'user_id' => 1, // Make sure ID=1 exists in the users table (e.g., first writer)
             ],
             [
-                'title' => 'رحلة إلى البتراء',
-                'slug' => Str::slug('رحلة إلى البتراء'),
-                'excerpt' => 'البتراء هي إحدى عجائب العالم السبع. تعرف على أهم معالمها وأماكن زيارتها.',
+                'title' => 'Journey to Petra',
+                'slug' => Str::slug('Journey to Petra'),
+                'excerpt' => 'Petra is one of the Seven Wonders of the World. Learn about its top landmarks and places to visit.',
                 'image' => 'blogs/petra-journey.jpg',
-                'description' => 'البتراء هي مدينة تاريخية تقع في جنوب الأردن، وتعتبر واحدة من عجائب الدنيا السبع.',
+                'description' => 'Petra is a historical city located in southern Jordan and is considered one of the Seven Wonders of the World.',
                 'reads' => 85,
-                'category_id' => 2, // تأكدي من أن ID=2 في جدول الفئات (مثلاً سياحة تاريخية)
-                'user_id' => 2, // تأكدي من أن ID=2 في جدول المستخدمين
+                'category_id' => 2, // Make sure ID=2 exists in the categories table (e.g., Historical Tourism)
+                'user_id' => 2, // Make sure ID=2 exists in the users table
             ],
             [
-                'title' => 'مغامرة في وادي رم',
-                'slug' => Str::slug('مغامرة في وادي رم'),
-                'excerpt' => 'اكتشف مغامرات وادي رم، الأرض التي تشهد على التاريخ والمغامرة.',
+                'title' => 'Adventure in Wadi Rum',
+                'slug' => Str::slug('Adventure in Wadi Rum'),
+                'excerpt' => 'Explore the adventures of Wadi Rum, the land of history and thrill.',
                 'image' => 'blogs/wadi-rum-adventure.jpg',
-                'description' => 'وادي رم هو مكان يتيح للسياح استكشاف المناظر الطبيعية الصحراوية المدهشة والتخييم في قلب الصحراء.',
+                'description' => 'Wadi Rum is a place where tourists can explore stunning desert landscapes and camp in the heart of the desert.',
                 'reads' => 60,
-                'category_id' => 3, // تأكدي من أن ID=3 في جدول الفئات (مثلاً سياحة مغامراتية)
-                'user_id' => 3, // تأكدي من أن ID=3 في جدول المستخدمين
+                'category_id' => 3, // Make sure ID=3 exists in the categories table (e.g., Adventure Tourism)
+                'user_id' => 3, // Make sure ID=3 exists in the users table
             ],
         ];
+        
 
         foreach ($blogs as $blog) {
             Blog::create($blog);

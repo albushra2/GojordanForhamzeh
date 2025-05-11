@@ -2,332 +2,407 @@
 @section('title', 'GoJordan')
 @section('content')
 
-<!--==================== HOME ====================-->
-<section>
-    <div class="swiper-container">
-        <div>
-            <!--========== ISLANDS 1 ==========-->
-            <section class="islands">
-                <img
-                    src="{{ asset('frontend/assets/img/waaderam.jpeg') }}"
-                    alt=""
-                    class="islands__bg"
-                />
-                <div class="bg__overlay">
-                    <div class="islands__container container">
-                        <div
-                            class="islands__data"
-                            style="z-index: 99; position: relative"
-                        >
-                        <h2 class="islands__subtitle">
-                            Discover
-                        </h2>
-                        <h1 class="islands__title">
-                            The Magic of Jordan
-                        </h1>
-                        <p class="islands__description">
-                            It’s the perfect time to explore Jordan’s rich history,<br />
-                            breathtaking nature, and unforgettable adventures.
-                        </p>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Remix Icon -->
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+<!-- Animate.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+<link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css') }}">
+
+<!-- Floating Sidebar Toggle Button -->
+
+   
+
+<!-- Hero Section -->
+<section class="hero-section" id="home">
+    <img src="{{ asset('frontend/assets/img/waaderam.jpeg') }}" alt="Wadi Rum Desert" class="hero-bg">
+    <div class="hero-overlay"></div>
+    
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-lg-8">
+                <div class="hero-content animate__animated animate__fadeInUp">
+                    <h2 class="hero-subtitle">Discover</h2>
+                    <h1 class="hero-title">The Magic of Jordan</h1>
+                    <p class="hero-description">
+                        It's the perfect time to explore Jordan's rich history, breathtaking nature, 
+                        and unforgettable adventures. From the ancient city of Petra to the 
+                        mesmerizing Wadi Rum desert.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#destinations" class="btn btn-explore">Explore Destinations</a>
                         
-                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </div>
+    
+    <div class="scroll-down">
+        <a href="#partners" class="text-white">
+            <i class="ri-arrow-down-line"></i>
+        </a>
+    </div>
+</section>
+
+<!-- Partners Section -->
+<section class="partners-section" id="partners">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title mb-3">Strategic Partners</h2>
+            <p class="section-subtitle text-muted">
+                Collaborating with Jordan's premier travel and tourism providers
+            </p>
+        </div>
+        
+        <div class="row g-4 justify-content-center align-items-center">
+            <div class="col-6 col-md-3 text-center">
+                <img src="{{ asset('frontend/assets/img/royal-jordanian.png') }}" alt="Royal Jordanian" class="partner-logo img-fluid">
+                <p class="partner-name">Royal Jordanian Airlines</p>
+            </div>
+            <div class="col-6 col-md-3 text-center">
+                <img src="{{ asset('frontend/assets/img/visit-jordan.png') }}" alt="Visit Jordan" class="partner-logo img-fluid">
+                <p class="partner-name">Visit Jordan - Tourism Portal</p>
+            </div>
+            <div class="col-6 col-md-3 text-center">
+                <img src="{{ asset('frontend/assets/img/jett.png') }}" alt="Jett" class="partner-logo img-fluid">
+                <p class="partner-name">Jett - Jordan Express Tourist Transport</p>
+            </div>
+            <div class="col-6 col-md-3 text-center">
+                <img src="{{ asset('frontend/assets/img/jordan-tourism-board.png') }}" alt="Jordan Tourism Board" class="partner-logo img-fluid">
+                <p class="partner-name">Jordan Tourism Board</p>
+            </div>
         </div>
     </div>
 </section>
 
-<!--==================== LOGOS ====================-->
-<section class="logos" style="margin-top: 9rem; padding-bottom: 3rem">
-    <h2 class="section__title"  style="text-align: center;">Strategic Partners</h2>
-<p class="section__subtitle"  style="text-align: center;" >Collaborating with Jordan's premier travel and tourism providers</p>
-    <div class="logos__container container grid">
-        <div class="logos__img" style="text-align: center;">
-            <img src="{{ asset('frontend/assets/img/royal-jordanian.png') }}" alt="Royal Jordanian" />
-            <p style="margin-top: 0.5rem;">Royal Jordanian Airlines</p>
+<!-- Destinations Section -->
+<section class="destinations-section" id="destinations">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-subtitle text-primary">Discover Jordan's Wonders</h2>
+            <h1 class="section-title mb-4">Must-Visit Destinations</h1>
         </div>
-        <div class="logos__img" style="text-align: center;">
-            <img src="{{ asset('frontend/assets/img/visit-jordan.png') }}" alt="Visit Jordan" />
-            <p style="margin-top: 0.5rem;">Visit Jordan - Tourism Portal</p>
-        </div>
-        <div class="logos__img" style="text-align: center;">
-            <img src="{{ asset('frontend/assets/img/jett.png') }}" alt="Jett" />
-            <p style="margin-top: 0.5rem;">Jett - Jordan Express Tourist Transport</p>
-        </div>
-        <div class="logos__img" style="text-align: center;">
-            <img src="{{ asset('frontend/assets/img/jordan-tourism-board.png') }}" alt="Jordan Tourism Board" />
-            <p style="margin-top: 0.5rem;">Jordan Tourism Board</p>
-        </div>
-    </div>
-</section>
-
-
-{{-- Discover Jordan's Wonders --}}
-
-<section class="section" id="popular" style="padding: 5rem 0; background: #f9f9f9;">
-    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
-        <span class="section__subtitle" style="display: block; text-align: center; color: #666; font-size: 1.1rem; margin-bottom: 0.5rem;">
-            Discover Jordan's Wonders
-        </span>
-        <h2 class="section__title" style="text-align: center; font-size: 2.2rem; color: #333; margin-bottom: 3rem;">
-            Must-Visit Destinations
-        </h2>
-
-        <div class="popular__container swiper" style="padding-bottom: 3rem;">
+        
+        <div class="swiper destinations-swiper pb-5">
             <div class="swiper-wrapper">
-                <!-- All cards with consistent sizing -->
-                <article class="popular__card swiper-slide" style="background: #fff; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s ease; height: 400px; display: flex; flex-direction: column;">
-                    <div style="height: 200px; overflow: hidden; flex-shrink: 0;">
-                        <img src="{{ asset('images/petra.jpeg') }}" alt="Petra" style="width: 100%; height: 100%; object-fit: cover;"/>
+                <!-- Petra -->
+                <div class="swiper-slide">
+                    <div class="card destination-card h-100">
+                        <img src="{{ asset('images/petra.jpeg') }}" class="card-img-top destination-img" alt="Petra">
+                        <div class="card-body destination-body">
+                            <h3 class="destination-title">Petra</h3>
+                            <p class="destination-text">
+                                The legendary "Rose City" carved into pink sandstone cliffs, Petra is Jordan's most famous 
+                                archaeological site and one of the New7Wonders of the World.
+                            </p>
+                            <a href="#" class="read-more">
+                                Explore More <i class="ri-arrow-right-line ms-2"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div class="popular__data" style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;">
-                        <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem; color: #222;">Petra</h3>
-                        <p style="color: #555; line-height: 1.6; font-size: 0.95rem; margin-bottom: 0; flex-grow: 1;">
-                            The legendary "Rose City" carved into pink sandstone cliffs, Petra is Jordan's most famous 
-                            archaeological site and one of the New7Wonders of the World. Explore the Treasury, 
-                            Monastery, and ancient Nabatean ruins.
-                        </p>
+                </div>
+                
+                <!-- Dead Sea -->
+                <div class="swiper-slide">
+                    <div class="card destination-card h-100">
+                        <img src="{{ asset('images/deadsea.jpeg') }}" class="card-img-top destination-img" alt="Dead Sea">
+                        <div class="card-body destination-body">
+                            <h3 class="destination-title">Dead Sea</h3>
+                            <p class="destination-text">
+                                Float effortlessly in the hypersaline waters of Earth's lowest point. The Dead Sea's 
+                                mineral-rich mud and waters have therapeutic properties.
+                            </p>
+                            <a href="#" class="read-more">
+                                Explore More <i class="ri-arrow-right-line ms-2"></i>
+                            </a>
+                        </div>
                     </div>
-                </article>
-
-                <article class="popular__card swiper-slide" style="background: #fff; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s ease; height: 400px; display: flex; flex-direction: column;">
-                    <div style="height: 200px; overflow: hidden; flex-shrink: 0;">
-                        <img src="{{ asset('images/deadsea.jpeg') }}" alt="Dead Sea" style="width: 100%; height: 100%; object-fit: cover;"/>
+                </div>
+                
+                <!-- Wadi Rum -->
+                <div class="swiper-slide">
+                    <div class="card destination-card h-100">
+                        <img src="{{ asset('images/waaderam.jpeg') }}" class="card-img-top destination-img" alt="Wadi Rum">
+                        <div class="card-body destination-body">
+                            <h3 class="destination-title">Wadi Rum</h3>
+                            <p class="destination-text">
+                                Known as the "Valley of the Moon", this stunning desert landscape features dramatic 
+                                sandstone mountains, ancient rock carvings, and Bedouin culture.
+                            </p>
+                            <a href="#" class="read-more">
+                                Explore More <i class="ri-arrow-right-line ms-2"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div class="popular__data" style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;">
-                        <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem; color: #222;">Dead Sea</h3>
-                        <p style="color: #555; line-height: 1.6; font-size: 0.95rem; margin-bottom: 0; flex-grow: 1;">
-                            Float effortlessly in the hypersaline waters of Earth's lowest point. The Dead Sea's 
-                            mineral-rich mud and waters have therapeutic properties, making it a perfect 
-                            destination for relaxation and wellness.
-                        </p>
+                </div>
+                
+                <!-- Jerash -->
+                <div class="swiper-slide">
+                    <div class="card destination-card h-100">
+                        <img src="{{ asset('images/Jerash.jpeg') }}" class="card-img-top destination-img" alt="Jerash">
+                        <div class="card-body destination-body">
+                            <h3 class="destination-title">Jerash</h3>
+                            <p class="destination-text">
+                                One of the best-preserved Roman provincial cities in the world, Jerash boasts 
+                                impressive colonnaded streets, grand temples, and well-preserved theaters.
+                            </p>
+                            <a href="#" class="read-more">
+                                Explore More <i class="ri-arrow-right-line ms-2"></i>
+                            </a>
+                        </div>
                     </div>
-                </article>
-
-                <article class="popular__card swiper-slide" style="background: #fff; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s ease; height: 400px; display: flex; flex-direction: column;">
-                    <div style="height: 200px; overflow: hidden; flex-shrink: 0;">
-                        <img src="{{ asset('images/waaderam.jpeg') }}" alt="Wadi Rum" style="width: 100%; height: 100%; object-fit: cover;"/>
+                </div>
+                
+                <!-- Aqaba -->
+                <div class="swiper-slide">
+                    <div class="card destination-card h-100">
+                        <img src="{{ asset('images/aqaba.jpeg') }}" class="card-img-top destination-img" alt="Aqaba">
+                        <div class="card-body destination-body">
+                            <h3 class="destination-title">Aqaba</h3>
+                            <p class="destination-text">
+                                Jordan's only coastal city offers pristine Red Sea coral reefs perfect for diving 
+                                and snorkeling. Enjoy year-round sunshine and luxury resorts.
+                            </p>
+                            <a href="#" class="read-more">
+                                Explore More <i class="ri-arrow-right-line ms-2"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div class="popular__data" style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;">
-                        <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem; color: #222;">Wadi Rum</h3>
-                        <p style="color: #555; line-height: 1.6; font-size: 0.95rem; margin-bottom: 0; flex-grow: 1;">
-                            Known as the "Valley of the Moon", this stunning desert landscape features dramatic 
-                            sandstone mountains, ancient rock carvings, and Bedouin culture. Experience 
-                            jeep safaris, camel rides, and incredible stargazing.
-                        </p>
+                </div>
+                
+                <!-- Madaba -->
+                <div class="swiper-slide">
+                    <div class="card destination-card h-100">
+                        <img src="{{ asset(path: 'images/Madaba3.jpeg') }}" class="card-img-top destination-img" alt="Madaba">
+                        <div class="card-body destination-body">
+                            <h3 class="destination-title">Madaba</h3>
+                            <p class="destination-text">
+                                Known as the "City of Mosaics", Madaba is famous for its Byzantine-era map of 
+                                the Holy Land in St. George's Church.
+                            </p>
+                            <a href="#" class="read-more">
+                                Explore More <i class="ri-arrow-right-line ms-2"></i>
+                            </a>
+                        </div>
                     </div>
-                </article>
-
-                <article class="popular__card swiper-slide" style="background: #fff; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s ease; height: 400px; display: flex; flex-direction: column;">
-                    <div style="height: 200px; overflow: hidden; flex-shrink: 0;">
-                        <img src="{{ asset('images/Jerash.jpeg') }}" alt="Jerash" style="width: 100%; height: 100%; object-fit: cover;"/>
+                </div>
+                
+                <!-- Dana Biosphere -->
+                <div class="swiper-slide">
+                    <div class="card destination-card h-100">
+                        <img src="{{ asset(path: 'images/dana2.jpeg') }}" class="card-img-top destination-img" alt="Madaba">
+                        <div class="card-body destination-body">
+                            <h3 class="destination-title">Dana Biosphere</h3>
+                            <p class="destination-text">
+                                Jordan's largest nature reserve encompasses four different bio-geographical zones. 
+                                Hike through spectacular scenery and spot rare wildlife.
+                            </p>
+                            <a href="#" class="read-more">
+                                Explore More <i class="ri-arrow-right-line ms-2"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div class="popular__data" style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;">
-                        <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem; color: #222;">Jerash</h3>
-                        <p style="color: #555; line-height: 1.6; font-size: 0.95rem; margin-bottom: 0; flex-grow: 1;">
-                            One of the best-preserved Roman provincial cities in the world, Jerash boasts 
-                            impressive colonnaded streets, grand temples, and well-preserved theaters. 
-                            Don't miss the chariot races at the hippodrome.
-                        </p>
-                    </div>
-                </article>
-
-                <article class="popular__card swiper-slide" style="background: #fff; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s ease; height: 400px; display: flex; flex-direction: column;">
-                    <div style="height: 200px; overflow: hidden; flex-shrink: 0;">
-                        <img src="{{ asset('images/aqaba.jpeg') }}" alt="Aqaba" style="width: 100%; height: 100%; object-fit: cover;"/>
-                    </div>
-                    <div class="popular__data" style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;">
-                        <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem; color: #222;">Aqaba</h3>
-                        <p style="color: #555; line-height: 1.6; font-size: 0.95rem; margin-bottom: 0; flex-grow: 1;">
-                            Jordan's only coastal city offers pristine Red Sea coral reefs perfect for diving 
-                            and snorkeling. Enjoy year-round sunshine, luxury resorts, and water sports 
-                            in this tropical paradise.
-                        </p>
-                    </div>
-                </article>
-
-                <article class="popular__card swiper-slide" style="background: #fff; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s ease; height: 400px; display: flex; flex-direction: column;">
-                    <div style="height: 200px; overflow: hidden; flex-shrink: 0;">
-                        <img src="{{ asset('images/Madaba3.jpeg') }}" alt="Madaba" style="width: 100%; height: 100%; object-fit: cover;"/>
-                    </div>
-                    <div class="popular__data" style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;">
-                        <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem; color: #222;">Madaba</h3>
-                        <p style="color: #555; line-height: 1.6; font-size: 0.95rem; margin-bottom: 0; flex-grow: 1;">
-                            Known as the "City of Mosaics", Madaba is famous for its Byzantine-era map of 
-                            the Holy Land in St. George's Church. Explore numerous archaeological sites 
-                            and beautiful churches with intricate mosaic floors.
-                        </p>
-                    </div>
-                </article>
-
-                <article class="popular__card swiper-slide" style="background: #fff; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s ease; height: 400px; display: flex; flex-direction: column;">
-                    <div style="height: 200px; overflow: hidden; flex-shrink: 0;">
-                        <img src="{{ asset('images/BiosphereDana.jpeg') }}" alt="" style="width: 100%; height: 100%; object-fit: cover;"/>
-                    </div>
-                    <div class="popular__data" style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;">
-                        <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem; color: #222;">Dana Biosphere</h3>
-                        <p style="color: #555; line-height: 1.6; font-size: 0.95rem; margin-bottom: 0; flex-grow: 1;">
-                            Jordan's largest nature reserve encompasses four different bio-geographical zones. 
-                            Hike through spectacular scenery, spot rare wildlife, and experience authentic 
-                            village life in Dana.
-                        </p>
-                    </div>
-                </article>
+                </div>
             </div>
-
-            <!-- Navigation buttons -->
-            <div class="swiper-button-next" style="color: rgb(20, 20, 20); right: 10px; background: rgba(245, 247, 245, 0.8); padding: 20px; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-chevron-right" style="font-size: 1.2rem;"></i>
+            
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+</section>
+<style>
+    /* تثبيت حجم الكروت */
+    .destination-card {
+        height: 100%; /* تأكد من أن الكارد يأخذ كل الارتفاع المتاح */
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* تثبيت ارتفاع الصورة */
+    .destination-img {
+        height: 200px; /* يمكنك تعديل الارتفاع حسب احتياجاتك */
+        object-fit: cover; /* لتجنب تشويه الصورة */
+        width: 100%;
+    }
+    
+    /* تثبيت حجم جسم الكارد */
+    .destination-body {
+        flex: 1; /* يجعل الجسم يأخذ المساحة المتبقية */
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* تثبيت حجم النص */
+    .destination-text {
+        flex: 1; /* يجعل النص يأخذ المساحة المتبقية */
+        overflow: hidden; /* يخفي النص الزائد */
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* عدد الأسطر المراد عرضها */
+        -webkit-box-orient: vertical;
+    }
+    
+    /* تثبيت حجم العناوين */
+    .destination-title {
+        min-height: 50px; /* لمنع تغيير حجم الكارد عند اختلاف طول العنوان */
+    }
+    
+    /* تثبيت حجم زر Explore More */
+    .read-more {
+        margin-top: auto; /* يدفع الزر للأسفل */
+        align-self: flex-start; /* محاذاة إلى اليسار */
+    }
+    </style>
+<!-- Why Jordan Section -->
+<section class="why-jordan-section" id="why-jordan">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="value-img-container animate__animated animate__fadeInLeft">
+                    <img src="{{ asset('frontend/assets/img/saltat.jpeg') }}" alt="Our Team in Jordan" class="value-img">
+                </div>
             </div>
-            <div class="swiper-button-prev" style="color: rgb(19, 19, 1Dana BiosphereDana Biosphere9); left: 10px; background: rgba(248, 250, 249, 0.8); padding: 20px; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-chevron-left" style="font-size: 1.2rem;"></i>
+            
+            <div class="col-lg-6">
+                <div class="ps-lg-5">
+                    <h2 class="section-subtitle text-primary">Why Jordan?</h2>
+                    <h1 class="section-title mb-4">Discover the True Magic of Jordan with Us</h1>
+                    <p class="lead mb-5">
+                        Whether you're seeking ancient wonders, natural beauty, or warm hospitality – Jordan has it all. 
+                        We're here to make your journey unforgettable with our expert guidance and personalized tours.
+                    </p>
+                    
+                    <div class="accordion" id="whyJordanAccordion">
+                        <!-- Petra & Historical Sites -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                    <i class="ri-wallet-3-line accordion-icon"></i>
+                                    Explore World Wonders
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#whyJordanAccordion">
+                                <div class="accordion-body">
+                                    From the ancient city of Petra to the Roman ruins of Jerash, Jordan is home to some of the world's most incredible historical sites that will transport you back in time.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Affordable Travel -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                    <i class="ri-wallet-3-line accordion-icon"></i>
+                                    Affordable Travel Packages
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#whyJordanAccordion">
+                                <div class="accordion-body">
+                                    We offer flexible pricing and customized packages to match every traveler's budget, making the wonders of Jordan accessible to all.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Natural Beauty -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                    <i class="ri-sun-line accordion-icon"></i>
+                                    Nature & Adventure
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#whyJordanAccordion">
+                                <div class="accordion-body">
+                                    Dive into the beauty of Wadi Rum, the Dead Sea, and Dana Reserve – adventure awaits at every corner with hiking, diving, and desert safaris.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Safe & Welcoming -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                    <i class="ri-shield-check-line accordion-icon"></i>
+                                    Safe & Welcoming Country
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#whyJordanAccordion">
+                                <div class="accordion-body">
+                                    Jordan is known for its safety and the warm hospitality of its people – feel right at home as you explore this beautiful country.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-
-<!--==================== VALUE ====================-->
-<section class="value section" id="value">
-    <div class="value__container container grid">
-        <div class="value__images">
-            <div class="value__orbe"></div>
-
-            <div class="value__img">
-                <img src="{{ asset('frontend/assets/img/saltat.jpeg') }}" alt="Our Team in Jordan" />
-            </div>
+<!-- Blog Section -->
+<section class="blog-section" id="blog">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-subtitle text-primary">Jordan Travel Guide</h2>
+            <h1 class="section-title mb-4">Articles & Tips to Explore Jordan</h1>
         </div>
-
-        <div class="value__content">
-            <div class="value__data">
-                <span class="section__subtitle">Why Jordan?</span>
-                <h2 class="section__title">
-                    Discover the True Magic of Jordan with Us
-                </h2>
-                <p class="value__description">
-                    Whether you’re seeking ancient wonders, natural beauty, or warm hospitality – Jordan has it all. 
-                    We’re here to make your journey unforgettable with our expert guidance and personalized tours.
-                </p>
-            </div>
-
-            <div class="value__accordion">
-                <!-- Petra & Historical Sites -->
-                <div class="value__accordion-item">
-                    <header class="value__accordion-header">
-                        <i class="bx bxs-landmark value-accordion-icon"></i>
-                        <h3 class="value__accordion-title">Explore World Wonders</h3>
-                        <div class="value__accordion-arrow">
-                            <i class="bx bxs-down-arrow"></i>
-                        </div>
-                    </header>
-                    <div class="value__accordion-content">
-                        <p class="value__accordion-description">
-                            We provides the best places around the
-                            world and have a good quality of
-                            service.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Affordable Travel -->
-                <div class="value__accordion-item">
-                    <header class="value__accordion-header">
-                        <i class="bx bxs-wallet value-accordion-icon"></i>
-                        <h3 class="value__accordion-title">Affordable Travel Packages</h3>
-                        <div class="value__accordion-arrow">
-                            <i class="bx bxs-down-arrow"></i>
-                        </div>
-                    </header>
-                    <div class="value__accordion-content">
-                        <p class="value__accordion-description">
-                            We offer flexible pricing and customized packages to match every traveler's budget.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Natural Beauty -->
-                <div class="value__accordion-item">
-                    <header class="value__accordion-header">
-                        <i class="bx bxs-sun value-accordion-icon"></i>
-                        <h3 class="value__accordion-title">Nature & Adventure</h3>
-                        <div class="value__accordion-arrow">
-                            <i class="bx bxs-down-arrow"></i>
-                        </div>
-                    </header>
-                    <div class="value__accordion-content">
-                        <p class="value__accordion-description">
-                            Dive into the beauty of Wadi Rum, the Dead Sea, and Dana Reserve – adventure awaits at every corner.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Safe & Welcoming -->
-                <div class="value__accordion-item">
-                    <header class="value__accordion-header">
-                        <i class="bx bxs-shield-plus value-accordion-icon"></i>
-                        <h3 class="value__accordion-title">Safe & Welcoming Country</h3>
-                        <div class="value__accordion-arrow">
-                            <i class="bx bxs-down-arrow"></i>
-                        </div>
-                    </header>
-                    <div class="value__accordion-content">
-                        <p class="value__accordion-description">
-                            Jordan is known for its safety and the warm hospitality of its people – feel right at home!
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- blog -->
-<section class="blog section" id="blog">
-    <div class="blog__container container">
-        <span class="section__subtitle" style="text-align: center">
-            Jordan Travel Guide
-        </span>
-        <h2 class="section__title" style="text-align: center">
-            Articles & Tips to Explore Jordan
-        </h2>
-
-        <div class="blog__content grid">
+        
+        <div class="row g-4">
             @foreach($blogs as $blog)
-                <article class="blog__card">
-                    <div class="blog__image">
-                        <img
-                            src="{{ Storage::url($blog->image) }}"
-                            alt="Image - {{ $blog->title }}"
-                            class="blog__img"
-                        />
-                        <a href="{{ route('blogs.show', $blog->slug) }}" class="blog__button">
-                            <i class="bx bx-right-arrow-alt"></i>
-                        </a>
-                    </div>
-
-                    <div class="blog__data">
-                        <h2 class="blog__title">
-                            {{ $blog->title }}
-                        </h2>
-                        <p class="blog__description">
-                            {{ $blog->excerpt }}
-                        </p>
-
-                        <div class="blog__footer">
-                            <div class="blog__reaction">
-                                {{ date('d M Y', strtotime($blog->created_at)) }}
-                            </div>
-                            <div class="blog__reaction">
-                                <i class="bx bx-show"></i>
-                                <span>{{ $blog->reads }}</span>
-                            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card blog-card h-100">
+                    <img src="{{ Storage::url($blog->image) }}" class="card-img-top blog-img" alt="{{ $blog->title }}">
+                    <div class="card-body blog-body">
+                        <h3 class="blog-title">{{ $blog->title }}</h3>
+                        <p class="blog-excerpt">{{ $blog->excerpt }}</p>
+                        <div class="blog-footer">
+                            <span>{{ date('d M Y', strtotime($blog->created_at)) }}</span>
+                            <span><i class="ri-eye-line me-1"></i> {{ $blog->reads }}</span>
                         </div>
                     </div>
-                </article>
+                    <a href="{{ route('blogs.show', $blog->slug) }}" class="stretched-link"></a>
+                </div>
+            </div>
             @endforeach
         </div>
+        
+        <div class="text-center mt-5">
+            <a href="{{ route('blogs.index') }}" class="btn btn-outline-primary">
+                View All Articles <i class="ri-arrow-right-line ms-2"></i>
+            </a>
+        </div>
     </div>
 </section>
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+<script>
+    // Initialize Swiper
+    const destinationsSwiper = new Swiper('.destinations-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            576: {
+                slidesPerView: 2
+            },
+            992: {
+                slidesPerView: 3
+            }
+        }
+    });
+    
+    // Sidebar Toggle
+   
+</script>
 
 @endsection

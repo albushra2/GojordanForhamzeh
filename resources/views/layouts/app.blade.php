@@ -19,24 +19,26 @@
 
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        <!-- Left navbar links -->
+        {{-- <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
-        </ul>
+        </ul> --}}
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-                    {{ Auth::user()->name }}
+                <a class="nav-link d-flex align-items-center" data-toggle="dropdown" href="#" aria-expanded="false" style="color: #343a40; font-weight: 1000;">
+                    <i class="fas fa-user-circle mr-2" style="color: #495057;"></i>
+                    <span class="mr-1">{{ Auth::user()->name }}</span>
+                    <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0px;">
-                    <a href="{{ route('admin.profile.show') }}" class="dropdown-item">
+                    {{-- <a href="{{ route('admin.profile.show') }}" class="dropdown-item">
                         <i class="mr-2 fas fa-file"></i>
                         {{ __('My profile') }}
-                    </a>
+                    </a> --}}
                     <div class="dropdown-divider"></div>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

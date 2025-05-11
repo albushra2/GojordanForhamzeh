@@ -1,11 +1,26 @@
 <!-- Sidebar -->
-<div class="sidebar" style="background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);">
-
+<!-- Sidebar -->
+<div class="sidebar" style="
+    background: linear-gradient(135deg, rgb(225, 135, 150) 0%, #3498db 100%);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    overflow-y: auto;
+    width: 250px; /* يمكن تعديل العرض حسب الحاجة */
+">
     <!-- Sidebar Brand Logo/Text -->
-    <div class="sidebar-brand text-center py-4">
-        <i class="fas fa-globe-asia fa-3x text-white mb-2"></i>
-        <h4 class="text-white font-weight-bold">GoJordan</h4>
+    <div class="sidebar-brand text-center py-3">
+        <div class="preloader-logo d-flex justify-content-center align-items-center">
+            <span class="text-white font-weight-bold" style="font-size: 1.3rem; letter-spacing: 1px;">GO</span>
+            <div class="map-icon mx-1" style="color: #df3462; font-size: 1.3rem;">
+                <i class="bx bxs-map"></i>
+            </div>
+            <span class="text-white font-weight-bold" style="font-size: 1.3rem; letter-spacing: 1px;">JORDAN</span>
+        </div>
     </div>
+    
 
     <!-- Sidebar Menu -->
     <nav class="mt-2">
@@ -21,7 +36,7 @@
                         {{ __('Dashboard') }}
                     </p>
                     <span class="badge bg-success ml-auto">New</span>
-                </a> 
+                </a>
             </li>
 
             <li class="nav-item mb-2">
@@ -44,13 +59,13 @@
                     </div>
                     <p class="mb-0 text-white font-weight-medium">
                         {{ __('Booking') }}
-                        <span class="badge bg-primary ml-2">5</span>
+                        {{-- <span class="badge bg-primary ml-2">5</span> --}}
                     </p>
                 </a>
             </li>
             <!--  -->
             <li class="nav-item mb-2">
-    <a href="{{ route('admin.galleries.index') }}" class="nav-link d-flex align-items-center"
+    {{-- <a href="{{ route('admin.galleries.index') }}" class="nav-link d-flex align-items-center"
        style="border-radius: 10px; transition: all 0.3s;">
         <div class="nav-icon-container bg-danger rounded-circle p-2 mr-3">
             <i class="fas fa-images text-white"></i>
@@ -58,7 +73,7 @@
         <p class="mb-0 text-white font-weight-medium">
             {{ __('Galleries') }}
         </p>
-    </a>
+    </a> --}}
 </li>
             <li class="nav-item mb-2">
                 <a href="{{ route('admin.travel_packages.index') }}" class="nav-link d-flex align-items-center"
@@ -109,44 +124,11 @@
             </li>
             
             <!-- Additional Creative Elements -->
-            <li class="nav-item mt-4">
-                <div class="text-center text-white-50 small">
-                    <span>QUICK LINKS</span>
-                </div>
-            </li>
             
-            <li class="nav-item">
-                <a href="#" class="nav-link d-flex align-items-center mt-2"
-                   style="border-radius: 10px; transition: all 0.3s;">
-                    <div class="nav-icon-container bg-indigo rounded-circle p-2 mr-3">
-                        <i class="fas fa-cog text-white"></i>
-                    </div>
-                    <p class="mb-0 text-white font-weight-medium">
-                        Settings
-                    </p>
-                </a>
-            </li>
-        </ul>
-        
-        <!-- Sidebar Footer -->
-        <div class="sidebar-footer mt-auto py-3 text-center">
-            <div class="user-panel d-flex align-items-center justify-content-center">
-                <div class="image">
-                    <img src="https://via.placeholder.com/40" class="img-circle elevation-2" alt="User Image">
-                </div>
-                <div class="info ml-2">
-                    <a href="#" class="d-block text-white">Admin User</a>
-                </div>
-            </div>
-            <button class="btn btn-sm btn-outline-light mt-2">
-                <i class="fas fa-sign-out-alt mr-1"></i> Logout
-            </button>
-        </div>
-    </nav>
-</div>
+       
 
 <!-- Add this CSS in your head or main stylesheet -->
-<style>
+{{-- <style>
     .sidebar {
         box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         transition: all 0.3s;
@@ -197,7 +179,7 @@
     .bg-indigo {
         background-color: #6610f2;
     }
-</style>
+</style> --}}
 
 <!-- Include jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

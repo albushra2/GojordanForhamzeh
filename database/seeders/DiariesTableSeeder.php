@@ -12,28 +12,28 @@ class DiariesTableSeeder extends Seeder
     {
         $diaries = [
             [
-                'title' => 'رحلة إلى البحر الميت',
-                'content' => 'كانت رحلتي إلى البحر الميت رائعة للغاية. استمتعت بالسباحة في المياه المالحة والجلوس على الشاطئ. كانت الأجواء هادئة ومريحة.',
-                'user_id' => 1, // تأكدي من أن ID=1 في جدول المستخدمين
-                'travel_package_id' => 1, // تأكدي من أن ID=1 في جدول الباكيجات السياحية
-                'booking_id' => 1, // تأكدي من أن ID=1 في جدول الحجز
+                'title' => 'Trip to the Dead Sea',
+                'content' => 'My trip to the Dead Sea was absolutely amazing. I enjoyed swimming in the salty water and relaxing on the beach. The atmosphere was peaceful and relaxing.',
+                'user_id' => 1, // Make sure ID=1 exists in the users table
+                'travel_package_id' => 1, // Make sure ID=1 exists in the travel_packages table
+                'booking_id' => 1, // Make sure ID=1 exists in the bookings table
             ],
             [
-                'title' => 'استكشاف مدينة البتراء',
-                'content' => 'البتراء كانت مذهلة! الهندسة المعمارية الرائعة والمناظر الطبيعية الخلابة جعلت هذه الرحلة لا تنسى. مرشدنا السياحي كان رائعاً.',
-                'user_id' => 2, // تأكدي من أن ID=2 في جدول المستخدمين
-                'travel_package_id' => 2, // تأكدي من أن ID=2 في جدول الباكيجات السياحية
-                'booking_id' => 2, // تأكدي من أن ID=2 في جدول الحجز
+                'title' => 'Exploring Petra',
+                'content' => 'Petra was stunning! The magnificent architecture and breathtaking landscapes made this trip unforgettable. Our tour guide was excellent.',
+                'user_id' => 2, // Make sure ID=2 exists in the users table
+                'travel_package_id' => 2, // Make sure ID=2 exists in the travel_packages table
+                'booking_id' => 2, // Make sure ID=2 exists in the bookings table
             ],
             [
-                'title' => 'مغامرة في وادي رم',
-                'content' => 'كانت المغامرة في وادي رم مثيرة للغاية! قمت بركوب الجمال والتنقل عبر الصحراء. تجربة لا تفوت!',
-                'user_id' => 3, // تأكدي من أن ID=3 في جدول المستخدمين
-                'travel_package_id' => 3, // تأكدي من أن ID=3 في جدول الباكيجات السياحية
-                'booking_id' => 3, // تأكدي من أن ID=3 في جدول الحجز
+                'title' => 'Adventure in Wadi Rum',
+                'content' => 'The adventure in Wadi Rum was incredibly exciting! I rode camels and traveled across the desert. An experience not to be missed!',
+                'user_id' => 3, // Make sure ID=3 exists in the users table
+                'travel_package_id' => 3, // Make sure ID=3 exists in the travel_packages table
+                'booking_id' => 3, // Make sure ID=3 exists in the bookings table
             ],
         ];
-
+        
         foreach ($diaries as $diary) {
             Diary::create($diary);
         }
