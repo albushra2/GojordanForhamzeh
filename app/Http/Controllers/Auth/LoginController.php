@@ -31,8 +31,8 @@ class LoginController extends Controller
 
     $credentials = $request->only('email', 'password');
 
-    if (Auth::attempt($credentials)) {
-        $user = Auth::user();
+    if (auth::attempt($credentials)) {
+        $user = auth::user();
         
         if(!$user->is_admin) {
             Auth::logout();

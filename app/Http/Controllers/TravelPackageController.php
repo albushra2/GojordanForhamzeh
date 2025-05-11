@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class TravelPackageController extends Controller
 {
+    
     // عرض جميع الحزم السياحية
     public function index()
     {
@@ -46,4 +47,5 @@ class TravelPackageController extends Controller
             'related' => $related
         ]);
     }
+    
 }

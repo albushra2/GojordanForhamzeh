@@ -11,32 +11,32 @@ class CategoryTableSeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'السياحة الدينية',
-                'description' => 'زيارة المواقع الدينية مثل المغطس وجبل نيبو وغيرها.',
+                'name' => 'Religious Tourism',
+                'description' => 'Visiting religious sites such as the Baptism Site and Mount Nebo.',
                 'image' => 'categories/religious.jpg',
             ],
             [
-                'name' => 'السياحة الثقافية',
-                'description' => 'استكشاف التراث الثقافي والمهرجانات والموسيقى التقليدية.',
+                'name' => 'Cultural Tourism',
+                'description' => 'Exploring cultural heritage, festivals, and traditional music.',
                 'image' => 'categories/cultural.jpg',
             ],
             [
-                'name' => 'السياحة التاريخية',
-                'description' => 'زيارة المواقع الأثرية مثل البتراء وجرش.',
+                'name' => 'Historical Tourism',
+                'description' => 'Visiting archaeological sites such as Petra and Jerash.',
                 'image' => 'categories/historical.jpg',
             ],
             [
-                'name' => 'السياحة المغامراتية',
-                'description' => 'أنشطة مثل التخييم، التسلق، ركوب الجمال، ومسارات المشي.',
+                'name' => 'Adventure Tourism',
+                'description' => 'Activities such as camping, climbing, camel riding, and hiking trails.',
                 'image' => 'categories/adventure.jpg',
             ],
             [
-                'name' => 'السياحة العلاجية',
-                'description' => 'زيارة البحر الميت والينابيع الساخنة لأغراض الاستجمام والعلاج.',
+                'name' => 'Medical Tourism',
+                'description' => 'Visiting the Dead Sea and hot springs for relaxation and therapy purposes.',
                 'image' => 'categories/medical.jpg',
             ],
         ];
-
+        
         foreach ($categories as $category) {
             Category::create([
                 'name' => $category['name'],

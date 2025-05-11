@@ -1,4 +1,5 @@
 <?php
+
 // use App\Http\Controllers\Auth\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookingController;
@@ -33,158 +34,131 @@ use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 
+// Authentication Routes
+Auth::routes(['register' => false]);
 
-
-Auth::routes(['register' => false]); // Disable default registration route
 // Admin Authentication Routes
 Route::prefix('admin')->group(function() {
-    // Login
+
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
-    // Registration (protected - only existing admins can create new admins)
+    // Admin Registration (protected)
     Route::middleware(['auth:web', 'is_admin'])->group(function() {
         Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('admin.register');
         Route::post('/register', [RegisterController::class, 'register']);
     });
 });
-Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
-Route::group(['middleware' => ['is_admin','auth'], 'prefix' => 'admin', 'as' => 'admin.'], function() {
-    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
-    // booking
-    Route::resource('bookings', \App\Http\Controllers\Admin\BookingController::class)->only(['index', 'destroy']);
-    // في routes/web.php
-   // للمستخدمين العاديين
-Route::get('/booking/{destination}', [BookingController::class, 'showForm'])
-->name('booking.form');
+// Public Registration
+Route::post('/register', [RegisterController::class, 'register']);
 
+// Admin Panel Routes
+Route::group([
+    'middleware' => ['is_admin', 'auth'],
+    'prefix' => 'admin',
+    'as' => 'admin.'
+], function() {
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// للمسؤولين (إذا كنت بحاجة لمسار منفصل)
-Route::prefix('admin')->group(function () {
+    // Bookings
+    Route::resource('bookings', AdminBookingController::class)->only(['index', 'destroy']);
+    Route::get('/bookings/form/{destination}', [BookingController::class, 'showForm'])->name('bookings.form');
+    Route::get('/booking/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
+    Route::put('/bookings/{booking}', [BookingController::class, 'updateStatus'])->name('bookings.updateStatus');
 
-    Route::get('/bookings/form/{destination}', [BookingController::class, 'showForm'])
-    ->name('admin.bookings.form');
-
-    Route::get('/booking/{booking}', [\App\Http\Controllers\Admin\BookingController::class, 'show'])
-    ->name('bookings.show');
-
-    Route::delete('/booking/{booking}', [\App\Http\Controllers\Admin\BookingController::class, 'destroy'])
-    ->name('bookings.destroy');
-
-    Route::get('/galleries', [\App\Http\Controllers\Admin\GalleryController::class, 'index'])
-    ->name('galleries.index');
-
+    // Travel Packages
+    Route::resource('travel_packages', AdminTravelPackageController::class)->except('show');
     
-    Route::get('/galleries/create/{travelPackage}', [\App\Http\Controllers\Admin\GalleryController::class, 'create'])
-        ->name('admin.galleries.create');
-    
-    Route::post('/galleries/{travelPackage}', [\App\Http\Controllers\Admin\GalleryController::class, 'store'])
-        ->name('admin.galleries.store');
-    // Route::get('/galleries/{travelPackage}/{gallery}/edit', [\App\Http\Controllers\Admin\GalleryController::class, 'edit'])
-    //     ->name('admin.galleries.edit');
-    // Route::put('/galleries/{travelPackage}/{gallery}', [\App\Http\Controllers\Admin\GalleryController::class, 'update'])
-    //     ->name('admin.galleries.update');
-    // Route::delete('/galleries/{travelPackage}/{gallery}', [\App\Http\Controllers\Admin\GalleryController::class, 'destroy'])
-    //     ->name('admin.galleries.destroy');
-    // Route::get('/galleries/{travelPackage}', [\App\Http\Controllers\Admin\GalleryController::class, 'show'])
-    //     ->name('admin.galleries.show');
-    // Route::get('/galleries/{travelPackage}/create', [\App\Http\Controllers\Admin\GalleryController::class, 'create'])
-    //     ->name('admin.galleries.create');
- 
+    // Route::resource('travel_packages.galleries', GalleryController::class)
+    // ->except(['index', 'show'])
+    // ->names([
+    //     'create' => 'admin.travel_packages.galleries.create',
+    //     'store' => 'admin.travel_packages.galleries.store',
+    //     'edit' => 'admin.travel_packages.galleries.edit',
+    //     'update' => 'admin.travel_packages.galleries.update',
+    //     'destroy' => 'admin.travel_packages.galleries.destroy'
+    // ]);
+
+    // Categories
+    Route::resource('categories', CategoryController::class)->except('show');
+
+    // Blogs
+    Route::resource('blogs', AdminBlogController::class)->except('show');
+
+    // Users & Profile
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::get('profile', 'App\Http\Controllers\ProfileController@show')->name('profile.show');
+Route::put('profile', 'App\Http\Controllers\ProfileController@update')->name('profile.update');
 });
 
-Route::post('/bookings', [BookingController::class, 'store'])
-    ->name('bookings.store');
- 
-    // return view('admin.bookings.show', compact('booking'));
-    Route::put('/bookings/{booking}', [BookingController::class, 'updateStatus'])
-        ->name('bookings.updateStatus');
+// Frontend Routes
+Route::get('/', [HomeController::class, 'index'])->name('homepage');
 
-Route::get('/booking/{destination}', [BookingController::class, 'showBookingForm'])->name('booking.form');
+// Travel Packages
+Route::get('travel-packages', [TravelPackageController::class, 'index'])->name('travel_package.index');
+Route::get('travel-packages/{travel_package:slug}', [TravelPackageController::class, 'show'])->name('travel_package.show');
 
-    // travel packages
-    Route::resource('travel_packages', \App\Http\Controllers\Admin\TravelPackageController::class)->except('show');
-    Route::resource('travel_packages.galleries', \App\Http\Controllers\Admin\GalleryController::class)->except(['create', 'index','show']);
-    // categories
-    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->except('show');
-    // blogs
-    Route::resource('blogs', \App\Http\Controllers\Admin\BlogController::class)->except('show');
-    // profile
-    Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
-    Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
-    Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
-});
+// Blogs
+Route::get('blogs', [BlogController::class, 'index'])->name('blogs.index');
+Route::get('blogs/{blog:slug}', [BlogController::class, 'show'])->name('blogs.show');
+Route::get('blogs/category/{category:slug}', [BlogController::class, 'category'])->name('blog.category');
 
-Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('homepage');
-// travel packages
-Route::get('travel-packages',[\App\Http\Controllers\TravelPackageController::class, 'index'])->name('travel_package.index');
-Route::get('travel-packages/{travel_package:slug}',[\App\Http\Controllers\TravelPackageController::class, 'show'])->name('travel_package.show');
-// Route::get('travel-packages/{id}',[\App\Http\Controllers\TravelPackageController::class, 'show'])->name('travel_package.show');
-
-
-
-
-// blogs
-Route::get('blogs', [\App\Http\Controllers\BlogController::class, 'index'])->name('blogs.index');
-Route::get('blogs/{blog:slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blogs.show');
-Route::get('blogs/category/{category:slug}', [\App\Http\Controllers\BlogController::class, 'category'])->name('blog.category');
-// contact
+// Contact
 Route::get('contact', function() {
     return view('contact');
 })->name('contact');
-// booking
-Route::post('booking', [App\Http\Controllers\BookingController::class, 'store'])->name('booking.store');
-Route::delete('/booking/{id}', [App\Http\Controllers\BookingController::class, 'destroy'])->name('booking.destroy');
-    Route::get('/bookings/{booking}', [BookingController::class, 'show'])
-    ->name('bookings.show');
-//password_reset
-route::post('\password\search',[App\Http\Controllers\ForgotPasswordController::class, 'sendEmail'])->name('password.email');
-route::get('\password\email\send\{token}',[App\Http\Controllers\ForgotPasswordController::class, 'reset'])->name('password.reset');
-route::post('\password\update\{token}',[App\Http\Controllers\ForgotPasswordController::class, 'updatePassword'])->name('password.update');
 
-//tourist_login
-Route::get('tourist-register', [\App\Http\Controllers\TouristController::class, 'register'])->name('touristregister');
-Route::post('tourist-register', [\App\Http\Controllers\TouristController::class, 'registerPost'])->name('touristregister.post');
-Route::get('tourist-login', [\App\Http\Controllers\TouristController::class, 'login'])->name('touristlogin');
-Route::post('tourist-login', [\App\Http\Controllers\TouristController::class, 'loginPost'])->name('touristlogin.post');
-Route::get('tourist-profile', [\App\Http\Controllers\TouristController::class, 'profile'])->name('touristprofile')->middleware('auth:travel_user');
-Route::post('tourist-logout', [\App\Http\Controllers\TouristController::class, 'logout'])->name('touristlogout');
+// Bookings
+Route::get('/booking/{destination}', [BookingController::class, 'showForm'])->name('booking.form');
+Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+Route::delete('/booking/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
+Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
 
+// Password Reset
+Route::post('/password/search', [ForgotPasswordController::class, 'sendEmail'])->name('password.email');
+Route::get('/password/email/send/{token}', [ForgotPasswordController::class, 'reset'])->name('password.reset');
+Route::post('/password/update/{token}', [ForgotPasswordController::class, 'updatePassword'])->name('password.update');
 
-// Route::middleware(['auth'])->group(function () {
+// Tourist Routes
+Route::prefix('tourist')->group(function () {
+    // Registration
+    Route::get('/register', [TouristController::class, 'register'])
+         ->name('touristregister')
+         ->middleware('guest:travel_user');
+    Route::post('/register', [TouristController::class, 'registerPost'])
+         ->name('touristregister.post');
+    
+    // Login
+    Route::get('/login', [TouristController::class, 'login'])
+         ->name('touristlogin')
+         ->middleware('guest:travel_user');
+    Route::post('/login', [TouristController::class, 'loginPost'])
+         ->name('touristlogin.post');
+    
+    // Profile
+    Route::get('/profile', [TouristController::class, 'profile'])
+         ->name('touristprofile')
+         ->middleware('auth:travel_user');
+    
+    // Logout
+    Route::post('/logout', [TouristController::class, 'logout'])
+         ->name('touristlogout');
 
-//     // Display a list of the authenticated user's bookings
-//     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    // Password Reset
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotForm'])
+         ->name('tourist.password.request');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])
+         ->name('tourist.password.email');
+    Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])
+         ->name('tourist.password.reset');
+    Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])
+         ->name('tourist.password.update');
+});
 
-//     // Display details for a specific booking
-//     // Uses Route Model Binding to automatically inject the Booking instance
-//     Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
-
-//     // Delete a specific booking
-//     // Uses Route Model Binding to automatically inject the Booking instance
-//     Route::delete('/bookings/{booking}', [BookingController::class, 'destroy'])->name('bookings.destroy');
-
-// });
-
-// // User routes
-// Route::group(['middleware' => ['auth'], 'prefix' => 'user', 'as' => 'user.'], function() {
-//     // Profile
-//     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
-//     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
-
-//     // Bookings
-//     Route::resource('bookings', BookingController::class)->only(['index', 'show', 'destroy']);
-
-//     // Diaries
-//     Route::resource('diaries', DiaryController::class)->except('edit', 'update');
-
-//     // Reviews
-//     Route::get('bookings/{booking}/review', [ReviewController::class, 'create'])->name('reviews.create');
-//     Route::post('bookings/{booking}/review', [ReviewController::class, 'store'])->name('reviews.store');
-
-//     // Contact
-//     Route::get('contact', [ContactController::class, 'create'])->name('contact.create');
-//     Route::post('contact', [ContactController::class, 'store'])->name('contact.store');
-// });
+// Comments
+Route::post('/comments', [CommentController::class, 'store'])
+    ->name('comments.store')
+    ->middleware('auth');

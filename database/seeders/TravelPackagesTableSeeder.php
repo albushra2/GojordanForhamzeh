@@ -11,45 +11,46 @@ class TravelPackagesTableSeeder extends Seeder
     {
         $packages = [
             [
-                'title' => 'رحلة إلى البتراء',
-                'type' => 'تاريخية',
-                'location' => 'البتراء، معان',
+                'title' => 'Trip to Petra',
+                'type' => 'Historical',
+                'location' => 'Petra, Ma\'an',
                 'price' => 50,
                 'duration_days' => 1,
-                'description' => 'استمتع بزيارة مدينة البتراء الوردية، إحدى عجائب الدنيا السبع.',
-                'itinerary' => 'الوصول صباحًا - جولة مشي في السيق - زيارة الخزنة - الغداء - العودة.',
-                'included' => 'النقل، تذاكر الدخول، الغداء، مرشد سياحي.',
-                'excluded' => 'المصاريف الشخصية.',
-                'category_id' => 3, // تأكدي من أن ID=3 في جدول categories = تاريخية
-                'tour_guide_id' => 2, // تأكدي من أن ID=2 في جدول المرشدين = ليلى
+                'description' => 'Enjoy visiting the Rose City of Petra, one of the Seven Wonders of the World.',
+                'itinerary' => 'Morning arrival - Walking tour in the Siq - Visit the Treasury - Lunch - Return.',
+                'included' => 'Transportation, entrance tickets, lunch, tour guide.',
+                'excluded' => 'Personal expenses.',
+                'category_id' => 3, // Make sure ID=3 in the categories table = Historical
+                'tour_guide_id' => 2, // Make sure ID=2 in the tour guides table = Layla
             ],
             [
-                'title' => 'مغامرة في وادي رم',
-                'type' => 'مغامراتية',
-                'location' => 'وادي رم، العقبة',
+                'title' => 'Adventure in Wadi Rum',
+                'type' => 'Adventure',
+                'location' => 'Wadi Rum, Aqaba',
                 'price' => 70,
                 'duration_days' => 2,
-                'description' => 'تجربة خيالية في صحراء وادي رم مع التخييم تحت النجوم.',
-                'itinerary' => 'جولة بسيارات الدفع الرباعي - التخييم - مشاهدة النجوم - الإفطار والعودة.',
-                'included' => 'التنقل، العشاء والإفطار، مرشد سياحي، التخييم.',
-                'excluded' => 'ركوب الجمال (اختياري).',
+                'description' => 'A magical experience in the Wadi Rum desert with camping under the stars.',
+                'itinerary' => '4x4 jeep tour - Camping - Stargazing - Breakfast and return.',
+                'included' => 'Transportation, dinner and breakfast, tour guide, camping.',
+                'excluded' => 'Camel riding (optional).',
                 'category_id' => 4,
                 'tour_guide_id' => 3,
             ],
             [
-                'title' => 'جولة دينية في المغطس',
-                'type' => 'دينية',
-                'location' => 'المغطس، البحر الميت',
+                'title' => 'Religious Tour to Al-Maghtas',
+                'type' => 'Religious',
+                'location' => 'Al-Maghtas, Dead Sea',
                 'price' => 30,
                 'duration_days' => 1,
-                'description' => 'زيارة موقع تعميد السيد المسيح ومشاهدة أهم المعالم الدينية.',
-                'itinerary' => 'الوصول - جولة في الموقع - زيارة الكنائس - الغداء - العودة.',
-                'included' => 'النقل، تذاكر الدخول، مرشد سياحي.',
-                'excluded' => 'الوجبات الخاصة.',
+                'description' => 'Visit the baptism site of Jesus Christ and explore important religious landmarks.',
+                'itinerary' => 'Arrival - Site tour - Visit churches - Lunch - Return.',
+                'included' => 'Transportation, entrance tickets, tour guide.',
+                'excluded' => 'Private meals.',
                 'category_id' => 1,
                 'tour_guide_id' => 1,
             ],
         ];
+        
 
         foreach ($packages as $package) {
             TravelPackage::create([

@@ -58,4 +58,8 @@ public function scopeFilter(Builder $query, array $filters) // Note the 'scope' 
              });
         });
     }
+    public function comments()
+{
+    return $this->hasMany(Comment::class)->latest();
+}
 }

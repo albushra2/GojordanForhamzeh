@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 @section('title', 'Add Gallery Images')
 @section('content')
 <div class="content-header">
@@ -26,7 +26,7 @@
                         <h3 class="card-title">Upload Images</h3>
                     </div>
                     <form id="galleryForm" method="POST" 
-                          action="{{ route('admin.galleries.store', $travelPackage) }}" 
+                          action="{{ route('admin.travel_packages.galleries.store', $travelPackage) }}" 
                           enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
@@ -71,11 +71,11 @@
                                              class="img-fluid rounded" 
                                              alt="{{ $gallery->name }}">
                                         <div class="thumbnail-actions">
-                                            <a href="{{ route('admin.galleries.edit', [$travelPackage, $gallery]) }}" 
+                                            <a href="{{ route('admin.travel_packages.galleries.edit', [$travelPackage, $gallery]) }}"
                                                class="btn btn-sm btn-info" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form action="{{ route('admin.galleries.destroy', [$travelPackage, $gallery]) }}" 
+                                            <form action="{{ route('admin.travel_packages.galleries.destroy', [$travelPackage, $gallery]) }}" 
                                                   method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
@@ -328,4 +328,4 @@
         @endif
     });
 </script>
-@endsection
+@endsection --}}

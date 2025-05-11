@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 @section('title', 'Gallery Management')
 
 @section('content')
@@ -7,7 +7,7 @@
         <div class="row mb-2">
             <div class="col-sm-12 justify-content-between d-flex">
                 <h1 class="m-0">{{ __('Gallery Management') }}</h1>
-                <a href="{{ route('admin.travel_packages.index') }}" class="btn btn-primary">
+                <a href="{{ route('admin.travel_packages.galleries.create', $package->id) }}" class="btn btn-primary">
                     <i class="fas fa-arrow-left"></i> Back to Packages
                 </a>
             </div>
@@ -43,4 +43,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection --}}

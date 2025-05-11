@@ -13,33 +13,34 @@ class ContactRequestsTableSeeder extends Seeder
                 'name' => 'Ahmed Al-Faouri',
                 'email' => 'ahmed@example.com',
                 'phone' => '0791234567',
-                'subject' => 'استفسار عن باكيج سياحي',
-                'message' => 'أرغب في معرفة المزيد عن باكيج السياحة الثقافية في عمان.',
+                'subject' => 'Inquiry about a travel package',
+                'message' => 'I would like to know more about the cultural tourism package in Amman.',
                 'status' => 'unread',
                 'response' => null,
-                'user_id' => null, // إذا كان المستخدم غير مسجل في النظام
+                'user_id' => null, // If the user is not registered in the system
             ],
             [
                 'name' => 'Mariam Khaled',
                 'email' => 'mariam@example.com',
                 'phone' => '0799876543',
-                'subject' => 'مشكلة في الحجز',
-                'message' => 'واجهت مشكلة في تأكيد الحجز الخاص بي، يرجى مساعدتي.',
+                'subject' => 'Booking issue',
+                'message' => 'I encountered an issue confirming my booking, please help.',
                 'status' => 'read',
-                'response' => 'تم تأكيد الحجز بنجاح، شكراً لتواصلكم.',
-                'user_id' => 2, // إذا كان المستخدم موجود في النظام
+                'response' => 'Your booking has been successfully confirmed. Thank you for contacting us.',
+                'user_id' => 2, // If the user exists in the system
             ],
             [
                 'name' => 'Razan Ali',
                 'email' => 'razan@example.com',
                 'phone' => '0793456789',
-                'subject' => 'طلب تعديل في الحجز',
-                'message' => 'أود تعديل مواعيد الحجز الخاص بي، يرجى التواصل معي.',
+                'subject' => 'Request to modify booking',
+                'message' => 'I would like to reschedule my booking. Please contact me.',
                 'status' => 'replied',
-                'response' => 'تم تعديل مواعيد الحجز كما طلبت.',
-                'user_id' => 3, // إذا كان المستخدم موجود في النظام
+                'response' => 'Your booking dates have been modified as requested.',
+                'user_id' => 3, // If the user exists in the system
             ],
         ];
+        
 
         foreach ($contactRequests as $contactRequest) {
             ContactRequest::create($contactRequest);

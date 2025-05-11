@@ -28,31 +28,45 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
+        // التحقق من البيانات
         $validated = $request->validate([
             'title' => 'required|string|max:255|unique:blogs,title',
             'category_id' => 'required|exists:categories,id',
             'excerpt' => 'required|string|max:500',
             'description' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // زيادة الحجم إلى 5 ميغابايت
         ]);
-
-        // Simple image upload
-        $imagePath = $request->file('image')->store('blogs', 'public');
-
+    
+        // تحميل الصورة
+        $image = $request->file('image');
+        
+        // تحسين الصورة قبل حفظها
+        $imagePath = $image->store('blogs', 'public');
+        $img = Image::make(storage_path('app/public/' . $imagePath));
+    
+        // تغيير حجم الصورة (اختياري)
+        $img->resize(1200, 1200, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();  // تجنب زيادة حجم الصورة
+        });
+    
+        // حفظ الصورة المحسنة
+        $img->save(storage_path('app/public/' . $imagePath));
+    
+        // تخزين المدونة
         Blog::create([
             'title' => $validated['title'],
             'slug' => Str::slug($validated['title']),
             'category_id' => $validated['category_id'],
             'excerpt' => $validated['excerpt'],
             'description' => $validated['description'],
-            'image' => $imagePath,
+            'image' => $imagePath,  // حفظ مسار الصورة
             'user_id' => auth()->id(),
         ]);
-
+    
         return redirect()->route('admin.blogs.index')
                ->with('success', 'Blog created successfully!');
     }
-
     public function edit(Blog $blog)
     {
         $categories = Category::all();

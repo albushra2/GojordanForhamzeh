@@ -18,46 +18,33 @@ class GalleriesTableSeeder extends Seeder
 
  {
 
-$galleries = [
+  $galleries = [
 
- [
+    [
+        'name' => 'Petra - Night View',
+        'image' => 'galleries/petra-night.jpg',
+        'travel_package_id' => 1,
+    ],
 
-'name' => 'البتراء - منظر ليلي',
-'image' => 'galleries/petra-night.jpg',
-'travel_package_id' => 1,
+    [
+        'name' => 'Wadi Rum - Camping Under the Stars',
+        'image' => 'galleries/wadirum-camping.jpg',
+        'travel_package_id' => 2,
+    ],
 
-],
+    [
+        'name' => 'Jerash - Roman Ruins',
+        'image' => 'galleries/jerash-ruins.jpg',
+        'travel_package_id' => 3,
+    ],
 
-[
+    [
+        'name' => 'Dead Sea - Sunset',
+        'image' => 'galleries/deadsea-sunset.jpg',
+        'travel_package_id' => 1,
+    ],
 
- 'name' => 'وادي رم - التخييم تحت النجوم',
-
- 'image' => 'galleries/wadirum-camping.jpg',
-
- 'travel_package_id' => 2,
- ],
- [
-'name' => 'جرش - الآثار الرومانية',
-
-'image' => 'galleries/jerash-ruins.jpg',
-
-'travel_package_id' => 3,
-
- ],
-
-[
-
-'name' => 'البحر الميت - غروب الشمس',
-
-'image' => 'galleries/deadsea-sunset.jpg',
-
- 'travel_package_id' => 1,
-
-],
-
- ];
-
-
+];
 
 foreach ($galleries as $gallery) {
 Gallery::create($gallery);
