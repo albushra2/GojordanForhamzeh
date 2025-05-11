@@ -21,7 +21,7 @@
                         {{ __('Dashboard') }}
                     </p>
                     <span class="badge bg-success ml-auto">New</span>
-                </a>
+                </a> 
             </li>
 
             <li class="nav-item mb-2">
