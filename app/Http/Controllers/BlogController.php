@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Category;
 //test
+//new update from github
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\BlogRequest;
+use App\Http\Requests\BlogUpdateRequest;
 class BlogController extends Controller
 {
     // عرض جميع المدونات
