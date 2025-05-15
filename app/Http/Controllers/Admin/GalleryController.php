@@ -1,93 +1,58 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Gallery;
 use App\Models\TravelPackage;
+use App\Models\Gallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+class GalleryController extends Controller
+{
+    public function index(TravelPackage $travelPackage)
+    {
+        $galleries = $travelPackage->galleries()->withTrashed()->get();
+        return view('admin.galleries.index', compact('travelPackage', 'galleries'));
+    }
 
-// class GalleryController extends Controller
-// {
-//     public function index()
-//     {
-//         $travelPackages = TravelPackage::withCount('galleries')->get();
-//         return view('admin.galleries.index', compact('travelPackages' ));
-//     }
+    public function create(TravelPackage $travelPackage)
+    {
+        return view('admin.galleries.create', compact('travelPackage'));
+    }
 
-//     public function create(TravelPackage $travelPackage)
-//     {
-//         return view('admin.galleries.create', [
-//             'travelPackage' => $travelPackage,
-//             'galleries' => $travelPackage->galleries
-//         ]);
-//     }
-    
-    
-    
+    public function store(Request $request, TravelPackage $travelPackage)
+    {
 
-//     public function store(Request $request, TravelPackage $travelPackage)
-//     {
-//         $request->validate([
-//             'images' => 'required|array|min:1',
-//             'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-//         ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
 
-//         $uploadedImages = [];
-        
-//         foreach ($request->file('images') as $image) {
-//             $path = $image->store('galleries', 'public');
-//             $name = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-            
-//             $gallery = Gallery::create([
-//                 'travel_package_id' => $travelPackage->id,
-//                 'image' => $path,
-//                 'name' => Str::limit($name, 100)
-//             ]);
-            
-//             $uploadedImages[] = $gallery;
-//         }
+        $imagePath = $request->file('image')->store('galleries', 'public');
+        $travelPackage->galleries()->create([
+            'name' => $request->name,
+            'image' => $imagePath
+        ]);
 
-//         return redirect()
-//             ->route('admin.travel_packages.edit', $travelPackage->id)
-//             ->with('success', count($uploadedImages) . ' images uploaded successfully!');
-//     }
+        return redirect()->route('admin.galleries.index', $travelPackage)
+            ->with('success', 'Image added successfully!');
+    }
 
-//     public function edit(TravelPackage $travelPackage, Gallery $gallery)
-// {
-//     return view('admin.galleries.edit', compact('travelPackage', 'gallery'));
-// }
+    public function destroy(TravelPackage $travelPackage, Gallery $gallery)
+{
+    if ($gallery->trashed()) {
+        $gallery->forceDelete();
+        Storage::disk('public')->delete($gallery->image);
+    } else {
+        $gallery->delete();
+    }
 
-//     public function update(Request $request, TravelPackage $travelPackage, Gallery $gallery)
-//     {
-//         $request->validate([
-//             'name' => 'required|string|max:255',
-//             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-//         ]);
+    return back()->with('success', $gallery->trashed() ? 'Image archived!' : 'Image permanently deleted!');
+}
 
-//         if ($request->hasFile('image')) {
-//             Storage::disk('public')->delete($gallery->image);
-//             $gallery->image = $request->file('image')->store('galleries', 'public');
-//         }
-
-//         $gallery->name = $request->name;
-//         $gallery->save();
-
-//         return redirect()
-//             ->route('admin.travel_packages.edit', $travelPackage->id)
-//             ->with('success', 'Image updated successfully!');
-//     }
-
-//     public function destroy(TravelPackage $travelPackage, Gallery $gallery)
-//     {
-//         Storage::disk('public')->delete($gallery->image);
-//         $gallery->delete();
-
-//         return back()
-//             ->with('success', 'Image deleted successfully!')
-//             ->with('deleted_id', $gallery->id); 
-//     }
-
-// }
+public function restore(TravelPackage $travelPackage, Gallery $gallery)
+{
+    $gallery->restore();
+    return back()->with('success', 'Image restored!');
+}
+}

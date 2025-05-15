@@ -22,25 +22,19 @@ class GalleriesTableSeeder extends Seeder
 
     [
         'name' => 'Petra - Night View',
-        'image' => 'galleries/petra-night.jpg',
+        'image' => 'galleries/ajlon.jpeg',
         'travel_package_id' => 1,
     ],
 
     [
         'name' => 'Wadi Rum - Camping Under the Stars',
-        'image' => 'galleries/wadirum-camping.jpg',
+        'image' => 'galleries/Amman.jpeg',
         'travel_package_id' => 2,
     ],
 
     [
-        'name' => 'Jerash - Roman Ruins',
-        'image' => 'galleries/jerash-ruins.jpg',
-        'travel_package_id' => 3,
-    ],
-
-    [
         'name' => 'Dead Sea - Sunset',
-        'image' => 'galleries/deadsea-sunset.jpg',
+        'image' => 'galleries/Aqaba.jpeg',
         'travel_package_id' => 1,
     ],
 

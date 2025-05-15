@@ -19,9 +19,9 @@ return [
             'hash' => false,
         ],
 
-        'travel_user' => [
+        'user' => [
             'driver' => 'session',
-            'provider' => 'travel_users',
+            'provider' => 'users',
         ],
     ],
 
@@ -31,10 +31,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'travel_users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\TravelUser::class,
-        ],
+        // 'travel_users' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\TravelUser::class,
+        // ],
     ],
 
     'passwords' => [
@@ -45,12 +45,12 @@ return [
             'throttle' => 60,
         ],
 
-        'travel_users' => [
-            'provider' => 'travel_users',
-            'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
+        // 'travel_users' => [
+        //     'provider' => 'travel_users',
+        //     'table' => 'password_resets',
+        //     'expire' => 60,
+        //     'throttle' => 60,
+        // ],
     ],
 
     'password_timeout' => 10800,

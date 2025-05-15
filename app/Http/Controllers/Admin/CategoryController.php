@@ -28,19 +28,21 @@ class CategoryController extends Controller
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        $imagePath = $request->file('image')->store('categories', 'public');
+
         $category = new Category();
         $category->name = $validated['name'];
         $category->slug = Str::slug($validated['name']);
         $category->description = $validated['description'];
 
         if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('categories', 'public');
             $category->image = $imagePath;
         }
 
         $category->save();
 
-        return redirect()->route('admin.categories.index')->with('success', 'Category created successfully!');
+        return redirect()->route('admin.categories.index')
+               ->with('success', 'Category created successfully!');
     }
 
     public function edit(Category $category)
@@ -61,15 +63,19 @@ class CategoryController extends Controller
         $category->description = $validated['description'];
 
         if ($request->hasFile('image')) {
+            // Delete old image
             if ($category->image) {
                 Storage::disk('public')->delete($category->image);
             }
-            $category->image = $request->file('image')->store('categories', 'public');
+            // Store new image
+            $imagePath = $request->file('image')->store('categories', 'public');
+            $category->image = $imagePath;
         }
 
         $category->save();
 
-        return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully!');
+        return redirect()->route('admin.categories.index')
+               ->with('success', 'Category updated successfully!');
     }
 
     public function destroy(Category $category)
@@ -78,6 +84,8 @@ class CategoryController extends Controller
             Storage::disk('public')->delete($category->image);
         }
         $category->delete();
-        return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully!');
+        
+        return redirect()->route('admin.categories.index')
+               ->with('success', 'Category deleted successfully!');
     }
 }

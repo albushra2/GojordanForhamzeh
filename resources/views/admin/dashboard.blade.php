@@ -1,266 +1,343 @@
-
 @extends('layouts.app')
 @section('title', 'Dashboard')
+
 @section('content')
-<div class="container-fluid px-4">
-    <div class="d-flex justify-content-center mt-4">
-        <h1 class="text-center" style="font-weight: 600; color: #2c3e50;">
-            <i class="fas fa-crown mr-2 text-warning"></i>
+<div class="container-fluid px-4 py-5"> {{-- Added padding to the container --}}
+    <div class="text-center mb-5"> {{-- Centered and added margin-bottom --}}
+        <h1 class="display-4 fw-bold text-gradient-dark-blue"> {{-- Changed gradient class --}}
+            <i class="fas fa-crown me-3 text-warning"></i>
             GO JORDAN Admin Panel
         </h1>
-    </div>    <ol class="breadcrumb mb-4" style="background-color: pink">
-        {{-- <li class="breadcrumb-item active">Dashboard</li> --}}
-    </ol>
-
-   <!-- Statistics Cards -->
-<div class="row">
-    <!-- Booking Card -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-uppercase text-muted mb-2 small">Bookings</h6>
-                        <h2 class="mb-0">{{ $stats['bookings'] }}</h2>
-                    </div>
-                    <div class="icon-shape bg-primary text-white rounded-circle p-3">
-                        <i class="fas fa-calendar fa-2x"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer bg-transparent border-top-0 pt-0">
-                <a href="{{ route('admin.bookings.index') }}" class="text-decoration-none d-flex align-items-center">
-                    <span class="small text-primary">View Details</span>
-                    <i class="fas fa-chevron-right ms-2 small text-primary"></i>
-                </a>
-            </div>
-        </div>
+        <p class="lead text-muted">Overview of your application's key metrics.</p> {{-- Added a subtitle --}}
     </div>
 
-    <!-- Travel Packages Card -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-uppercase text-muted mb-2 small">Travel Packages</h6>
-                        <h2 class="mb-0">{{ $stats['travel_packages'] }}</h2>
-                    </div>
-                    <div class="icon-shape bg-success text-white rounded-circle p-3">
-                        <i class="fas fa-map-marked-alt fa-2x"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer bg-transparent border-top-0 pt-0">
-                <a href="{{ route('admin.travel_packages.index') }}" class="text-decoration-none d-flex align-items-center">
-                    <span class="small text-success">View Details</span>
-                    <i class="fas fa-chevron-right ms-2 small text-success"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Blog Posts Card -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-uppercase text-muted mb-2 small">Blog Posts</h6>
-                        <h2 class="mb-0">{{ $stats['blogs'] }}</h2>
-                    </div>
-                    <div class="icon-shape bg-info text-white rounded-circle p-3">
-                        <i class="fas fa-blog fa-2x"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer bg-transparent border-top-0 pt-0">
-                <a href="{{ route('admin.blogs.index') }}" class="text-decoration-none d-flex align-items-center">
-                    <span class="small text-info">View Details</span>
-                    <i class="fas fa-chevron-right ms-2 small text-info"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Users Card -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-uppercase text-muted mb-2 small">Users</h6>
-                        <h2 class="mb-0">{{ $stats['users'] }}</h2>
-                    </div>
-                    <div class="icon-shape bg-warning text-white rounded-circle p-3">
-                        <i class="fas fa-users fa-2x"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer bg-transparent border-top-0 pt-0">
-                <a href="{{ route('admin.users.index') }}" class="text-decoration-none d-flex align-items-center">
-                    <span class="small text-warning">View Details</span>
-                    <i class="fas fa-chevron-right ms-2 small text-warning"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-<style>
-    .icon-shape {
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .card {
-        transition: all 0.3s ease;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-    
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    
-    .bg-primary { background-color: #4e73df !important; }
-    .bg-success { background-color: #1cc88a !important; }
-    .bg-info { background-color: #36b9cc !important; }
-    .bg-warning { background-color: #f6c23e !important; }
-    
-    .text-primary { color: #4e73df !important; }
-    .text-success { color: #1cc88a !important; }
-    .text-info { color: #36b9cc !important; }
-    .text-warning { color: #f6c23e !important; }
-</style>
-  
-   <!-- Recent Activity Timeline -->
-<div class="card mb-4">
-    <div class="card-header bg-white border-bottom-0 d-flex justify-content-between align-items-center">
-        <h5 class="mb-0 text-primary">
-            <i class="fas fa-history me-2"></i>Recent Activity
-        </h5>
-        <small class="badge bg-light text-dark">
-            <i class="fas fa-clock me-1"></i> Last 7 days
-        </small>
-    </div>
-    
-    <div class="card-body pt-0">
-        <div class="timeline">
-            @foreach($stats['recent_activity'] as $activity)
-            <div class="timeline-item mb-3 p-3 rounded {{ $activity['type'] == 'booking' ? 'border-start-primary' : ($activity['type'] == 'user' ? 'border-start-success' : 'border-start-info') }}"
-                 style="border-left: 4px solid; background: rgba(255,255,255,0.8);">
-                
-                <div class="d-flex align-items-start">
-                    <div class="timeline-badge me-3 mt-1 flex-shrink-0">
-                        <i class="fas {{ $activity['type'] == 'booking' ? 'fa-calendar-check' : ($activity['type'] == 'user' ? 'fa-user-plus' : 'fa-blog') }} 
-                           fa-lg text-{{ $activity['type'] == 'booking' ? 'primary' : ($activity['type'] == 'user' ? 'success' : 'info') }}"></i>
-                    </div>
-                    
-                    <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <h6 class="mb-0 fw-bold">{{ $activity['title'] }}</h6>
-                            <small class="text-muted">
-                                <i class="far fa-clock me-1"></i>{{ $activity['time'] }}
-                            </small>
+    <div class="row g-4"> {{-- Increased gutter size --}}
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-hover border-0 shadow-sm overflow-hidden"> {{-- Added shadow --}}
+                <div class="card-body p-4"> {{-- Added padding --}}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="text-muted mb-1 small d-block">Total Bookings</span> {{-- Added d-block for spacing --}}
+                            <h2 class="mb-0 display-6 fw-bold text-primary">{{ $stats['bookings'] }}</h2> {{-- Added text color class --}}
                         </div>
-                        <p class="mb-0 text-muted small">{{ $activity['description'] }}</p>
+                        <div class="icon-wrapper bg-primary-gradient shadow-sm"> {{-- Added shadow to icon --}}
+                            <i class="fas fa-calendar-alt fs-3"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-top"> {{-- Added border top and padding --}}
+                        <a href="{{ route('admin.bookings.index') }}" class="text-decoration-none link-primary small fw-semibold"> {{-- Added fw-semibold --}}
+                            View Details <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            @endforeach
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-hover border-0 shadow-sm overflow-hidden"> {{-- Added shadow --}}
+                <div class="card-body p-4"> {{-- Added padding --}}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="text-muted mb-1 small d-block">Travel Packages</span> {{-- Added d-block for spacing --}}
+                            <h2 class="mb-0 display-6 fw-bold text-success">{{ $stats['travel_packages'] }}</h2> {{-- Added text color class --}}
+                        </div>
+                        <div class="icon-wrapper bg-success-gradient shadow-sm"> {{-- Added shadow to icon --}}
+                            <i class="fas fa-map-marked-alt fs-3"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-top"> {{-- Added border top and padding --}}
+                        <a href="{{ route('admin.travel_packages.index') }}" class="text-decoration-none link-success small fw-semibold"> {{-- Added fw-semibold --}}
+                            View Details <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-hover border-0 shadow-sm overflow-hidden"> {{-- Added shadow --}}
+                <div class="card-body p-4"> {{-- Added padding --}}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="text-muted mb-1 small d-block">Blog Posts</span> {{-- Added d-block for spacing --}}
+                            <h2 class="mb-0 display-6 fw-bold text-info">{{ $stats['blogs'] }}</h2> {{-- Added text color class --}}
+                        </div>
+                        <div class="icon-wrapper bg-info-gradient shadow-sm"> {{-- Added shadow to icon --}}
+                            <i class="fas fa-blog fs-3"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-top"> {{-- Added border top and padding --}}
+                        <a href="{{ route('admin.blogs.index') }}" class="text-decoration-none link-info small fw-semibold"> {{-- Added fw-semibold --}}
+                            View Details <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-hover border-0 shadow-sm overflow-hidden"> {{-- Added shadow --}}
+                <div class="card-body p-4"> {{-- Added padding --}}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="text-muted mb-1 small d-block">Registered Users</span> {{-- Added d-block for spacing --}}
+                            <h2 class="mb-0 display-6 fw-bold text-warning">{{ $stats['users'] }}</h2> {{-- Added text color class --}}
+                        </div>
+                        <div class="icon-wrapper bg-warning-gradient shadow-sm"> {{-- Added shadow to icon --}}
+                            <i class="fas fa-users fs-3"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-top"> {{-- Added border top and padding --}}
+                        <a href="{{ route('admin.users.index') }}" class="text-decoration-none link-warning small fw-semibold"> {{-- Added fw-semibold --}}
+                            View Details <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-5 border-0 shadow-lg"> {{-- Increased top margin and added larger shadow --}}
+        <div class="card-header bg-gradient-primary text-white py-3 px-4"> {{-- Added horizontal padding --}}
+            <h5 class="mb-0 d-flex align-items-center">
+                <i class="fas fa-stream me-3"></i>Live Activity Stream
+                <span class="badge bg-white text-primary ms-auto rounded-pill px-3 py-1"> {{-- Added rounded-pill and more padding --}}
+                    {{ count($stats['recent_activity']) }} Events
+                </span>
+            </h5>
+        </div>
+        <div class="card-body p-4"> {{-- Added padding --}}
+            <div class="activity-list">
+                @forelse($stats['recent_activity'] as $activity)
+                <div class="activity-item bg-light-hover p-3 mb-3 rounded-3"> {{-- Added padding, margin-bottom, rounded corners --}}
+                    <div class="activity-icon bg-{{ $activity['color'] }} flex-shrink-0"> {{-- Added flex-shrink-0 --}}
+                        <i class="fas {{ $activity['icon'] }}"></i>
+                    </div>
+                    <div class="activity-content ms-3 w-100"> {{-- Added margin-start and width --}}
+                        <div class="d-flex justify-content-between align-items-center mb-1"> {{-- Added align-items-center --}}
+                            <h6 class="fw-bold mb-0 text-dark">{{ $activity['title'] }}</h6> {{-- Added text-dark --}}
+                            <small class="text-muted text-end">{{ $activity['time'] }}</small> {{-- Added text-end --}}
+                        </div>
+                        <p class="text-muted mb-0 small">{{ $activity['description'] }}</p>
+                    </div>
+                </div>
+                @empty
+                <div class="text-center py-5"> {{-- Increased vertical padding --}}
+                    <i class="fas fa-wind fa-3x text-muted mb-3"></i> {{-- Increased icon size --}}
+                    <p class="text-muted mb-0 lead">No recent activity to show.</p> {{-- Changed text size --}}
+                </div>
+                @endforelse
+            </div>
         </div>
     </div>
 </div>
+
 <style>
-    .timeline {
-        position: relative;
-        padding-left: 1rem;
+    /* Custom CSS for Enhanced Dashboard Design */
+
+    :root {
+        --primary: #4a6cf7;
+        --secondary: #667eea;
+        --success: #10b981;
+        --info: #3b82f6;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --dark: #2c3e50;
+        --light: #f8f9fa;
+        --white: #ffffff;
+        --radius-lg: 1.2rem;
+        --radius-sm: 0.75rem;
     }
-    
-    .timeline-item {
-        position: relative;
-        margin-bottom: 1.5rem;
-        transition: all 0.3s ease;
+
+    /* Text Gradient for the main title */
+    .text-gradient-dark-blue {
+        background: linear-gradient(45deg, var(--dark), var(--primary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        /* Fallback for browsers that don't support gradients */
+        color: var(--dark);
     }
-    
-    .timeline-item:hover {
-        transform: translateX(5px);
+
+    /* Card Styling */
+    .card {
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        background-color: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
-    .timeline-badge {
-        width: 40px;
-        height: 40px;
+
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        background-color: rgba(255, 255, 255, 0.95);
+    }
+
+    /* Icon Wrapper Styling */
+    .icon-wrapper {
+        width: 60px; /* Slightly larger icon wrapper */
+        height: 60px; /* Slightly larger icon wrapper */
+        border-radius: 15px; /* More rounded corners */
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 50%;
-        background: white;
+        color: var(--white);
+        font-size: 1.8rem; /* Larger icon size */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for icons */
     }
-    
-    .border-start-primary { border-left-color: #667eea !important; }
-    .border-start-success { border-left-color: #38ef7d !important; }
-    .border-start-info { border-left-color: #4facfe !important; }
+    .text-gradient-dark-blue {
+        background: linear-gradient(135deg, #667eea 0%, #4a6cf7 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    /* Gradient Backgrounds for Icon Wrappers and Card Header */
+    .bg-primary-gradient { background: linear-gradient(45deg, var(--primary), var(--secondary)); }
+    .bg-success-gradient { background: linear-gradient(45deg, var(--success), #34d399); } /* Keep original success gradient */
+    .bg-info-gradient { background: linear-gradient(45deg, var(--info), #60a5fa); } /* Keep original info gradient */
+    .bg-warning-gradient { background: linear-gradient(45deg, var(--warning), #fbbf24); } /* Keep original warning gradient */
+
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        border-radius: 1rem 1rem 0 0; /* Match card border radius */
+    }
+
+    /* Activity Stream Styling */
+    .activity-list {
+        /* Add any general list styling here if needed */
+    }
+
+    .activity-item {
+        display: flex;
+        align-items: flex-start; /* Align items to the top */
+        padding: 1.2rem; /* More padding */
+        margin-bottom: 1.2rem; /* More margin */
+        background: var(--light); /* Light background */
+        border-radius: 0.75rem; /* Rounded corners */
+        transition: all 0.2s ease-in-out; /* Smooth transition */
+        border: 1px solid transparent; /* Add a transparent border for hover effect */
+    }
+
+    .activity-item:last-child {
+        margin-bottom: 0; /* Remove bottom margin for the last item */
+    }
+
+    .activity-item:hover {
+        background: var(--white); /* White background on hover */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow on hover */
+        border-color: var(--primary); /* Highlight border on hover */
+        transform: translateX(8px); /* Slight movement on hover */
+    }
+
+    .activity-icon {
+        width: 45px; /* Slightly larger icon */
+        height: 45px; /* Slightly larger icon */
+        border-radius: 10px; /* Rounded corners */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1.2rem; /* More margin */
+        color: var(--white);
+        font-size: 1.5rem; /* Larger icon size */
+        flex-shrink: 0; /* Prevent icon from shrinking */
+    }
+
+    /* Background colors for activity icons */
+    .activity-icon.bg-primary { background-color: var(--primary) !important; }
+    .activity-icon.bg-success { background-color: var(--success) !important; }
+    .activity-icon.bg-info { background-color: var(--info) !important; }
+    .activity-icon.bg-warning { background-color: var(--warning) !important; }
+    .activity-icon.bg-danger { background-color: var(--danger) !important; } /* Added danger color */
+
+    .activity-content {
+        flex-grow: 1; /* Allow content to take available space */
+    }
+
+    .activity-content h6 {
+        margin-bottom: 0.4rem !important; /* Adjust spacing below title */
+    }
+
+    .activity-content small {
+        white-space: nowrap; /* Prevent time from wrapping */
+        flex-shrink: 0; /* Prevent time from shrinking */
+        margin-left: 1rem; /* Add space between title and time */
+    }
+
+    /* Badge styling in card header */
+    .card-header .badge {
+        font-size: 0.85em; /* Slightly smaller badge font size */
+        font-weight: 600; /* Semi-bold font weight */
+        padding: 0.35em 0.9em; /* Adjusted padding */
+    }
+
+    /* Link colors */
+    .link-primary { color: var(--primary) !important; }
+    .link-success { color: var(--success) !important; }
+    .link-info { color: var(--info) !important; }
+    .link-warning { color: var(--warning) !important; }
+    .link-danger { color: var(--danger) !important; }
+
+    /* Ensure text colors use defined variables */
+    .text-primary { color: var(--primary) !important; }
+    .text-success { color: var(--success) !important; }
+    .text-info { color: var(--info) !important; }
+    .text-warning { color: var(--warning) !important; }
+    .text-danger { color: var(--danger) !important; }
+    .text-muted { color: rgba(44, 62, 80, 0.7) !important; } /* Slightly darker muted text */
+    .text-dark { color: var(--dark) !important; }
+
+    /* Responsive adjustments */
+    @media (max-width: 767.98px) {
+        .activity-item {
+            flex-direction: column; /* Stack icon and content on small screens */
+            align-items: center;
+            text-align: center;
+        }
+        .activity-icon {
+            margin-right: 0;
+            margin-bottom: 0.8rem;
+        }
+        .activity-content {
+            margin-left: 0;
+        }
+        .activity-content .d-flex {
+            flex-direction: column;
+            align-items: center;
+        }
+         .activity-content small {
+            margin-left: 0;
+            margin-top: 0.4rem;
+         }
+    }
+
 </style>
-
-
-@endsection
-@section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Quick Stats Chart
-        const ctx = document.getElementById('quickStatsChart').getContext('2d');
-        const quickStatsChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-                datasets: [{
-                    label: 'Bookings',
-                    data: [12, 19, 15, 27, 34, 25, 38],
-                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                    borderColor: '#667eea',
-                    borderWidth: 2,
-                    tension: 0.3,
-                    fill: true
-                }, {
-                    label: 'Revenue',
-                    data: [2100, 3200, 2800, 4500, 5200, 4100, 6200],
-                    backgroundColor: 'rgba(17, 153, 142, 0.1)',
-                    borderColor: '#11998e',
-                    borderWidth: 2,
-                    tension: 0.3,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false,
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            drawBorder: false
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
+    // Add intersection observer for scroll animations
+    const cards = document.querySelectorAll('.card');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = 1;
+                entry.target.style.transform = 'translateY(0)';
             }
+        });
+    });
+
+    cards.forEach(card => {
+        card.style.opacity = 0;
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        observer.observe(card);
+    });
+
+    // Live activity stream hover effect
+    document.querySelectorAll('.activity-item').forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            item.style.transform = 'translateX(10px)';
+        });
+        item.addEventListener('mouseleave', () => {
+            item.style.transform = 'translateX(0)';
         });
     });
 </script>

@@ -44,4 +44,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(ContactRequest::class);
     }
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class);
+    }
 }

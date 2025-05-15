@@ -10,19 +10,37 @@ use App\Models\Review;
 use App\Models\TourGuide;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class TravelPackage extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title', 'slug', 'type', 'location', 'price', 'duration_days',
-        'description', 'itinerary', 'included', 'excluded', 'category_id',
-        'tour_guide_id', 'average_rating', 'reviews_count'
+        'title',
+        'slug',
+        'type',
+        'location',
+        'price',
+        'duration_days',
+        'description',
+        'itinerary',
+        'included',
+        'excluded',
+        'category_id',
+        'tour_guide_id',
+        'featured_image', // Add this
+        'average_rating',
+        'reviews_count'
     ];
 
     // Relationships
@@ -38,7 +56,7 @@ class TravelPackage extends Model
 
     public function galleries()
     {
-        return $this->hasMany(Gallery::class);
+        return $this->hasMany(Gallery::class)->withTrashed();
     }
 
     public function bookings()
@@ -91,5 +109,33 @@ public static function priceRange()
 public function scopeFeatured($query)
 {
     return $query->where('is_featured', true);
+}
+protected static function boot()
+{
+    parent::boot();
+
+    static::creating(function ($package) {
+        $slug = Str::slug($package->title);
+        $count = TravelPackage::where('slug', 'like', "{$slug}%")->count();
+        $package->slug = $count ? "{$slug}-" . ($count + 1) : $slug;
+    });
+
+    static::updating(function ($package) {
+        if ($package->isDirty('title')) {
+            $slug = Str::slug($package->title);
+            $count = TravelPackage::where('slug', 'like', "{$slug}%")
+                ->where('id', '!=', $package->id)
+                ->count();
+            $package->slug = $count ? "{$slug}-" . ($count + 1) : $slug;
+        }
+    });
+}
+protected $appends = ['image_url'];
+
+public function getImageUrlAttribute()
+{
+    return $this->featured_image 
+        ? Storage::url($this->featured_image)
+        : asset('images/placeholder.jpg');
 }
 }

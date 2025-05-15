@@ -1,16 +1,92 @@
 <?php
 
 namespace App\Http\Controllers;
-
-
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function index()
+    public function register()
     {
-        $users = User::paginate();
+        if (Auth::guard('user')->check()) {
+            return redirect()->route('touristprofile');
+        }
+        return view('tourist_user.register');
+    }
 
-        return view('users.index', compact('users'));
+    public function registerPost(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:users', // Corrected table name
+        'phone' => 'required',
+        'password' => 'required|min:8|confirmed'
+    ]);
+
+    $user = User::create([ // Corrected model reference
+        'name' => $validated['name'],
+        'email' => $validated['email'],
+        'phone' => $validated['phone'],
+        'password' => Hash::make($validated['password']),
+        // 'role' removed
+    ]);
+
+    Auth::guard('user')->login($user);
+
+    return redirect()->route('homepage')
+        ->with('success', 'Registration successful!');
+}
+       
+    public function login()
+    {
+        if (Auth::guard('user')->check()) {
+            return redirect()->route('touristprofile');
+        }
+        return view('tourist_user.login');
+    }
+
+    public function loginPost(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    $remember = $request->has('remember');
+
+    if (Auth::guard('user')->attempt(
+        $request->only('email', 'password'), 
+        $remember
+    )) {
+        return redirect()->intended(route('touristprofile'))
+            ->with('success', 'Logged in successfully!');
+    }
+
+    return back()->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+    ])->onlyInput('email');
+}
+
+    public function logout()
+    {
+        Auth::guard('user')->logout();
+        return redirect()->route('homepage');
+    }
+
+    public function profile()
+    {
+        $user = Auth::guard('user')->user();
+        
+        $bookings = DB::table('bookings')
+            ->join('travel_packages', 'bookings.travel_package_id', '=', 'travel_packages.id')
+            ->select('bookings.*', 'travel_packages.location')
+            ->where('bookings.user_id', $user->id) // تغيير هنا من email إلى user_id
+            ->get();
+    
+        return view('tourist_user.profile', compact('user', 'bookings'));
     }
 }

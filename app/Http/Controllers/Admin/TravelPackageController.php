@@ -14,7 +14,8 @@ class TravelPackageController extends Controller
 {
     public function index()
     {
-        $packages = TravelPackage::with(['category', 'tourGuide'])
+        $packages = TravelPackage::with(['category', 'tourGuide','galleries'])
+                        ->withCount(['galleries'])
                         ->latest()
                         ->paginate(10);
         
@@ -67,15 +68,12 @@ class TravelPackageController extends Controller
     }
 
     public function edit(TravelPackage $travelPackage)
-    {
-        $categories = Category::all();
-        $guides = TourGuide::all();
-        $travelPackage = TravelPackage::with(['category', 'tourGuide'])->findOrFail($travelPackage->id);
-        if (!$travelPackage) {
-            return redirect()->route('admin.travel_packages.index')->with('error', 'Travel package not found!');
-        }
-        return view('admin.travel_packages.edit', compact('travelPackage', 'categories', 'guides'));
-    }
+{
+    $categories = Category::all();
+    $guides = TourGuide::all();
+    $travelPackage->load(['category', 'tourGuide']);
+    return view('admin.travel_packages.edit', compact('travelPackage', 'categories', 'guides'));
+}
 
     public function update(Request $request, TravelPackage $travelPackage)
     {
@@ -95,33 +93,26 @@ class TravelPackageController extends Controller
         ]);
 
         if ($request->hasFile('featured_image')) {
-            Storage::disk('public')->delete($travelPackage->featured_image);
-            $travelPackage->featured_image = $request->file('featured_image')->store('travel-packages', 'public');
+            // Delete old image
+            if ($travelPackage->featured_image) {
+                Storage::disk('public')->delete($travelPackage->featured_image);
+            }
+            
+            // Store new image
+            $imagePath = $request->file('featured_image')->store('travel-packages', 'public');
+
+            $validated['featured_image'] = $imagePath;
         }
 
-        $travelPackage->update([
-            'title' => $validated['title'],
-            'slug' => Str::slug($validated['title']),
-            'category_id' => $validated['category_id'],
-            'tour_guide_id' => $validated['tour_guide_id'],
-            'type' => $validated['type'],
-            'location' => $validated['location'],
-            'price' => $validated['price'],
-            'duration_days' => $validated['duration_days'],
-            'description' => $validated['description'],
-            'itinerary' => $validated['itinerary'],
-            'included' => $validated['included'],
-            'excluded' => $validated['excluded'],
-        ]);
+    $travelPackage->update($validated); 
 
         return redirect()->route('admin.travel_packages.index')->with('success', 'Travel package updated successfully!');
     }
 
     public function destroy(TravelPackage $travelPackage)
     {
-        Storage::disk('public')->delete($travelPackage->featured_image);
         $travelPackage->delete();
-        return redirect()->route('admin.travel_packages.index')->with('success', 'Travel package deleted successfully!');
+        return redirect()->route('admin.travel_packages.index')->with('success', 'Travel package archived successfully!');
     }
     public function restore($id)
 {

@@ -1,4 +1,4 @@
-{{-- <!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -110,7 +110,7 @@
                         
                         <div class="text-center">
                             <p class="mb-0">Don't have an account? 
-                                <a href="{{ route('touristregister') }}" class="text-primary fw-bold">Register here</a>
+                                <a href="{{ route('tourist_user.register') }}" class="text-primary fw-bold">Register here</a>
                             </p>
                         </div>
                     </form>
@@ -192,4 +192,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 </body>
-</html> --}}
+</html> 

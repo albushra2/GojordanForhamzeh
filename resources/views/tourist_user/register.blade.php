@@ -1,4 +1,3 @@
-{{-- <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -189,7 +188,7 @@
                         
                         <div class="text-center">
                             <p class="mb-0">Already have an account? 
-                                <a href="{{ route('touristlogin') }}" class="text-primary fw-bold">Login here</a>
+                                <a href="{{ route('tourist_user.login') }}" class="text-primary fw-bold">Login here</a>
                             </p>
                         </div>
                     </form>

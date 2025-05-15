@@ -22,7 +22,6 @@ class UsersTableSeeder extends Seeder
         //     'email_verified_at' => now(),
         // ]);
 
-        // Tourist user
         User::create([
             'name' => 'Ahmed Tourist',
             'email' => 'ahmed@example.com',
@@ -34,7 +33,6 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // Guide user
         User::create([
             'name' => 'Guide Layla',
             'email' => 'layla@example.com',

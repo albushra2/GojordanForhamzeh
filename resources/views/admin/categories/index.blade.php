@@ -1,144 +1,142 @@
 @extends('layouts.app')
 @section('title', 'Category Management')
 @section('content')
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-12 justify-content-between d-flex">
-                    <h1 class="m-0 text-gradient">
-                        <i class="fas fa-tags mr-2"></i> {{ __('Category Management') }}
-                    </h1>
-                    <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-pill">
-                        <i class="fas fa-plus"></i> New Category
-                    </a>
-                </div>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12 justify-content-between d-flex">
+                <h1 class="m-0 text-gradient">
+                    <i class="fas fa-tags mr-2"></i> {{ __('Category Management') }}
+                </h1>
+                <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-pill">
+                    <i class="fas fa-plus"></i> New Category
+                </a>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Main content -->
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card card-glass">
-                        <div class="card-header">
-                            <h3 class="card-title">All Categories</h3>
-                            <div class="card-tools">
-                                <form action="{{ route('admin.categories.index') }}" method="GET">
-                                    <div class="input-group input-group-sm" style="width: 250px;">
-                                        <input type="text" name="search" class="form-control" 
-                                               placeholder="Search..." value="{{ request('search') }}">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-primary">
-                                                <i class="fas fa-search"></i>
-                                            </button>
-                                        </div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-glass">
+                    <div class="card-header">
+                        <h3 class="card-title">All Categories</h3>
+                        <div class="card-tools">
+                            <form action="{{ route('admin.categories.index') }}" method="GET">
+                                <div class="input-group input-group-sm" style="width: 250px;">
+                                    <input type="text" name="search" class="form-control" 
+                                           placeholder="Search..." value="{{ request('search') }}">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-search"></i>
+                                        </button>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-striped">
-                                    <thead class="bg-gradient-primary text-white">
-                                        <tr>
-                                            <th style="width: 5%">#</th>
-                                            <th style="width: 25%">Category</th>
-                                            <th style="width: 30%">Description</th>
-                                            <th style="width: 20%">Image</th>
-                                            <th style="width: 20%">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @forelse($categories as $category)
-                                        <tr>
-                                            <td class="align-middle">{{ $loop->iteration }}</td>
-                                            <td class="align-middle">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="symbol symbol-40 symbol-light mr-3 flex-shrink-0">
-                                                        @if($category->image)
-                                                            <img src="{{ Storage::url($category->image) }}" 
-                                                                 class="h-40 rounded" 
-                                                                 style="width: 40px; height: 40px; object-fit: cover;"
-                                                                 alt="{{ $category->name }}">
-                                                        @else
-                                                            <span class="symbol-label bg-primary text-white font-weight-bold">
-                                                                {{ substr($category->name, 0, 1) }}
-                                                            </span>
-                                                        @endif
-                                                    </div>
-                                                    <div class="text-truncate">
-                                                        <div class="font-weight-bold text-truncate">{{ $category->name }}</div>
-                                                        <div class="text-muted text-truncate">{{ $category->slug }}</div>
-                                                    </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead class="bg-gradient-primary text-white">
+                                    <tr>
+                                        <th style="width: 5%">#</th>
+                                        <th style="width: 25%">Category</th>
+                                        <th style="width: 30%">Description</th>
+                                        <th style="width: 20%">Image</th>
+                                        <th style="width: 20%">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($categories as $category)
+                                    <tr>
+                                        <td class="align-middle">{{ $loop->iteration }}</td>
+                                        <td class="align-middle">
+                                            <div class="d-flex align-items-center">
+                                                <div class="symbol symbol-40 symbol-light mr-3 flex-shrink-0">
+                                                    @if($category->image)
+                                                    <img src="{{ asset('storage/' . $category->image) }}" 
+                                                         class="h-40 rounded" 
+                                                         style="width: 40px; height: 40px; object-fit: cover;"
+                                                         alt="{{ $category->name }}">
+                                                    @else
+                                                        <span class="symbol-label bg-primary text-white font-weight-bold">
+                                                            {{ substr($category->name, 0, 1) }}
+                                                        </span>
+                                                    @endif
                                                 </div>
-                                            </td>
-                                            <td class="align-middle">
-                                                <div class="text-wrap description-cell">
-                                                    {{ $category->description ? Str::limit($category->description, 50) : 'No description' }}
+                                                <div class="text-truncate">
+                                                    <div class="font-weight-bold text-truncate">{{ $category->name }}</div>
+                                                    <div class="text-muted text-truncate">{{ $category->slug }}</div>
                                                 </div>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                @if($category->image)
-                                                    <div class="d-inline-block" style="width: 80px;">
-                                                        <a href="{{ Storage::url($category->image) }}" data-toggle="lightbox">
-                                                            <img src="{{ Storage::url($category->image) }}" 
-                                                                 class="img-fluid rounded" 
-                                                                 style="max-width: 100%; height: auto; max-height: 60px;"
-                                                                 alt="{{ $category->name }}">
-                                                        </a>
-                                                    </div>
-                                                @else
-                                                    <span class="text-muted">No image</span>
-                                                @endif
-                                            </td>
-                                            <td class="align-middle">
-                                                <div class="btn-group">
-                                                    <a href="{{ route('admin.categories.edit', $category) }}" 
-                                                       class="btn btn-sm btn-info btn-rounded" title="Edit">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <button class="btn btn-sm btn-danger btn-rounded delete-btn" 
-                                                            title="Delete" data-id="{{ $category->id }}">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                    <form id="delete-form-{{ $category->id }}" 
-                                                          action="{{ route('admin.categories.destroy', $category) }}" 
-                                                          method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="5" class="text-center py-4">
-                                                <div class="empty-state">
-                                                    <i class="fas fa-tags fa-3x text-primary mb-3"></i>
-                                                    <h3>No Categories Found</h3>
-                                                    <p>Create your first category to get started</p>
-                                                    <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mt-3">
-                                                        <i class="fas fa-plus"></i> Add Category
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="text-wrap description-cell">
+                                                {{ $category->description ? Str::limit($category->description, 50) : 'No description' }}
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            @if($category->image)
+                                                <div class="d-inline-block" style="width: 80px;">
+                                                    <a href="{{ asset('storage/' . $category->image) }}" data-toggle="lightbox">
+                                                        <img src="{{ asset('storage/' . $category->image) }}" 
+                                                             class="img-fluid rounded" 
+                                                             style="max-width: 100%; height: auto; max-height: 60px;"
+                                                             alt="{{ $category->name }}">
                                                     </a>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
+                                            @else
+                                                <span class="text-muted">No image</span>
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="btn-group">
+                                                <a href="{{ route('admin.categories.edit', $category) }}" 
+                                                   class="btn btn-sm btn-info btn-rounded" title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button class="btn btn-sm btn-danger btn-rounded delete-btn" 
+                                                        title="Delete" data-id="{{ $category->id }}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                                <form id="delete-form-{{ $category->id }}" 
+                                                      action="{{ route('admin.categories.destroy', $category) }}" 
+                                                      method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4">
+                                            <div class="empty-state">
+                                                <i class="fas fa-tags fa-3x text-primary mb-3"></i>
+                                                <h3>No Categories Found</h3>
+                                                <p>Create your first category to get started</p>
+                                                <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mt-3">
+                                                    <i class="fas fa-plus"></i> Add Category
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="card-footer clearfix">
-                            {{ $categories->links() }}
-                        </div>
+                    </div>
+                    <div class="card-footer clearfix">
+                        {{ $categories->links() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('styles')

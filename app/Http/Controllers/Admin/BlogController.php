@@ -28,45 +28,31 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
-        // التحقق من البيانات
         $validated = $request->validate([
             'title' => 'required|string|max:255|unique:blogs,title',
             'category_id' => 'required|exists:categories,id',
             'excerpt' => 'required|string|max:500',
             'description' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // زيادة الحجم إلى 5 ميغابايت
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
-    
-        // تحميل الصورة
-        $image = $request->file('image');
-        
-        // تحسين الصورة قبل حفظها
-        $imagePath = $image->store('blogs', 'public');
-        $img = Image::make(storage_path('app/public/' . $imagePath));
-    
-        // تغيير حجم الصورة (اختياري)
-        $img->resize(1200, 1200, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();  // تجنب زيادة حجم الصورة
-        });
-    
-        // حفظ الصورة المحسنة
-        $img->save(storage_path('app/public/' . $imagePath));
-    
-        // تخزين المدونة
+
+        // Store image
+        $imagePath = $request->file('image')->store('blogs', 'public');
+
         Blog::create([
             'title' => $validated['title'],
             'slug' => Str::slug($validated['title']),
             'category_id' => $validated['category_id'],
             'excerpt' => $validated['excerpt'],
             'description' => $validated['description'],
-            'image' => $imagePath,  // حفظ مسار الصورة
+            'image' => $imagePath,
             'user_id' => auth()->id(),
         ]);
-    
+
         return redirect()->route('admin.blogs.index')
-               ->with('success', 'Blog created successfully!');
+               ->with('success', 'Blog post created successfully!');
     }
+
     public function edit(Blog $blog)
     {
         $categories = Category::all();
@@ -80,38 +66,36 @@ class BlogController extends Controller
             'category_id' => 'required|exists:categories,id',
             'excerpt' => 'required|string|max:500',
             'description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
-        if ($request->hasFile('image')) {
-            // Delete old image
-            Storage::disk('public')->delete($blog->image);
-            // Upload new image
-            $imagePath = $request->file('image')->store('blogs', 'public');
-            $blog->image = $imagePath;
-        }
-
-        $blog->update([
+        $updateData = [
             'title' => $validated['title'],
             'slug' => Str::slug($validated['title']),
             'category_id' => $validated['category_id'],
             'excerpt' => $validated['excerpt'],
             'description' => $validated['description'],
-        ]);
+        ];
+
+        if ($request->hasFile('image')) {
+            // Delete old image
+            Storage::disk('public')->delete($blog->image);
+            // Store new image
+            $updateData['image'] = $request->file('image')->store('blogs', 'public');
+        }
+
+        $blog->update($updateData);
 
         return redirect()->route('admin.blogs.index')
-               ->with('success', 'Blog updated successfully!');
+               ->with('success', 'Blog post updated successfully!');
     }
 
     public function destroy(Blog $blog)
     {
-          // Delete associated image
-    Storage::disk('public')->delete($blog->image);
-    // Delete blog post
-    $blog->delete();
-    
-    return redirect()->route('admin.blogs.index')
-           ->with('success', 'Blog deleted successfully!');
+        Storage::disk('public')->delete($blog->image);
+        $blog->delete();
+        
+        return redirect()->route('admin.blogs.index')
+               ->with('success', 'Blog post deleted successfully!');
     }
-    
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TravelPackage;
 use App\Models\Category;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 class TravelPackageController extends Controller
 {
     
