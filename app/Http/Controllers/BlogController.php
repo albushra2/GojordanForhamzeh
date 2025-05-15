@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\Category;
-
+//test
 class BlogController extends Controller
 {
     // عرض جميع المدونات
